@@ -6,6 +6,9 @@
 # Produz megagramas-site.zip com apenas o que vai para o servidor — fica de
 # fora o gerador, o CI e a documentação, que não têm por que estar num site
 # público.
+#
+# No VPS o caminho normal é deploy/publicar.sh, que busca do git e sincroniza
+# direto. Este zip serve para upload manual ou para hospedagem compartilhada.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
@@ -16,7 +19,7 @@ SAIDA="megagramas-site.zip"
 rm -f "$SAIDA"
 
 zip -rq "$SAIDA" \
-  index.html 404.html .htaccess og.png robots.txt sitemap.xml \
+  index.html 404.html og.png robots.txt sitemap.xml \
   assets \
   calculadora grama-decorativa grama-playground grama-alto-trafego \
   projetos perguntas-frequentes politica-de-privacidade \

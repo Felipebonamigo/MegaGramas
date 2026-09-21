@@ -196,47 +196,58 @@ acessibilidade nos dois temas.
 
 ## Publicar
 
-O site é hospedado na Hostinger. Para gerar o pacote:
+O site roda num VPS da Hostinger (Ubuntu 22.04), servido por nginx a partir de
+`/var/www/megagramas`. O repositório fica clonado em `/opt/megagramas`.
+
+### Atualizar o site
+
+No servidor:
 
 ```
-bash build/empacota.sh
+bash /opt/megagramas/deploy/publicar.sh
 ```
 
-Produz `megagramas-site.zip` com só o que vai para o servidor — ficam de fora o
-gerador, o CI e este README, que não têm por que estar num site público.
+O script busca a última versão de `main`, regera as páginas e sincroniza só os
+arquivos públicos para `/var/www/megagramas` — o gerador, o CI e este README
+não vão para o servidor. Não precisa recarregar o nginx: são arquivos
+estáticos.
 
-No hPanel da Hostinger: **Arquivos → Gerenciador de Arquivos → public_html**,
-subir o zip e extrair ali. O `index.html` precisa ficar direto em
-`public_html/`, não dentro de uma subpasta.
+### Instalação inicial
 
-Depois, em **Sites → Desempenho/SSL**, ligar o **Forçar HTTPS**.
+```
+apt install -y nginx python3 git rsync
+git clone https://github.com/Felipebonamigo/MegaGramas.git /opt/megagramas
+cp /opt/megagramas/deploy/megagramas.nginx.conf /etc/nginx/sites-available/megagramas
+ln -s /etc/nginx/sites-available/megagramas /etc/nginx/sites-enabled/
+nginx -t && systemctl reload nginx
+bash /opt/megagramas/deploy/publicar.sh
+```
 
-### Sobre o .htaccess
+Depois, com o DNS já apontando para o servidor:
 
-Vai no pacote e precisa ficar na raiz de `public_html`. Ele resolve quatro
-coisas que a hospedagem compartilhada não faz sozinha:
+```
+apt install -y certbot python3-certbot-nginx
+certbot --nginx -d megagramas.com.br -d www.megagramas.com.br
+```
 
-| | |
+O certbot escreve o bloco de TLS e instala a renovação automática.
+
+### Arquivos de deploy
+
+| Arquivo | Para quê |
 |---|---|
-| `ErrorDocument` | sem isso o Apache mostra a página de erro dele, não a nossa `404.html` |
-| Redirecionamento de `www` | para o Google não tratar `www.megagramas.com.br` e `megagramas.com.br` como dois sites |
-| Compressão e cache | HTML, CSS e JS comprimidos; fontes cacheadas por um ano |
-| MIME de `woff2` | servidor que não conhece o tipo serve como `octet-stream`, o navegador recusa a fonte em silêncio e cai na fonte do sistema |
+| `deploy/megagramas.nginx.conf` | configuração do nginx: 404, redirect de www, gzip, cache, cabeçalhos |
+| `deploy/publicar.sh` | atualiza o site no servidor a partir do git |
+| `deploy/megagramas.htaccess` | equivalente para Apache, se um dia o site for para hospedagem compartilhada |
+| `build/empacota.sh` | gera um zip para upload manual, quando não houver acesso a shell |
 
-O redirecionamento de HTTP para HTTPS **não** está no `.htaccess` de propósito
-— use o "Forçar HTTPS" do hPanel, que conhece a forma como o TLS é encerrado
-lá. Fazer isso por `.htaccess` em hospedagem compartilhada costuma gerar laço
-de redirecionamento.
+### Notas de configuração
 
-O cache de CSS e JS está em uma hora de propósito: os nomes dos arquivos não
-têm hash de versão, então um cache longo faria uma atualização demorar dias
-para aparecer para quem já visitou. Quando o conteúdo estabilizar, vale subir
-esse valor.
+O cache de CSS e JS está em uma hora de propósito: os arquivos não têm hash de
+versão no nome, então um cache longo faria uma atualização demorar dias para
+chegar a quem já visitou. Quando o conteúdo estabilizar, vale subir esse valor
+no bloco do nginx.
 
-### Alternativa: GitHub Pages
+As fontes vão a um ano com `immutable`, porque o conteúdo delas nunca muda.
 
-O repositório está pronto para isso também — `Settings → Pages → Deploy from a
-branch → main / (root)`, e os registros A do domínio apontando para
-`185.199.108.153` até `185.199.111.153`. A vantagem seria atualizar sozinho a
-cada push; a desvantagem é mexer no DNS. O `.htaccess` é ignorado lá, e a
-`404.html` é reconhecida automaticamente.
+O HTML não é cacheado, senão uma correção de texto não aparece.
