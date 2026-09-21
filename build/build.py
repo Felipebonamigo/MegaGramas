@@ -27,13 +27,30 @@ ZAP_SVG = ('<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" 
   '.16.29.73 1.2 1.56 1.94 1.07.96 1.98 1.25 2.26 1.39.28.14.45.12.61-.07.17-.19.71-.83.9-1.11.19-.29.38-.24.64-.14.26.09'
   '1.66.78 1.95.93.28.14.47.21.54.33.07.12.07.69-.17 1.37Z"/></svg>')
 
-FOLHAS = '<span class="folhas" aria-hidden="true"><i></i><i></i><i></i></span>'
+def logo(base, variante, alt_css, w, h, por_tema=True):
+    """A logo em <picture>: WebP na frente (pesa menos de metade) com PNG
+    atrás, e uma variante por tema quando o fundo muda.
 
-FAVICON = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">'
-  '<rect width="32" height="32" rx="6" fill="%230F5C27"/>'
-  '<path d="M9 25V12c0-1 3-4 5-4v17z" fill="%23DCCFA9"/>'
-  '<path d="M15 25V14c0-1 2.5-3.5 4-3.5V25z" fill="%2352BE29"/>'
-  '<path d="M21 25V10c0-1 2-3 3-3v18z" fill="%2352BE29"/></svg>')
+    O wordmark original é creme, feito para fundo escuro — sobre o papel
+    claro do site ele quase some a 34px, porque o relevo que define as
+    letras vira sub-pixel. A variante "-claro" escurece só os tons creme,
+    preservando o relevo e sem tocar no verde. No rodapé, que é verde
+    escuro nos dois temas, vale sempre o original."""
+    d = f'{base}assets/logo/{variante}'
+    c = f'{base}assets/logo/{variante}-claro'
+    fontes = ''
+    if por_tema:
+        fontes = (f'<source srcset="{d}.webp" media="(prefers-color-scheme: dark)" type="image/webp">'
+                  f'<source srcset="{d}.png" media="(prefers-color-scheme: dark)">'
+                  f'<source srcset="{c}.webp" type="image/webp">')
+        src = f'{c}.png'
+    else:
+        fontes = f'<source srcset="{d}.webp" type="image/webp">'
+        src = f'{d}.png'
+    return (f'<picture>{fontes}'
+            f'<img src="{src}" alt="MegaGramas" width="{w}" height="{h}" '
+            f'style="height:{alt_css}">'
+            f'</picture>')
 
 
 # ---------------------------------------------------------------- componentes
@@ -49,30 +66,11 @@ def cabecalho(base, atual):
         itens.append(f'<a href="{base}{destino}"{marca}>{rotulo}</a>')
     return f'''<header class="topo">
   <div class="wrap">
-    <a class="marca" href="{base}index.html">{FOLHAS}<b>MEGA<span>GRAMAS</span></b></a>
+    <a class="marca" href="{base}index.html" aria-label="MegaGramas, página inicial">{logo(base, 'logo-horizontal', '34px', 373, 102)}</a>
     <nav>{''.join(itens)}</nav>
     <a class="btn btn-zap" href="#" data-zap="topo" aria-label="Solicitar orçamento pelo WhatsApp">{ZAP_SVG}<span>Orçamento</span></a>
   </div>
 </header>'''
-
-
-def notas():
-    pontos = [
-     ('Grama Esportiva saiu do site.', ' O briefing diz que você não trabalha com esportiva, mas ela aparecia na lista de modelos. Ficou só a circulação no entorno de quadras, dentro de Alto Tráfego.'),
-     ('Fotos:', ' todo bloco verde texturizado é um espaço reservado — a legenda diz qual foto entra ali. Serve como lista de fotos a produzir.'),
-     ('Respostas do FAQ:', ' escrevi um rascunho de cada uma para o site não ficar vazio. Todas estão marcadas e precisam da sua revisão técnica.'),
-     ('Alturas e observações técnicas dos modelos:', ' são faixas e práticas de mercado, não o seu catálogo. Confirmar produto a produto.'),
-     ('Faltam no briefing:', ' região de atendimento (importante para busca local), faixa de preço por m², prazo de entrega e frete.'),
-     ('Números de prova:', f' só os {ANOS} anos vieram no doc. Projetos, clientes e m² instalados estão em branco.'),
-     ('Política de privacidade:', ' rascunho pronto, mas depende de razão social, CNPJ, endereço e e-mail de contato.'),
-    ]
-    li = ''.join(f'<li><strong>{a}</strong>{b}</li>' for a, b in pontos)
-    return f'''<div class="notas">
-  <details id="notas-revisao">
-    <summary><i class="pin"></i> Rascunho para revisão &middot; {len(pontos)} pontos dependem de você</summary>
-    <ol>{li}</ol>
-  </details>
-</div>'''
 
 
 def rodape(base):
@@ -81,7 +79,7 @@ def rodape(base):
     return f'''<footer>
   <div class="wrap">
     <div>
-      <a class="marca" href="{base}index.html" style="margin-bottom:14px">{FOLHAS}<b>MEGA<span style="color:var(--verde-vivo)">GRAMAS</span></b></a>
+      <a class="marca" href="{base}index.html" style="margin-bottom:16px" aria-label="MegaGramas, página inicial">{logo(base, 'logo-empilhada', '58px', 204, 168, por_tema=False)}</a>
       <p style="max-width:34ch">{SLOGAN}. Grama sintética para residências, empresas, playgrounds e áreas de lazer.</p>
     </div>
     <div><h4>Linhas</h4><ul>{modelos}</ul></div>
@@ -90,7 +88,7 @@ def rodape(base):
   <div class="wrap fim">
     <span>megagramas.com.br</span>
     <span>&copy; 2026 {MARCA}</span>
-    <span>Rascunho de proposta — conteúdo sujeito a revisão</span>
+    <span>{SLOGAN}</span>
   </div>
 </footer>'''
 
@@ -104,10 +102,9 @@ FAB_TOAST = f'''<button class="fab" id="fab" aria-label="Falar no WhatsApp">
 </div>'''
 
 
-def faq_html(perguntas, rascunho=True):
-    marca = '<br><span class="rascunho">Resposta em rascunho — revisar</span>' if rascunho else ''
+def faq_html(perguntas):
     return '<div class="faq">' + ''.join(
-        f'<details><summary>{q["p"]}</summary><div class="resp">{q["r"]}{marca}</div></details>'
+        f'<details><summary>{q["p"]}</summary><div class="resp">{q["r"]}</div></details>'
         for q in perguntas) + '</div>'
 
 
@@ -145,7 +142,8 @@ def pagina(caminho, titulo, desc, corpo, atual, jsonlds=(), base=None, arquivo=N
 <meta name="description" content="{desc}">
 <link rel="canonical" href="{url}">{robots}
 <meta name="theme-color" content="#0F5C27">
-<link rel="icon" href='data:image/svg+xml,{FAVICON}'>
+<link rel="icon" type="image/png" sizes="32x32" href="{base}assets/logo/icone-32.png">
+<link rel="apple-touch-icon" href="{base}assets/logo/icone-180.png">
 
 <meta property="og:type" content="website">
 <meta property="og:locale" content="pt_BR">
@@ -170,7 +168,6 @@ def pagina(caminho, titulo, desc, corpo, atual, jsonlds=(), base=None, arquivo=N
 </head>
 <body>
 
-{notas()}
 {cabecalho(base, atual)}
 
 <main id="topo">
@@ -459,7 +456,6 @@ def gerar_privacidade():
     <div class="prosa">
       <p class="atualizado">Última atualização: {pr('data')}</p>
 
-      <div class="aviso" style="margin-bottom:34px"><strong>Rascunho.</strong> Este texto cobre a estrutura exigida pela LGPD, mas os campos destacados precisam ser preenchidos e o conteúdo revisado por quem responde juridicamente pela empresa antes de publicar.</div>
 
       <p>Esta política descreve como a {pr('razão social')}, inscrita no CNPJ sob o nº {pr('CNPJ')}, com sede em {pr('endereço completo')} — referida aqui como {MARCA} — trata os dados pessoais de quem usa o site megagramas.com.br, conforme a Lei nº 13.709/2018 (LGPD).</p>
 
