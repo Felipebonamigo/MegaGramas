@@ -196,11 +196,58 @@ acessibilidade nos dois temas.
 
 ## Publicar
 
-Arquivos estáticos — servem em qualquer lugar. Pelo GitHub Pages:
+O site roda num VPS da Hostinger (Ubuntu 22.04), servido por nginx a partir de
+`/var/www/megagramas`. O repositório fica clonado em `/opt/megagramas`.
+
+### Atualizar o site
+
+No servidor:
 
 ```
-Settings → Pages → Source: Deploy from a branch → main / (root)
+bash /opt/megagramas/deploy/publicar.sh
 ```
 
-Depois apontar o DNS de `megagramas.com.br` para o GitHub Pages e habilitar
-HTTPS em Settings → Pages → Custom domain.
+O script busca a última versão de `main`, regera as páginas e sincroniza só os
+arquivos públicos para `/var/www/megagramas` — o gerador, o CI e este README
+não vão para o servidor. Não precisa recarregar o nginx: são arquivos
+estáticos.
+
+### Instalação inicial
+
+```
+apt install -y nginx python3 git rsync
+git clone https://github.com/Felipebonamigo/MegaGramas.git /opt/megagramas
+cp /opt/megagramas/deploy/megagramas.nginx.conf /etc/nginx/sites-available/megagramas
+ln -s /etc/nginx/sites-available/megagramas /etc/nginx/sites-enabled/
+nginx -t && systemctl reload nginx
+bash /opt/megagramas/deploy/publicar.sh
+```
+
+Depois, com o DNS já apontando para o servidor:
+
+```
+apt install -y certbot python3-certbot-nginx
+certbot --nginx -d megagramas.com.br -d www.megagramas.com.br
+```
+
+O certbot escreve o bloco de TLS e instala a renovação automática.
+
+### Arquivos de deploy
+
+| Arquivo | Para quê |
+|---|---|
+| `deploy/megagramas.nginx.conf` | configuração do nginx: 404, redirect de www, gzip, cache, cabeçalhos |
+| `deploy/publicar.sh` | atualiza o site no servidor a partir do git |
+| `deploy/megagramas.htaccess` | equivalente para Apache, se um dia o site for para hospedagem compartilhada |
+| `build/empacota.sh` | gera um zip para upload manual, quando não houver acesso a shell |
+
+### Notas de configuração
+
+O cache de CSS e JS está em uma hora de propósito: os arquivos não têm hash de
+versão no nome, então um cache longo faria uma atualização demorar dias para
+chegar a quem já visitou. Quando o conteúdo estabilizar, vale subir esse valor
+no bloco do nginx.
+
+As fontes vão a um ano com `immutable`, porque o conteúdo delas nunca muda.
+
+O HTML não é cacheado, senão uma correção de texto não aparece.

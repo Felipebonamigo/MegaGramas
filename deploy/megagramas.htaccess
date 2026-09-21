@@ -1,0 +1,68 @@
+# megagramas.com.br — configuração do Apache para o site estático.
+#
+# O GitHub Pages resolve estas coisas sozinho; a hospedagem compartilhada não.
+# Este arquivo precisa ficar na raiz de public_html, junto do index.html.
+
+# ---- Página de erro -------------------------------------------------------
+# Sem isto o Apache mostra a página de erro genérica dele, e não a nossa.
+ErrorDocument 404 /404.html
+
+# ---- Domínio canônico -----------------------------------------------------
+# www.megagramas.com.br redireciona para megagramas.com.br, para o Google não
+# tratar os dois como sites distintos. O redirecionamento de HTTP para HTTPS
+# NÃO está aqui de propósito: use o "Forçar HTTPS" do hPanel da Hostinger, que
+# conhece a forma como o TLS é encerrado lá. Fazer isso por .htaccess em
+# hospedagem compartilhada costuma gerar laço de redirecionamento.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+  RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301]
+</IfModule>
+
+# ---- Compressão -----------------------------------------------------------
+# HTML, CSS e JS comprimem muito bem. Fontes woff2 e PNG já vêm comprimidos,
+# então ficam de fora.
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/xml text/plain
+  AddOutputFilterByType DEFLATE application/javascript application/json
+  AddOutputFilterByType DEFLATE application/xml image/svg+xml
+</IfModule>
+
+# ---- Cache ----------------------------------------------------------------
+# As fontes podem ser cacheadas por um ano: o conteúdo delas nunca muda.
+# CSS e JS ficam em uma hora de propósito — os nomes dos arquivos não têm
+# hash de versão, então um cache longo faria uma atualização demorar dias
+# para aparecer para quem já visitou. Quando o site estabilizar, vale subir
+# esse valor.
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresDefault                        "access plus 1 hour"
+  ExpiresByType text/html               "access plus 0 seconds"
+  ExpiresByType font/woff2              "access plus 1 year"
+  ExpiresByType text/css                "access plus 1 hour"
+  ExpiresByType application/javascript  "access plus 1 hour"
+  ExpiresByType image/png               "access plus 30 days"
+  ExpiresByType image/jpeg              "access plus 30 days"
+  ExpiresByType image/webp              "access plus 30 days"
+  ExpiresByType image/svg+xml           "access plus 30 days"
+</IfModule>
+
+# ---- Tipos MIME -----------------------------------------------------------
+# Servidor antigo pode não conhecer woff2 e servir como octet-stream, o que
+# faz o navegador recusar a fonte em silêncio e cair na fonte do sistema.
+<IfModule mod_mime.c>
+  AddType font/woff2 .woff2
+  AddType image/svg+xml .svg
+  AddType application/xml .xml
+</IfModule>
+
+# ---- Segurança básica -----------------------------------------------------
+<IfModule mod_headers.c>
+  Header set X-Content-Type-Options "nosniff"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# Nada aqui é código-fonte, mas por garantia:
+<FilesMatch "\.(py|sh|md|json|yml)$">
+  Require all denied
+</FilesMatch>
