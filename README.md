@@ -47,12 +47,22 @@ grama-alto-trafego/               linha 12 a 20 mm
 projetos/                         galeria, antes e depois, depoimentos
 perguntas-frequentes/             as 16 perguntas, com FAQPage em JSON-LD
 politica-de-privacidade/          rascunho LGPD, com campos a preencher
-assets/site.css                   estilos de todas as páginas
+404.html                          página de erro (o GitHub Pages usa esse nome)
+assets/site.css                   estilos e @font-face de todas as páginas
 assets/site.js                    calculadora, WhatsApp e interações
+assets/fontes/                    Archivo, Karla e IBM Plex Mono (woff2)
 og.png                            imagem de compartilhamento 1200x630
 robots.txt  sitemap.xml
-build/                            gerador das páginas
+build/build.py                    gerador das páginas
+build/dados.py                    conteúdo
+build/partes/home.html            corpo da home
+build/verifica.js                 verificação automatizada
 ```
+
+O site não faz **nenhuma requisição a terceiros**. As fontes são
+auto-hospedadas em `assets/fontes/` (102 KB, Archivo e Karla em versão
+variável), o que evita o bloqueio de renderização do Google Fonts e impede que
+o IP de cada visitante seja enviado para o Google.
 
 ### Como editar
 
@@ -70,8 +80,8 @@ build/                            gerador das páginas
 python3 build/build.py
 ```
 
-Sem dependências — só Python 3. O comando reescreve as 8 páginas, o
-`robots.txt` e o `sitemap.xml`.
+Sem dependências — só Python 3. O comando reescreve as 8 páginas, a `404.html`,
+o `robots.txt` e o `sitemap.xml`.
 
 A home é gerada a partir de `build/partes/home.html`, que é um fragmento com
 dois marcadores: `{{BASE}}` (resolvido para o caminho relativo da página) e
@@ -121,6 +131,31 @@ Casos conferidos:
 | 2 × 10 | 10,00 m · peça única | uma faixa só |
 | 1,5 × 30 | 30,00 m · peça única | evita 14 emendas num corredor |
 | 10 × 2,2 | 11,00 m · 4 emendas · sem sobra | evita desperdiçar 18 m² |
+
+---
+
+## Verificação
+
+```
+npm install
+npx playwright install chromium
+npm run serve &
+npm run verifica
+```
+
+Abre as 9 páginas em tema claro e escuro, a 390 px de largura, e reprova se
+encontrar: erro de JavaScript, link interno quebrado, rolagem horizontal,
+requisição a terceiros, `H1` duplicado, `title`/`description`/`canonical`
+faltando, JSON-LD inválido ou violação de WCAG 2.1 AA (via axe-core). Também
+confere que a calculadora acerta os cinco casos-limite da tabela acima e que os
+botões montam uma URL `wa.me` válida.
+
+Roda no GitHub Actions a cada push (`.github/workflows/verifica.yml`), onde
+também verifica se o HTML commitado bate com o que o gerador produz — é o que
+pega alguém editando as páginas direto em vez de `build/dados.py`.
+
+Resultado atual: as 9 páginas passam em tudo, sem nenhuma violação de
+acessibilidade nos dois temas.
 
 ---
 

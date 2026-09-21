@@ -51,7 +51,7 @@ def cabecalho(base, atual):
   <div class="wrap">
     <a class="marca" href="{base}index.html">{FOLHAS}<b>MEGA<span>GRAMAS</span></b></a>
     <nav>{''.join(itens)}</nav>
-    <a class="btn btn-zap" href="#" data-zap="topo">{ZAP_SVG}<span>Orçamento</span></a>
+    <a class="btn btn-zap" href="#" data-zap="topo" aria-label="Solicitar orçamento pelo WhatsApp">{ZAP_SVG}<span>Orçamento</span></a>
   </div>
 </header>'''
 
@@ -128,9 +128,11 @@ def ld_migalhas(trilha_urls):
 
 # ------------------------------------------------------------------- template
 
-def pagina(caminho, titulo, desc, corpo, atual, jsonlds=()):
-    base = '' if caminho == '' else '../'
+def pagina(caminho, titulo, desc, corpo, atual, jsonlds=(), base=None, arquivo=None, noindex=False):
+    if base is None:
+        base = '' if caminho == '' else '../'
     url = SITE + '/' + (caminho + '/' if caminho else '')
+    robots = '\n<meta name="robots" content="noindex">' if noindex else ''
     blocos = ''.join(
         f'\n<script type="application/ld+json">\n{json.dumps(j, ensure_ascii=False, indent=2)}\n</script>'
         for j in jsonlds)
@@ -141,7 +143,7 @@ def pagina(caminho, titulo, desc, corpo, atual, jsonlds=()):
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>{titulo} | {MARCA}</title>
 <meta name="description" content="{desc}">
-<link rel="canonical" href="{url}">
+<link rel="canonical" href="{url}">{robots}
 <meta name="theme-color" content="#0F5C27">
 <link rel="icon" href='data:image/svg+xml,{FAVICON}'>
 
@@ -156,9 +158,8 @@ def pagina(caminho, titulo, desc, corpo, atual, jsonlds=()):
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Karla:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="{base}assets/fontes/archivo-variavel-500-800.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="{base}assets/fontes/karla-variavel-400-700.woff2">
 <link rel="stylesheet" href="{base}assets/site.css">{blocos}
 <style>
   :root{{ color-scheme: light dark; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }}
@@ -182,7 +183,8 @@ def pagina(caminho, titulo, desc, corpo, atual, jsonlds=()):
 </body>
 </html>
 '''
-    destino = os.path.join(RAIZ, caminho, 'index.html') if caminho else os.path.join(RAIZ, 'index.html')
+    destino = os.path.join(RAIZ, arquivo) if arquivo else (
+        os.path.join(RAIZ, caminho, 'index.html') if caminho else os.path.join(RAIZ, 'index.html'))
     os.makedirs(os.path.dirname(destino), exist_ok=True)
     open(destino, 'w', encoding='utf-8').write(doc.replace('{{BASE}}', base))
     return url
@@ -331,7 +333,7 @@ def gerar_modelo(m):
   </div>
 </section>
 
-<section>
+<section class="calc">
   <div class="wrap">
     <div class="sec-head"><p class="eyebrow">Quanto comprar</p><h2>A grama é vendida por metro linear.</h2>
       <p class="lead">O rolo tem 2,00 m de largura fixa. Calcule a metragem do seu espaço em faixas de 2 m — com as emendas e a sobra de corte à mostra.</p></div>
@@ -527,6 +529,39 @@ def gerar_privacidade():
       corpo, 'politica-de-privacidade/index.html', [ld]), '0.2'))
 
 
+def gerar_404():
+    linhas = ''.join(
+      f'<a class="rel" href="/{m["slug"]}/index.html"><span class="k">Linha {m["altura"]}</span>'
+      f'<h3>{m["nome"]}</h3><p>{m["aplicacoes"][0]}, {m["aplicacoes"][1].lower()}</p>'
+      f'<span class="seta">Ver detalhes &rarr;</span></a>' for m in MODELOS)
+    corpo = f'''<section class="pagina-hero">
+  <div class="wrap-s">
+    <p class="eyebrow">Erro 404</p>
+    <h1 style="margin-top:14px">Essa página não existe.</h1>
+    <p class="lead">O endereço pode ter mudado ou o link estar incompleto. Abaixo estão os caminhos mais usados — ou fale direto com a equipe.</p>
+    <div class="cta-linha">
+      <a class="btn btn-zap" href="#" data-zap="topo">{ZAP_SVG}Falar no WhatsApp</a>
+      <a class="btn btn-linha" href="/index.html">Voltar para o início</a>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head"><p class="eyebrow">Linhas</p><h2>Talvez você procurasse uma destas.</h2></div>
+    <div class="relacionados">{linhas}</div>
+    <div class="relacionados" style="margin-top:14px">
+      <a class="rel" href="/calculadora/index.html"><span class="k">Ferramenta</span><h3>Calculadora de metragem</h3><p>Quantos metros lineares o seu espaço precisa</p><span class="seta">Calcular &rarr;</span></a>
+      <a class="rel" href="/perguntas-frequentes/index.html"><span class="k">Dúvidas</span><h3>Perguntas frequentes</h3><p>Altura, instalação, limpeza, garantia e entrega</p><span class="seta">Ver &rarr;</span></a>
+      <a class="rel" href="/projetos/index.html"><span class="k">Portfólio</span><h3>Projetos realizados</h3><p>Espaços entregues e depoimentos</p><span class="seta">Ver &rarr;</span></a>
+    </div>
+  </div>
+</section>'''
+    pagina('', "Página não encontrada",
+      "A página procurada não existe. Veja as linhas de grama sintética, a calculadora de metragem e as perguntas frequentes.",
+      corpo, '', base='/', arquivo='404.html', noindex=True)
+
+
 def gerar_robots_sitemap():
     open(os.path.join(RAIZ, 'robots.txt'), 'w', encoding='utf-8').write(
       f"User-agent: *\nAllow: /\n\nSitemap: {SITE}/sitemap.xml\n")
@@ -546,8 +581,9 @@ if __name__ == '__main__':
     gerar_projetos()
     gerar_faq()
     gerar_privacidade()
+    gerar_404()
     gerar_robots_sitemap()
-    print(f'{len(URLS)} páginas geradas:')
+    print(f'{len(URLS)} páginas no sitemap (+ 404.html):')
     for u, p in URLS:
         print(f'  {p}  {u}')
     print('robots.txt e sitemap.xml atualizados.')

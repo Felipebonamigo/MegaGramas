@@ -1,3 +1,40 @@
+/* ============ fontes (auto-hospedadas) ============ */
+@font-face{
+  font-family:'Archivo';
+  font-style:normal;
+  font-weight:500 800;
+  font-display:swap;
+  src:url('fontes/archivo-variavel-500-800.woff2') format('woff2');
+}
+@font-face{
+  font-family:'Karla';
+  font-style:normal;
+  font-weight:400 700;
+  font-display:swap;
+  src:url('fontes/karla-variavel-400-700.woff2') format('woff2');
+}
+@font-face{
+  font-family:'IBM Plex Mono';
+  font-style:normal;
+  font-weight:400;
+  font-display:swap;
+  src:url('fontes/plex-mono-400.woff2') format('woff2');
+}
+@font-face{
+  font-family:'IBM Plex Mono';
+  font-style:normal;
+  font-weight:500;
+  font-display:swap;
+  src:url('fontes/plex-mono-500.woff2') format('woff2');
+}
+@font-face{
+  font-family:'IBM Plex Mono';
+  font-style:normal;
+  font-weight:600;
+  font-display:swap;
+  src:url('fontes/plex-mono-600.woff2') format('woff2');
+}
+
 /* ============ tokens ============ */
 :root{
   --paper:#FBFAF4;
@@ -8,15 +45,16 @@
   --linha-forte:#C9C2A6;
   --ink:#221F19;
   --ink-2:#5C6052;
-  --ink-3:#8B8E7C;
-  --verde:#2F8F1E;
+  --ink-3:#696B5C;
+  --verde:#287A1A;
   --verde-vivo:#52BE29;
   --verde-fundo:#0F5C27;
   --verde-tinta:#093C19;
   --on-verde:#F2F8EC;
   --on-verde-2:#B6D6A6;
   --areia:#DCCFA9;
-  --zap:#1FA855;
+  --destaque:#0F5C27;
+  --zap:#198644;
   --sombra:0 1px 2px rgba(34,31,25,.05), 0 10px 30px -18px rgba(34,31,25,.35);
   --sombra-alta:0 2px 4px rgba(34,31,25,.06), 0 22px 50px -26px rgba(34,31,25,.5);
   --r:3px;
@@ -31,7 +69,7 @@
     --linha-forte:#474D33;
     --ink:#EFEDE0;
     --ink-2:#AFB4A0;
-    --ink-3:#7E8471;
+    --ink-3:#939988;
     --verde:#63CE3C;
     --verde-vivo:#6BD93F;
     --verde-fundo:#0C4A1F;
@@ -39,7 +77,8 @@
     --on-verde:#EDF7E6;
     --on-verde-2:#9FC98D;
     --areia:#6E6547;
-    --zap:#25C063;
+    --destaque:#7FDC53;
+    --zap:#198644;
     --sombra:0 1px 2px rgba(0,0,0,.4), 0 10px 30px -18px rgba(0,0,0,.8);
     --sombra-alta:0 2px 4px rgba(0,0,0,.45), 0 22px 50px -26px rgba(0,0,0,.9);
   }
@@ -53,7 +92,7 @@
   --linha-forte:#474D33;
   --ink:#EFEDE0;
   --ink-2:#AFB4A0;
-  --ink-3:#7E8471;
+  --ink-3:#939988;
   --verde:#63CE3C;
   --verde-vivo:#6BD93F;
   --verde-fundo:#0C4A1F;
@@ -61,7 +100,8 @@
   --on-verde:#EDF7E6;
   --on-verde-2:#9FC98D;
   --areia:#6E6547;
-  --zap:#25C063;
+  --destaque:#7FDC53;
+  --zap:#198644;
   --sombra:0 1px 2px rgba(0,0,0,.4), 0 10px 30px -18px rgba(0,0,0,.8);
   --sombra-alta:0 2px 4px rgba(0,0,0,.45), 0 22px 50px -26px rgba(0,0,0,.9);
 }
@@ -317,7 +357,7 @@ header.topo{
 /* ============ prova ============ */
 .numeros{display:grid; grid-template-columns:repeat(auto-fit,minmax(168px,1fr)); gap:14px; margin-bottom:28px}
 .numero{background:var(--surface-2); border-radius:var(--r); padding:22px 22px 24px}
-.numero .v{font-family:'Archivo',sans-serif; font-weight:800; font-size:2.5rem; letter-spacing:-.04em; line-height:1; color:var(--verde-fundo)}
+.numero .v{font-family:'Archivo',sans-serif; font-weight:800; font-size:2.5rem; letter-spacing:-.04em; line-height:1; color:var(--destaque)}
 .numero .k{font-size:.87rem; color:var(--ink-2); margin-top:9px}
 .numero.vazio .v{color:var(--ink-3); border-bottom:2px dashed var(--linha-forte); display:inline-block; padding-inline:16px}
 .depo{display:grid; grid-template-columns:repeat(auto-fit,minmax(248px,1fr)); gap:14px; margin-top:28px}
@@ -378,7 +418,7 @@ footer{background:var(--verde-tinta); color:var(--on-verde-2); padding-block:44p
 footer .wrap{display:grid; grid-template-columns:1.4fr 1fr 1fr; gap:32px}
 @media (max-width:760px){ footer .wrap{grid-template-columns:1fr 1fr} }
 @media (max-width:460px){ footer .wrap{grid-template-columns:1fr} }
-footer h4{font-size:.68rem; font-family:'IBM Plex Mono',monospace; letter-spacing:.14em; text-transform:uppercase; color:var(--on-verde-2); opacity:.65; margin-bottom:14px}
+footer h4{font-size:.68rem; font-family:'IBM Plex Mono',monospace; letter-spacing:.14em; text-transform:uppercase; color:var(--on-verde-2); margin-bottom:14px}
 footer ul{list-style:none; margin:0; padding:0; display:grid; gap:9px}
 footer a{text-decoration:none}
 footer a:hover{color:#fff}
@@ -421,7 +461,7 @@ footer .fim{border-top:1px solid rgba(255,255,255,.12); margin-top:34px; padding
 /* opções de altura */
 .alturas{display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:14px}
 .altura{background:var(--surface); border:1px solid var(--linha); border-radius:var(--r); padding:20px 20px 22px; display:flex; flex-direction:column; gap:8px}
-.altura .mm{font-family:'Archivo',sans-serif; font-weight:800; font-size:1.7rem; letter-spacing:-.03em; color:var(--verde-fundo); line-height:1}
+.altura .mm{font-family:'Archivo',sans-serif; font-weight:800; font-size:1.7rem; letter-spacing:-.03em; color:var(--destaque); line-height:1}
 .altura .mm small{font-size:.5em; color:var(--ink-3); font-weight:600; letter-spacing:0}
 .altura p{font-size:.9rem; color:var(--ink-2)}
 
