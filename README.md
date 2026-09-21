@@ -196,11 +196,47 @@ acessibilidade nos dois temas.
 
 ## Publicar
 
-Arquivos estáticos — servem em qualquer lugar. Pelo GitHub Pages:
+O site é hospedado na Hostinger. Para gerar o pacote:
 
 ```
-Settings → Pages → Source: Deploy from a branch → main / (root)
+bash build/empacota.sh
 ```
 
-Depois apontar o DNS de `megagramas.com.br` para o GitHub Pages e habilitar
-HTTPS em Settings → Pages → Custom domain.
+Produz `megagramas-site.zip` com só o que vai para o servidor — ficam de fora o
+gerador, o CI e este README, que não têm por que estar num site público.
+
+No hPanel da Hostinger: **Arquivos → Gerenciador de Arquivos → public_html**,
+subir o zip e extrair ali. O `index.html` precisa ficar direto em
+`public_html/`, não dentro de uma subpasta.
+
+Depois, em **Sites → Desempenho/SSL**, ligar o **Forçar HTTPS**.
+
+### Sobre o .htaccess
+
+Vai no pacote e precisa ficar na raiz de `public_html`. Ele resolve quatro
+coisas que a hospedagem compartilhada não faz sozinha:
+
+| | |
+|---|---|
+| `ErrorDocument` | sem isso o Apache mostra a página de erro dele, não a nossa `404.html` |
+| Redirecionamento de `www` | para o Google não tratar `www.megagramas.com.br` e `megagramas.com.br` como dois sites |
+| Compressão e cache | HTML, CSS e JS comprimidos; fontes cacheadas por um ano |
+| MIME de `woff2` | servidor que não conhece o tipo serve como `octet-stream`, o navegador recusa a fonte em silêncio e cai na fonte do sistema |
+
+O redirecionamento de HTTP para HTTPS **não** está no `.htaccess` de propósito
+— use o "Forçar HTTPS" do hPanel, que conhece a forma como o TLS é encerrado
+lá. Fazer isso por `.htaccess` em hospedagem compartilhada costuma gerar laço
+de redirecionamento.
+
+O cache de CSS e JS está em uma hora de propósito: os nomes dos arquivos não
+têm hash de versão, então um cache longo faria uma atualização demorar dias
+para aparecer para quem já visitou. Quando o conteúdo estabilizar, vale subir
+esse valor.
+
+### Alternativa: GitHub Pages
+
+O repositório está pronto para isso também — `Settings → Pages → Deploy from a
+branch → main / (root)`, e os registros A do domínio apontando para
+`185.199.108.153` até `185.199.111.153`. A vantagem seria atualizar sozinho a
+cada push; a desvantagem é mexer no DNS. O `.htaccess` é ignorado lá, e a
+`404.html` é reconhecida automaticamente.
