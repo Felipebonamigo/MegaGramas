@@ -196,8 +196,14 @@ acessibilidade nos dois temas.
 
 ## Publicar
 
-O site roda num VPS da Hostinger (Ubuntu 22.04), servido por nginx a partir de
-`/var/www/megagramas`. O repositório fica clonado em `/opt/megagramas`.
+O site roda num VPS da Hostinger (Ubuntu 22.04), servido pelo **Caddy** a
+partir de `/var/www/megagramas`. O repositório fica clonado em
+`/opt/megagramas`.
+
+O VPS já rodava Caddy na porta 80 como proxy reverso de outros serviços, então
+o site entra nele em vez de subir um nginx concorrente. O Caddy emite e renova
+o certificado HTTPS sozinho — **não use certbot**. A configuração de nginx fica
+guardada em `deploy/` para o caso de o site mudar de servidor.
 
 ### Atualizar o site
 
@@ -236,7 +242,8 @@ O certbot escreve o bloco de TLS e instala a renovação automática.
 
 | Arquivo | Para quê |
 |---|---|
-| `deploy/megagramas.nginx.conf` | configuração do nginx: 404, redirect de www, gzip, cache, cabeçalhos |
+| `deploy/megagramas.caddy` | **em uso** — configuração do Caddy: 404, redirect de www, gzip, cache, cabeçalhos, HTTPS automático |
+| `deploy/megagramas.nginx.conf` | equivalente para nginx, se o site mudar de servidor |
 | `deploy/publicar.sh` | atualiza o site no servidor a partir do git |
 | `deploy/megagramas.htaccess` | equivalente para Apache, se um dia o site for para hospedagem compartilhada |
 | `build/empacota.sh` | gera um zip para upload manual, quando não houver acesso a shell |

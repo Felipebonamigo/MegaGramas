@@ -1,0 +1,58 @@
+# megagramas.com.br — site estático servido pelo Caddy.
+#
+# O VPS já roda Caddy na porta 80, então o site entra nele e não num nginx
+# separado. O Caddy emite e renova o certificado HTTPS sozinho — não use
+# certbot aqui.
+#
+# Instalar com:
+#   cp /opt/megagramas/deploy/megagramas.caddy /etc/caddy/conf.d/megagramas.caddy
+#   caddy validate --config /etc/caddy/Caddyfile
+#   systemctl reload caddy
+#
+# Se o Caddyfile principal não tiver um "import conf.d/*", cole o conteúdo
+# deste arquivo no fim dele.
+#
+# Conferido localmente com o Caddy 2.8.4: as 9 páginas servem, /calculadora/
+# resolve sem regra de reescrita, a 404 devolve a nossa página, o gzip leva o
+# CSS de 28 KB para 6,9 KB e os cabeçalhos de cache saem como esperado.
+
+megagramas.com.br {
+	root * /var/www/megagramas
+	encode zstd gzip
+	file_server
+
+	# Cache por tipo de arquivo. Os matchers são mutuamente exclusivos de
+	# propósito: um "header Cache-Control" genérico sobrescreve os
+	# específicos, porque todos se aplicam e o último a escrever vence.
+	@fontes path /assets/fontes/*
+	@codigo path /assets/*.css /assets/*.js
+	@imagens path /og.png
+	@resto not path /assets/* /og.png
+
+	# As fontes nunca mudam de conteúdo, então podem ir a um ano.
+	header @fontes Cache-Control "public, max-age=31536000, immutable"
+	# CSS e JS em uma hora: os arquivos não têm hash de versão no nome, então
+	# um cache longo faria uma atualização demorar dias para chegar a quem já
+	# visitou o site. Quando o conteúdo estabilizar, vale subir.
+	header @codigo Cache-Control "public, max-age=3600"
+	header @imagens Cache-Control "public, max-age=2592000"
+	# HTML nunca é cacheado, senão uma correção de texto não aparece.
+	header @resto Cache-Control "no-cache"
+
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+
+	handle_errors {
+		@404 expression {err.status_code} == 404
+		handle @404 {
+			rewrite * /404.html
+			file_server
+		}
+	}
+}
+
+www.megagramas.com.br {
+	redir https://megagramas.com.br{uri} permanent
+}
