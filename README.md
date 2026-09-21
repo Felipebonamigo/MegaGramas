@@ -223,9 +223,14 @@ systemctl list-timers megagramas-publicar.timer
 journalctl -u megagramas-publicar -n 30 --no-pager
 ```
 
-O script sai cedo quando o SHA da `main` não mudou e o site já está no lugar,
-então rodar de 5 em 5 minutos não reescreve arquivos nem enche o journal.
-`bash deploy/publicar.sh --forcar` ignora essa checagem.
+O script compara o que está **publicado** (registrado em
+`/var/lib/megagramas/versao`) com o `origin/main`, e sai cedo quando são
+iguais — então rodar de 5 em 5 minutos não reescreve arquivos nem enche o
+journal. `bash deploy/publicar.sh --forcar` ignora a checagem.
+
+A comparação não pode ser entre o HEAD do repositório e o `origin/main`: quem
+atualizar o repositório na mão sem publicar faria o script concluir que não há
+trabalho, e o site ficaria para trás em silêncio.
 
 ### Instalação inicial
 
