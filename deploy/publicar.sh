@@ -11,8 +11,19 @@ REPO="${REPO:-/opt/megagramas}"
 DESTINO="${DESTINO:-/var/www/megagramas}"
 
 cd "$REPO"
-echo "==> Buscando a última versão"
 git fetch --quiet origin main
+
+# Sem novidade e com o site já no lugar, não há o que fazer. Isso deixa o
+# timer rodar de cinco em cinco minutos sem encher o journal nem reescrever
+# arquivos à toa.
+ATUAL=$(git rev-parse HEAD 2>/dev/null || echo "-")
+NOVO=$(git rev-parse origin/main)
+if [ "$ATUAL" = "$NOVO" ] && [ -f "$DESTINO/index.html" ] && [ "${1:-}" != "--forcar" ]; then
+  echo "nada a publicar — $(git log --oneline -1 origin/main)"
+  exit 0
+fi
+
+echo "==> Atualizando o repositório"
 git checkout --quiet main
 git reset --quiet --hard origin/main
 echo "    $(git log --oneline -1)"

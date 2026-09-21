@@ -207,36 +207,46 @@ guardada em `deploy/` para o caso de o site mudar de servidor.
 
 ### Atualizar o site
 
-No servidor:
+Nada a fazer: um timer do systemd verifica a cada 5 minutos se há commit novo
+na `main` e publica sozinho. Um merge na `main` chega ao ar em até 5 minutos.
+
+Para forçar na hora:
 
 ```
-bash /opt/megagramas/deploy/publicar.sh
+systemctl start megagramas-publicar.service
 ```
 
-O script busca a última versão de `main`, regera as páginas e sincroniza só os
-arquivos públicos para `/var/www/megagramas` — o gerador, o CI e este README
-não vão para o servidor. Não precisa recarregar o nginx: são arquivos
-estáticos.
+Para acompanhar:
+
+```
+systemctl list-timers megagramas-publicar.timer
+journalctl -u megagramas-publicar -n 30 --no-pager
+```
+
+O script sai cedo quando o SHA da `main` não mudou e o site já está no lugar,
+então rodar de 5 em 5 minutos não reescreve arquivos nem enche o journal.
+`bash deploy/publicar.sh --forcar` ignora essa checagem.
 
 ### Instalação inicial
 
 ```
-apt install -y nginx python3 git rsync
+apt install -y python3 git rsync
 git clone https://github.com/Felipebonamigo/MegaGramas.git /opt/megagramas
-cp /opt/megagramas/deploy/megagramas.nginx.conf /etc/nginx/sites-available/megagramas
-ln -s /etc/nginx/sites-available/megagramas /etc/nginx/sites-enabled/
-nginx -t && systemctl reload nginx
-bash /opt/megagramas/deploy/publicar.sh
+
+# o site entra no Caddy que já roda no servidor
+cp /opt/megagramas/deploy/megagramas.caddy /etc/caddy/conf.d/megagramas.caddy
+caddy validate --config /etc/caddy/Caddyfile && systemctl reload caddy
+
+# publicação automática
+cp /opt/megagramas/deploy/megagramas-publicar.{service,timer} /etc/systemd/system/
+systemctl daemon-reload
+systemctl enable --now megagramas-publicar.timer
 ```
 
-Depois, com o DNS já apontando para o servidor:
+Se o Caddyfile principal não tiver `import conf.d/*`, cole o conteúdo de
+`deploy/megagramas.caddy` no fim dele.
 
-```
-apt install -y certbot python3-certbot-nginx
-certbot --nginx -d megagramas.com.br -d www.megagramas.com.br
-```
-
-O certbot escreve o bloco de TLS e instala a renovação automática.
+O Caddy emite e renova o certificado HTTPS sozinho — **não use certbot**.
 
 ### Arquivos de deploy
 
@@ -245,6 +255,7 @@ O certbot escreve o bloco de TLS e instala a renovação automática.
 | `deploy/megagramas.caddy` | **em uso** — configuração do Caddy: 404, redirect de www, gzip, cache, cabeçalhos, HTTPS automático |
 | `deploy/megagramas.nginx.conf` | equivalente para nginx, se o site mudar de servidor |
 | `deploy/publicar.sh` | atualiza o site no servidor a partir do git |
+| `deploy/megagramas-publicar.service` + `.timer` | publicação automática a cada 5 minutos |
 | `deploy/megagramas.htaccess` | equivalente para Apache, se um dia o site for para hospedagem compartilhada |
 | `build/empacota.sh` | gera um zip para upload manual, quando não houver acesso a shell |
 
