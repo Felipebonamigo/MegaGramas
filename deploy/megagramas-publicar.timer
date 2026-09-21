@@ -1,0 +1,12 @@
+[Unit]
+Description=Verifica a cada 5 minutos se há versão nova do site
+
+[Timer]
+OnBootSec=2min
+OnUnitActiveSec=5min
+# Espalha o disparo para não bater no GitHub sempre no mesmo segundo.
+RandomizedDelaySec=45
+Persistent=true
+
+[Install]
+WantedBy=timers.target

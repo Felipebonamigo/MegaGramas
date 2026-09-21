@@ -1,0 +1,10 @@
+[Unit]
+Description=Publica o site megagramas.com.br a partir do GitHub
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/env bash /opt/megagramas/deploy/publicar.sh
+# O script sai cedo quando não há commit novo, então rodar de 5 em 5
+# minutos não custa praticamente nada.
