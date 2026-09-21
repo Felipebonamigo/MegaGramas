@@ -1,24 +1,34 @@
 #!/usr/bin/env bash
 # Publica o site no VPS. Rodar NO SERVIDOR:
 #
-#   bash /opt/megagramas/deploy/publicar.sh
+#   bash /opt/megagramas/deploy/publicar.sh            # publica se houver novidade
+#   bash /opt/megagramas/deploy/publicar.sh --forcar   # publica de qualquer jeito
 #
-# Busca a última versão do repositório, regera as páginas e sincroniza
+# Normalmente quem chama é o timer megagramas-publicar.timer, de 5 em 5
+# minutos. Busca a última versão de main, regera as páginas e sincroniza
 # apenas os arquivos públicos para /var/www/megagramas.
+
+# As chaves fazem o bash ler o arquivo inteiro antes de executar. Sem isso,
+# o `git reset` abaixo trocaria este próprio script no disco no meio da
+# execução, e o bash continuaria lendo do ponto onde parou — em outro
+# arquivo.
+{
 set -euo pipefail
 
 REPO="${REPO:-/opt/megagramas}"
 DESTINO="${DESTINO:-/var/www/megagramas}"
+ESTADO="${ESTADO:-/var/lib/megagramas}"
+MARCA="$ESTADO/versao"
 
 cd "$REPO"
 git fetch --quiet origin main
-
-# Sem novidade e com o site já no lugar, não há o que fazer. Isso deixa o
-# timer rodar de cinco em cinco minutos sem encher o journal nem reescrever
-# arquivos à toa.
-ATUAL=$(git rev-parse HEAD 2>/dev/null || echo "-")
 NOVO=$(git rev-parse origin/main)
-if [ "$ATUAL" = "$NOVO" ] && [ -f "$DESTINO/index.html" ] && [ "${1:-}" != "--forcar" ]; then
+PUBLICADO=$(cat "$MARCA" 2>/dev/null || echo "-")
+
+# A comparação é entre o que está PUBLICADO e o que está em origin/main.
+# Comparar o HEAD do repositório com origin/main não serve: quem atualiza o
+# repositório na mão sem publicar faria o script achar que não há trabalho.
+if [ "$PUBLICADO" = "$NOVO" ] && [ -f "$DESTINO/index.html" ] && [ "${1:-}" != "--forcar" ]; then
   echo "nada a publicar — $(git log --oneline -1 origin/main)"
   exit 0
 fi
@@ -47,5 +57,11 @@ rsync -a --delete \
   --exclude='*' \
   "$REPO"/ "$DESTINO"/
 
-chown -R www-data:www-data "$DESTINO" 2>/dev/null || true
-echo "==> Pronto: $(find "$DESTINO" -type f | wc -l) arquivos em $DESTINO"
+# A marca fica fora da raiz web: o rsync --delete apagaria um arquivo
+# solto dentro de $DESTINO, e não há razão para servi-la.
+mkdir -p "$ESTADO"
+echo "$NOVO" > "$MARCA"
+
+echo "==> Pronto: $(find "$DESTINO" -type f | wc -l) arquivos publicados em $(git log --oneline -1 --format=%h)"
+exit 0
+}
