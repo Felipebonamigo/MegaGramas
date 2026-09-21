@@ -17,19 +17,71 @@ As 13 seções do briefing, na ordem:
 | 2 | Faixa de benefícios | 5 ícones SVG desenhados à mão, sem biblioteca |
 | 3 | Onde utilizar | 7 cards |
 | 4 | Por que escolher | 6 quebras de objeção + CTA |
-| 5 | Modelos | 3 linhas, com altura/maciez/resistência/aplicação/uso + CTA |
+| 5 | Modelos | 3 linhas, cada uma com página própria + CTA |
 | 6 | Antes e depois | Par de slots, mesmo ângulo |
 | 7 | **Calculadora de metragem** | Ver abaixo |
 | 8 | Como funciona | 5 passos |
 | 9 | Provas e projetos | 12 anos + 2 números a preencher + galeria + depoimentos |
 | 10 | Diferenciais | 6 itens + faixa complementar |
 | 11 | Formas de atendimento | Material / material + instalação / projetos comerciais |
-| 12 | FAQ | 16 perguntas, com `FAQPage` em JSON-LD |
+| 12 | FAQ | 8 perguntas na home, 16 na página própria |
 | 13 | CTA final | + botão flutuante de WhatsApp |
 
 Também incluso: tema claro e escuro automático, layout responsivo até 390 px,
 `LocalBusiness` e `FAQPage` em JSON-LD, Open Graph, favicon em SVG inline e
 `canonical` apontando para `https://megagramas.com.br/`.
+
+---
+
+## Estrutura
+
+Site estático de 8 páginas. Sem build obrigatório para visualizar — abrir
+`index.html` no navegador já funciona.
+
+```
+index.html                        home (a landing page do briefing)
+calculadora/                      calculadora + explicação do cálculo
+grama-decorativa/                 linha 12 a 25 mm
+grama-playground/                 linha 25 a 40 mm
+grama-alto-trafego/               linha 12 a 20 mm
+projetos/                         galeria, antes e depois, depoimentos
+perguntas-frequentes/             as 16 perguntas, com FAQPage em JSON-LD
+politica-de-privacidade/          rascunho LGPD, com campos a preencher
+assets/site.css                   estilos de todas as páginas
+assets/site.js                    calculadora, WhatsApp e interações
+og.png                            imagem de compartilhamento 1200x630
+robots.txt  sitemap.xml
+build/                            gerador das páginas
+```
+
+### Como editar
+
+**O HTML das páginas é gerado — não edite direto, será sobrescrito.**
+
+| O que mudar | Onde | Depois |
+|---|---|---|
+| Textos, perguntas do FAQ, modelos | `build/dados.py` | rodar o build |
+| Conteúdo da home | `build/partes/home.html` | rodar o build |
+| Estrutura das páginas, SEO, JSON-LD | `build/build.py` | rodar o build |
+| Estilos | `assets/site.css` | nada |
+| Calculadora e interações | `assets/site.js` | nada |
+
+```
+python3 build/build.py
+```
+
+Sem dependências — só Python 3. O comando reescreve as 8 páginas, o
+`robots.txt` e o `sitemap.xml`.
+
+A home é gerada a partir de `build/partes/home.html`, que é um fragmento com
+dois marcadores: `{{BASE}}` (resolvido para o caminho relativo da página) e
+`{{FAQ_HOME}}` (onde entram as perguntas marcadas com `top=True` em
+`dados.py`). O bloco da calculadora fica entre `<!--CALC:INICIO-->` e
+`<!--CALC:FIM-->` e é reaproveitado nas outras páginas a partir dali, então
+existe em um lugar só.
+
+O FAQ é HTML estático, gerado no build e não injetado por JavaScript — é o que
+permite que o Google leia as perguntas.
 
 ---
 
@@ -109,7 +161,7 @@ Casos conferidos:
 
 ## Publicar
 
-Arquivo estático — serve em qualquer lugar. Pelo GitHub Pages:
+Arquivos estáticos — servem em qualquer lugar. Pelo GitHub Pages:
 
 ```
 Settings → Pages → Source: Deploy from a branch → main / (root)
