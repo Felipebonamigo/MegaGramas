@@ -2,7 +2,7 @@
   "use strict";
 
   /* ===== configuração ===== */
-  var WHATSAPP = "";                 /* ex.: "5551999990000" — preencher para ativar os botões */
+  var WHATSAPP = "5551999694547";    /* 55 + DDD 51 + 99969-4547 */
   var SITE = "megagramas.com.br";
   var LARGURA_ROLO = 2;              /* metros — largura fixa do rolo */
   var LINEAR_POR_VOLUME = 25;        /* metros lineares por volume = 50 m² */

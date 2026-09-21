@@ -58,7 +58,6 @@ def cabecalho(base, atual):
 
 def notas():
     pontos = [
-     ('Número do WhatsApp:', ' ainda não configurado. Os botões estão em modo demonstração — clique em qualquer um para ver a mensagem que ele vai enviar.'),
      ('Grama Esportiva saiu do site.', ' O briefing diz que você não trabalha com esportiva, mas ela aparecia na lista de modelos. Ficou só a circulação no entorno de quadras, dentro de Alto Tráfego.'),
      ('Fotos:', ' todo bloco verde texturizado é um espaço reservado — a legenda diz qual foto entra ali. Serve como lista de fotos a produzir.'),
      ('Respostas do FAQ:', ' escrevi um rascunho de cada uma para o site não ficar vazio. Todas estão marcadas e precisam da sua revisão técnica.'),

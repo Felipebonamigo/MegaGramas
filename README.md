@@ -128,9 +128,9 @@ Casos conferidos:
 
 **Obrigatório**
 
-- [ ] **Número do WhatsApp** — preencher a constante `WHATSAPP` no `<script>`,
-      no formato `5551999990000`. Enquanto estiver vazia, os botões abrem um
-      aviso mostrando a mensagem que enviariam, em vez de abrir o WhatsApp.
+- [x] ~~**Número do WhatsApp**~~ — configurado: `5551999694547` (51 99969-4547),
+      na constante `WHATSAPP` em `assets/site.js`. Os 8 pontos de entrada
+      abrem o WhatsApp com mensagens distintas por seção.
 - [ ] **Fotos** — todo bloco verde texturizado é um slot; a legenda diz qual
       foto entra. Serve como lista de produção.
 - [ ] **Revisar as respostas do FAQ** — são rascunhos e estão marcados como
