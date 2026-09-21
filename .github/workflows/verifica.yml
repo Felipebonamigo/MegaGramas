@@ -1,0 +1,46 @@
+name: Verifica o site
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+
+jobs:
+  verifica:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Regerar as páginas
+        run: python3 build/build.py
+
+      - name: As páginas geradas estão commitadas?
+        run: |
+          if ! git diff --quiet; then
+            echo "As páginas no repositório não batem com o que o build gera."
+            echo "Alguém editou o HTML direto em vez de build/dados.py ou build/partes/home.html."
+            echo "Rode 'python3 build/build.py' e commite o resultado."
+            echo
+            git diff --stat
+            exit 1
+          fi
+          echo "HTML commitado em dia com o gerador."
+
+      - name: Instalar dependências
+        run: |
+          npm install --no-audit --no-fund
+          npx playwright install --with-deps chromium
+
+      - name: Verificar as páginas
+        run: |
+          python3 -m http.server 8765 &
+          npx wait-on -t 30000 http://localhost:8765/index.html
+          node build/verifica.js http://localhost:8765

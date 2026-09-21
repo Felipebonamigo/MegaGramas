@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Calculadora de Metragem de Grama Sintética | MegaGramas</title>
+<meta name="description" content="Calcule quantos metros lineares de grama sintética o seu espaço precisa. O cálculo é feito em faixas de 2 m, mostra as emendas e a sobra de corte — e não pela divisão simples da área, que dá material a menos.">
+<link rel="canonical" href="https://megagramas.com.br/calculadora/">
+<meta name="theme-color" content="#0F5C27">
+<link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="%230F5C27"/><path d="M9 25V12c0-1 3-4 5-4v17z" fill="%23DCCFA9"/><path d="M15 25V14c0-1 2.5-3.5 4-3.5V25z" fill="%2352BE29"/><path d="M21 25V10c0-1 2-3 3-3v18z" fill="%2352BE29"/></svg>'>
+
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:site_name" content="MegaGramas">
+<meta property="og:url" content="https://megagramas.com.br/calculadora/">
+<meta property="og:title" content="Calculadora de Metragem de Grama Sintética | MegaGramas">
+<meta property="og:description" content="Calcule quantos metros lineares de grama sintética o seu espaço precisa. O cálculo é feito em faixas de 2 m, mostra as emendas e a sobra de corte — e não pela divisão simples da área, que dá material a menos.">
+<meta property="og:image" content="https://megagramas.com.br/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fontes/archivo-variavel-500-800.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fontes/karla-variavel-400-700.woff2">
+<link rel="stylesheet" href="../assets/site.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Início",
+      "item": "https://megagramas.com.br/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Calculadora",
+      "item": "https://megagramas.com.br/calculadora/"
+    }
+  ]
+}
+</script>
+<style>
+  :root{ color-scheme: light dark; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+  html, body{ margin:0; }
+  img{ max-width:100%; }
+  [hidden]{ display:none !important; }
+</style>
+</head>
+<body>
+
+<div class="notas">
+  <details id="notas-revisao">
+    <summary><i class="pin"></i> Rascunho para revisão &middot; 7 pontos dependem de você</summary>
+    <ol><li><strong>Grama Esportiva saiu do site.</strong> O briefing diz que você não trabalha com esportiva, mas ela aparecia na lista de modelos. Ficou só a circulação no entorno de quadras, dentro de Alto Tráfego.</li><li><strong>Fotos:</strong> todo bloco verde texturizado é um espaço reservado — a legenda diz qual foto entra ali. Serve como lista de fotos a produzir.</li><li><strong>Respostas do FAQ:</strong> escrevi um rascunho de cada uma para o site não ficar vazio. Todas estão marcadas e precisam da sua revisão técnica.</li><li><strong>Alturas e observações técnicas dos modelos:</strong> são faixas e práticas de mercado, não o seu catálogo. Confirmar produto a produto.</li><li><strong>Faltam no briefing:</strong> região de atendimento (importante para busca local), faixa de preço por m², prazo de entrega e frete.</li><li><strong>Números de prova:</strong> só os 12 anos vieram no doc. Projetos, clientes e m² instalados estão em branco.</li><li><strong>Política de privacidade:</strong> rascunho pronto, mas depende de razão social, CNPJ, endereço e e-mail de contato.</li></ol>
+  </details>
+</div>
+<header class="topo">
+  <div class="wrap">
+    <a class="marca" href="../index.html"><span class="folhas" aria-hidden="true"><i></i><i></i><i></i></span><b>MEGA<span>GRAMAS</span></b></a>
+    <nav><a href="../index.html#modelos">Modelos</a><a href="../calculadora/index.html" aria-current="page">Calculadora</a><a href="../projetos/index.html">Projetos</a><a href="../perguntas-frequentes/index.html">Dúvidas</a></nav>
+    <a class="btn btn-zap" href="#" data-zap="topo" aria-label="Solicitar orçamento pelo WhatsApp"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2c-5.46 0-9.9 4.44-9.9 9.9 0 1.75.46 3.45 1.32 4.95L2.05 22l5.3-1.38a9.87 9.87 0 0 0 4.69 1.19h.01c5.46 0 9.9-4.44 9.9-9.9 0-2.64-1.03-5.13-2.9-7A9.82 9.82 0 0 0 12.04 2Zm5.8 14.06c-.25.69-1.44 1.32-1.99 1.36-.53.05-1.02.24-3.44-.72-2.9-1.14-4.74-4.1-4.88-4.29-.14-.19-1.17-1.55-1.17-2.96s.74-2.1 1-2.39c.26-.29.57-.36.76-.36l.54.01c.18.01.41-.07.64.49.24.57.8 1.98.87 2.13.07.14.12.31.02.5-.09.19-.14.31-.28.48-.14.17-.3.37-.42.5-.14.14-.29.29-.12.57.16.29.73 1.2 1.56 1.94 1.07.96 1.98 1.25 2.26 1.39.28.14.45.12.61-.07.17-.19.71-.83.9-1.11.19-.29.38-.24.64-.14.26.091.66.78 1.95.93.28.14.47.21.54.33.07.12.07.69-.17 1.37Z"/></svg><span>Orçamento</span></a>
+  </div>
+</header>
+
+<main id="topo">
+<section class="pagina-hero">
+  <div class="wrap">
+    <nav class="migalhas" aria-label="Você está aqui"><a href="../index.html">Início</a><span aria-hidden="true">/</span><span>Calculadora de metragem</span></nav>
+    <h1>Calculadora de metragem de grama sintética</h1>
+    <p class="lead">Informe as medidas do espaço e veja quantos metros lineares comprar, quantas emendas o projeto vai ter e quanto sobra de corte. O cálculo é feito em faixas de 2&nbsp;m — que é como a grama realmente é vendida.</p>
+  </div>
+</section>
+
+<section class="calc" style="padding-top:clamp(36px,5vw,56px)">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Calcule agora</p>
+      <h2>Quanto de grama eu preciso?</h2>
+      <p class="lead">O rolo tem <strong style="color:#fff">2,00 m de largura fixa</strong> e é vendido por metro linear. Por isso a conta não é só largura × comprimento: a área precisa ser coberta em faixas de 2 m, e a última quase sempre sobra.</p>
+    </div>
+    
+    <div class="calc-box">
+      <div class="calc-entrada">
+        <div class="campo">
+          <label for="ent-largura">Largura do espaço</label>
+          <div class="entrada">
+            <input id="ent-largura" type="text" inputmode="decimal" value="7,5" autocomplete="off">
+            <span class="un">m</span>
+          </div>
+        </div>
+        <div class="campo">
+          <label for="ent-comprimento">Comprimento do espaço</label>
+          <div class="entrada">
+            <input id="ent-comprimento" type="text" inputmode="decimal" value="7" autocomplete="off">
+            <span class="un">m</span>
+          </div>
+        </div>
+        <p class="calc-erro" id="calc-erro" role="status"></p>
+
+        <details class="porque">
+          <summary>Por que não é só a área dividida por 2?</summary>
+          <div id="porque-corpo"></div>
+        </details>
+
+        <p class="calc-rodape">Recortes, canteiros, degraus e áreas irregulares mudam a conta. Se o seu espaço não é um retângulo, envie as medidas e uma foto — nossa equipe calcula a quantidade e indica o modelo adequado para a aplicação.</p>
+      </div>
+
+      <div class="calc-saida">
+        <div class="resultado" id="resultado" aria-live="polite">
+          <div class="res-destaque">
+            <div class="k">Você precisa comprar</div>
+            <div class="v" id="res-linear">—</div>
+            <div class="eq" id="res-eq"></div>
+          </div>
+          <div class="res-linhas">
+            <div class="res-item"><div class="k">Área do espaço</div><div class="v" id="res-area">—</div></div>
+            <div class="res-item"><div class="k">Faixas de 2,00 m</div><div class="v" id="res-faixas">—</div></div>
+            <div class="res-item"><div class="k">Emendas</div><div class="v" id="res-emendas">—</div></div>
+            <div class="res-item"><div class="k">Sobra de corte</div><div class="v" id="res-sobra">—</div></div>
+          </div>
+        </div>
+
+        <div class="dgm-caixa">
+          <div id="diagrama"></div>
+          <div class="legenda">
+            <span><i class="lg-grama"></i> Grama</span>
+            <span><i class="lg-sobra"></i> Sobra de corte</span>
+            <span><i class="lg-emenda"></i> Emenda</span>
+          </div>
+        </div>
+
+        <p style="font-size:.84rem; color:var(--on-verde-2)" id="res-alternativa"></p>
+
+        <a class="btn btn-zap btn-bloco" href="#" data-zap="calculadora"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2c-5.46 0-9.9 4.44-9.9 9.9 0 1.75.46 3.45 1.32 4.95L2.05 22l5.3-1.38a9.87 9.87 0 0 0 4.69 1.19h.01c5.46 0 9.9-4.44 9.9-9.9 0-2.64-1.03-5.13-2.9-7A9.82 9.82 0 0 0 12.04 2Zm5.8 14.06c-.25.69-1.44 1.32-1.99 1.36-.53.05-1.02.24-3.44-.72-2.9-1.14-4.74-4.1-4.88-4.29-.14-.19-1.17-1.55-1.17-2.96s.74-2.1 1-2.39c.26-.29.57-.36.76-.36l.54.01c.18.01.41-.07.64.49.24.57.8 1.98.87 2.13.07.14.12.31.02.5-.09.19-.14.31-.28.48-.14.17-.3.37-.42.5-.14.14-.29.29-.12.57.16.29.73 1.2 1.56 1.94 1.07.96 1.98 1.25 2.26 1.39.28.14.45.12.61-.07.17-.19.71-.83.9-1.11.19-.29.38-.24.64-.14.26.09 1.66.78 1.95.93.28.14.47.21.54.33.07.12.07.69-.17 1.37Z"/></svg>Quero ajuda para calcular meu orçamento</a>
+      </div>
+    </div>
+  </div>
+    
+  </div>
+</section>
+
+<section>
+  <div class="wrap-s">
+    <div class="sec-head">
+      <p class="eyebrow">Como a conta funciona</p>
+      <h2>Por que área ÷ 2 dá o número errado.</h2>
+    </div>
+    <div class="prosa">
+      <p>Grama sintética não vem em placas: vem em rolo de <strong>2,00 m de largura fixa</strong>, cortado no comprimento que você pedir. Cada metro linear equivale a 2 m² de material.</p>
+      <p>Por isso a área do espaço não define a compra. Um jardim de 7,5 m × 7 m tem 52,50 m², e dividir por 2 daria 26,25 m lineares. Só que esses 26,25 m não cobrem o espaço: para atravessar 7,5 m de largura são necessárias 4 faixas inteiras de 2 m, cada uma com 7 m de comprimento. São 28 m lineares — e a quarta faixa sobra 0,5 m para fora, que é o desperdício normal de qualquer corte.</p>
+      <p>Comprar pelo cálculo por área significa receber material a menos e descobrir isso no dia da instalação.</p>
+      <h3>O sentido das faixas muda o resultado</h3>
+      <p>O mesmo espaço pode ser coberto em duas orientações, e elas quase nunca custam igual. A calculadora monta as duas, compara e recomenda uma — levando em conta que emenda não é de graça: ela custa mão de obra e aparece no acabamento. É por isso que um corredor de 1,5 m × 30 m sai como uma peça única de 30 m, e não como 15 faixas emendadas de 22,5 m.</p>
+      <h3>Quando o cálculo não basta</h3>
+      <p>A calculadora assume um retângulo. Espaço em L, canteiro no meio, degrau, coluna, piscina ou qualquer recorte muda a conta — às vezes para menos, às vezes para bem mais. Nesses casos, envie as medidas e uma foto que a equipe calcula o aproveitamento real.</p>
+      <div class="aviso" style="margin-top:22px"><strong>Uma observação sobre o sentido do fio.</strong> Todas as faixas precisam ser assentadas na mesma direção. Faixa invertida muda a forma como a luz bate na fibra e o trecho parece de outra cor, mesmo sendo o mesmo produto.</div>
+    </div>
+    <div class="cta-linha" style="margin-top:32px">
+      <a class="btn btn-zap" href="#" data-zap="calculadora"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2c-5.46 0-9.9 4.44-9.9 9.9 0 1.75.46 3.45 1.32 4.95L2.05 22l5.3-1.38a9.87 9.87 0 0 0 4.69 1.19h.01c5.46 0 9.9-4.44 9.9-9.9 0-2.64-1.03-5.13-2.9-7A9.82 9.82 0 0 0 12.04 2Zm5.8 14.06c-.25.69-1.44 1.32-1.99 1.36-.53.05-1.02.24-3.44-.72-2.9-1.14-4.74-4.1-4.88-4.29-.14-.19-1.17-1.55-1.17-2.96s.74-2.1 1-2.39c.26-.29.57-.36.76-.36l.54.01c.18.01.41-.07.64.49.24.57.8 1.98.87 2.13.07.14.12.31.02.5-.09.19-.14.31-.28.48-.14.17-.3.37-.42.5-.14.14-.29.29-.12.57.16.29.73 1.2 1.56 1.94 1.07.96 1.98 1.25 2.26 1.39.28.14.45.12.61-.07.17-.19.71-.83.9-1.11.19-.29.38-.24.64-.14.26.091.66.78 1.95.93.28.14.47.21.54.33.07.12.07.69-.17 1.37Z"/></svg>Quero ajuda para calcular meu orçamento</a>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--surface-2)">
+  <div class="wrap-s">
+    <div class="sec-head"><p class="eyebrow">Sobre metragem</p><h2>Dúvidas frequentes.</h2></div>
+    <div class="faq"><details><summary>É vendida por m²?</summary><div class="resp">O rolo tem 2,00 m de largura fixa e é vendido por metro linear — cada metro linear equivale a 2 m². Por isso o cálculo é feito em faixas de 2 m e não apenas pela área do espaço. A calculadora do site faz essa conta.<br><span class="rascunho">Resposta em rascunho — revisar</span></div></details><details><summary>Vocês fazem cortes sob medida?</summary><div class="resp">Sim, conforme a necessidade do projeto e a disponibilidade do modelo escolhido.<br><span class="rascunho">Resposta em rascunho — revisar</span></div></details><details><summary>Como calculo quantos metros preciso?</summary><div class="resp">Use a calculadora do site: informe largura e comprimento e ela monta as faixas de 2 m, mostra as emendas e a sobra de corte. Se o espaço for irregular, envie as medidas e uma foto que a equipe calcula para você.<br><span class="rascunho">Resposta em rascunho — revisar</span></div></details></div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <a class="marca" href="../index.html" style="margin-bottom:14px"><span class="folhas" aria-hidden="true"><i></i><i></i><i></i></span><b>MEGA<span style="color:var(--verde-vivo)">GRAMAS</span></b></a>
+      <p style="max-width:34ch">Naturalmente mais possibilidades. Grama sintética para residências, empresas, playgrounds e áreas de lazer.</p>
+    </div>
+    <div><h4>Linhas</h4><ul><li><a href="../grama-decorativa/index.html">Decorativa</a></li><li><a href="../grama-playground/index.html">Lazer e Playground</a></li><li><a href="../grama-alto-trafego/index.html">Alto Tráfego</a></li></ul></div>
+    <div><h4>Navegar</h4><ul><li><a href="../index.html#modelos">Modelos</a></li><li><a href="../calculadora/index.html">Calculadora</a></li><li><a href="../projetos/index.html">Projetos</a></li><li><a href="../perguntas-frequentes/index.html">Dúvidas</a></li><li><a href="../politica-de-privacidade/index.html">Política de privacidade</a></li></ul></div>
+  </div>
+  <div class="wrap fim">
+    <span>megagramas.com.br</span>
+    <span>&copy; 2026 MegaGramas</span>
+    <span>Rascunho de proposta — conteúdo sujeito a revisão</span>
+  </div>
+</footer>
+<button class="fab" id="fab" aria-label="Falar no WhatsApp">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2c-5.46 0-9.9 4.44-9.9 9.9 0 1.75.46 3.45 1.32 4.95L2.05 22l5.3-1.38a9.87 9.87 0 0 0 4.69 1.19h.01c5.46 0 9.9-4.44 9.9-9.9 0-2.64-1.03-5.13-2.9-7A9.82 9.82 0 0 0 12.04 2Zm5.8 14.06c-.25.69-1.44 1.32-1.99 1.36-.53.05-1.02.24-3.44-.72-2.9-1.14-4.74-4.1-4.88-4.29-.14-.19-1.17-1.55-1.17-2.96s.74-2.1 1-2.39c.26-.29.57-.36.76-.36l.54.01c.18.01.41-.07.64.49.24.57.8 1.98.87 2.13.07.14.12.31.02.5-.09.19-.14.31-.28.48-.14.17-.3.37-.42.5-.14.14-.29.29-.12.57.16.29.73 1.2 1.56 1.94 1.07.96 1.98 1.25 2.26 1.39.28.14.45.12.61-.07.17-.19.71-.83.9-1.11.19-.29.38-.24.64-.14.26.091.66.78 1.95.93.28.14.47.21.54.33.07.12.07.69-.17 1.37Z"/></svg>
+</button>
+<div class="toast" id="toast" hidden>
+  <div class="t">Botão em modo demonstração — mensagem que será enviada</div>
+  <div class="m" id="toast-msg"></div>
+</div>
+<script src="../assets/site.js"></script>
+</body>
+</html>

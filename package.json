@@ -1,0 +1,15 @@
+{
+  "name": "megagramas",
+  "private": true,
+  "description": "Site da MegaGramas — megagramas.com.br",
+  "scripts": {
+    "build": "python3 build/build.py",
+    "serve": "python3 -m http.server 8765",
+    "verifica": "node build/verifica.js http://localhost:8765"
+  },
+  "devDependencies": {
+    "axe-core": "4.10.2",
+    "playwright": "1.49.0",
+    "wait-on": "8.0.1"
+  }
+}
