@@ -28,17 +28,19 @@ ZAP_SVG = ('<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" 
   '1.66.78 1.95.93.28.14.47.21.54.33.07.12.07.69-.17 1.37Z"/></svg>')
 
 def logo(base, variante, alt_css, w, h, por_tema=True):
-    """A logo em <picture>: WebP na frente (pesa menos de metade) com PNG
-    atrás, e uma variante por tema quando o fundo muda.
+    """A logo em <picture>: WebP na frente, PNG atrás, e uma variante por tema.
 
-    O wordmark original é creme, feito para fundo escuro — sobre o papel
-    claro do site ele quase some a 34px, porque o relevo que define as
-    letras vira sub-pixel. A variante "-claro" escurece só os tons creme,
-    preservando o relevo e sem tocar no verde. No rodapé, que é verde
-    escuro nos dois temas, vale sempre o original."""
-    d = f'{base}assets/logo/{variante}'
+    A logo do cliente foi desenhada para fundo branco, e nenhuma das duas
+    metades atravessa sozinha: o wordmark "MEGA" é creme e some sobre o papel
+    claro do site, e o "GRAMAS" é verde entre L=0,2 e L=0,4, que dá 3,4:1 no
+    cabeçalho escuro e 2,3:1 no verde do rodapé.
+
+    Por isso são duas variantes, cada uma corrigindo só a metade que falha:
+    "-claro" escurece o creme e deixa o verde intacto (ele já dá 5,2:1 no
+    papel); "-escuro" clareia o verde e deixa o creme intacto. O rodapé é
+    verde escuro nos dois temas, então usa sempre a variante escura."""
     c = f'{base}assets/logo/{variante}-claro'
-    fontes = ''
+    d = f'{base}assets/logo/{variante}-escuro'
     if por_tema:
         fontes = (f'<source srcset="{d}.webp" media="(prefers-color-scheme: dark)" type="image/webp">'
                   f'<source srcset="{d}.png" media="(prefers-color-scheme: dark)">'
@@ -66,7 +68,7 @@ def cabecalho(base, atual):
         itens.append(f'<a href="{base}{destino}"{marca}>{rotulo}</a>')
     return f'''<header class="topo">
   <div class="wrap">
-    <a class="marca" href="{base}index.html" aria-label="MegaGramas, página inicial">{logo(base, 'logo-horizontal', '34px', 373, 102)}</a>
+    <a class="marca" href="{base}index.html" aria-label="MegaGramas, página inicial">{logo(base, 'logo-horizontal', '42px', 517, 126)}</a>
     <nav>{''.join(itens)}</nav>
     <a class="btn btn-zap" href="#" data-zap="topo" aria-label="Solicitar orçamento pelo WhatsApp">{ZAP_SVG}<span>Orçamento</span></a>
   </div>
@@ -79,7 +81,7 @@ def rodape(base):
     return f'''<footer>
   <div class="wrap">
     <div>
-      <a class="marca" href="{base}index.html" style="margin-bottom:16px" aria-label="MegaGramas, página inicial">{logo(base, 'logo-empilhada', '58px', 204, 168, por_tema=False)}</a>
+      <a class="marca" href="{base}index.html" style="margin-bottom:16px" aria-label="MegaGramas, página inicial">{logo(base, 'logo-empilhada', '58px', 212, 174, por_tema=False)}</a>
       <p style="max-width:34ch">{SLOGAN}. Grama sintética para residências, empresas, playgrounds e áreas de lazer.</p>
     </div>
     <div><h4>Linhas</h4><ul>{modelos}</ul></div>

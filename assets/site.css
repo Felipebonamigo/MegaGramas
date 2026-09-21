@@ -161,11 +161,12 @@ header.topo{
   backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
   border-bottom:1px solid var(--linha);
 }
-.topo .wrap{display:flex; align-items:center; gap:18px; height:66px}
+.topo .wrap{display:flex; align-items:center; gap:18px; height:74px}
 .marca{display:flex; align-items:center; text-decoration:none; margin-right:auto}
 .marca img{display:block; width:auto; max-width:100%}
-/* Abaixo de 380px a logo cede espaço para o botão de orçamento. */
-@media (max-width: 380px){ .topo .marca img{height:28px!important} }
+/* A logo cede altura conforme a barra aperta, para não empurrar o botão. */
+@media (max-width: 560px){ .topo .marca img{height:36px!important} }
+@media (max-width: 420px){ .topo .marca img{height:30px!important} }
 .topo nav{display:flex; gap:24px}
 .topo nav a{font-size:.9rem; text-decoration:none; color:var(--ink-2); font-weight:500}
 .topo nav a:hover{color:var(--verde)}
