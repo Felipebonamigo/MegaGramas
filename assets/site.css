@@ -162,11 +162,18 @@ header.topo{
   border-bottom:1px solid var(--linha);
 }
 .topo .wrap{display:flex; align-items:center; gap:18px; height:74px}
-.marca{display:flex; align-items:center; text-decoration:none; margin-right:auto}
+.marca{display:flex; align-items:center; gap:11px; text-decoration:none; margin-right:auto}
 .marca img{display:block; width:auto; max-width:100%}
+/* O nome em tipografia, e não em imagem: pega a cor do tema, fica nítido em
+   qualquer tamanho e não pesa nada. */
+.marca-nome{font-family:'Archivo',sans-serif; font-weight:800; font-size:1.44rem;
+  letter-spacing:-.035em; line-height:1; color:var(--ink); white-space:nowrap}
+.marca-nome span{color:var(--verde)}
+.marca-nome-rodape{color:var(--on-verde)}
+.marca-nome-rodape span{color:var(--verde-vivo)}
 /* A logo cede altura conforme a barra aperta, para não empurrar o botão. */
-@media (max-width: 560px){ .topo .marca img{height:36px!important} }
-@media (max-width: 420px){ .topo .marca img{height:30px!important} }
+@media (max-width: 620px){ .topo .marca img{height:34px!important} .topo .marca-nome{font-size:1.2rem} }
+@media (max-width: 430px){ .topo .marca{gap:8px} .topo .marca img{height:30px!important} .topo .marca-nome{font-size:1.05rem} }
 .topo nav{display:flex; gap:24px}
 .topo nav a{font-size:.9rem; text-decoration:none; color:var(--ink-2); font-weight:500}
 .topo nav a:hover{color:var(--verde)}

@@ -27,20 +27,20 @@ ZAP_SVG = ('<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" 
   '.16.29.73 1.2 1.56 1.94 1.07.96 1.98 1.25 2.26 1.39.28.14.45.12.61-.07.17-.19.71-.83.9-1.11.19-.29.38-.24.64-.14.26.09'
   '1.66.78 1.95.93.28.14.47.21.54.33.07.12.07.69-.17 1.37Z"/></svg>')
 
-def logo(base, variante, alt_css, w, h, por_tema=True):
-    """A logo em <picture>: WebP na frente, PNG atrás, e uma variante por tema.
+def logo(base, altura, classe='', por_tema=True):
+    """A folha da logo como imagem, e o nome em tipografia.
 
-    A logo do cliente foi desenhada para fundo branco, e nenhuma das duas
-    metades atravessa sozinha: o wordmark "MEGA" é creme e some sobre o papel
-    claro do site, e o "GRAMAS" é verde entre L=0,2 e L=0,4, que dá 3,4:1 no
-    cabeçalho escuro e 2,3:1 no verde do rodapé.
+    A logo do cliente traz o nome em lettering creme e verde, desenhado para
+    fundo branco. Em imagem, nenhuma das duas metades atravessa os dois fundos
+    do site: o creme some no papel claro, e o verde do "GRAMAS" dá 3,4:1 no
+    cabeçalho escuro e 2,3:1 no rodapé. Reduzido a 34px, o lettering de duas
+    linhas ainda virava mancha.
 
-    Por isso são duas variantes, cada uma corrigindo só a metade que falha:
-    "-claro" escurece o creme e deixa o verde intacto (ele já dá 5,2:1 no
-    papel); "-escuro" clareia o verde e deixa o creme intacto. O rodapé é
-    verde escuro nos dois temas, então usa sempre a variante escura."""
-    c = f'{base}assets/logo/{variante}-claro'
-    d = f'{base}assets/logo/{variante}-escuro'
+    Escrever o nome em Archivo resolve os três de uma vez: a cor vem dos
+    tokens do tema (pior caso 5,2:1), fica nítido em qualquer tamanho e custa
+    zero byte. A folha continua sendo o arquivo original, em duas variantes,
+    porque ela também tem uma metade clara e uma escura."""
+    c, d = f'{base}assets/logo/marca-claro', f'{base}assets/logo/marca-escuro'
     if por_tema:
         fontes = (f'<source srcset="{d}.webp" media="(prefers-color-scheme: dark)" type="image/webp">'
                   f'<source srcset="{d}.png" media="(prefers-color-scheme: dark)">'
@@ -50,9 +50,9 @@ def logo(base, variante, alt_css, w, h, por_tema=True):
         fontes = f'<source srcset="{d}.webp" type="image/webp">'
         src = f'{d}.png'
     return (f'<picture>{fontes}'
-            f'<img src="{src}" alt="MegaGramas" width="{w}" height="{h}" '
-            f'style="height:{alt_css}">'
-            f'</picture>')
+            f'<img src="{src}" alt="" width="123" height="120" style="height:{altura}">'
+            f'</picture>'
+            f'<span class="marca-nome {classe}">MEGA<span>GRAMAS</span></span>')
 
 
 # ---------------------------------------------------------------- componentes
@@ -68,7 +68,7 @@ def cabecalho(base, atual):
         itens.append(f'<a href="{base}{destino}"{marca}>{rotulo}</a>')
     return f'''<header class="topo">
   <div class="wrap">
-    <a class="marca" href="{base}index.html" aria-label="MegaGramas, página inicial">{logo(base, 'logo-horizontal', '42px', 517, 126)}</a>
+    <a class="marca" href="{base}index.html" aria-label="MegaGramas, página inicial">{logo(base, '40px')}</a>
     <nav>{''.join(itens)}</nav>
     <a class="btn btn-zap" href="#" data-zap="topo" aria-label="Solicitar orçamento pelo WhatsApp">{ZAP_SVG}<span>Orçamento</span></a>
   </div>
@@ -81,7 +81,7 @@ def rodape(base):
     return f'''<footer>
   <div class="wrap">
     <div>
-      <a class="marca" href="{base}index.html" style="margin-bottom:16px" aria-label="MegaGramas, página inicial">{logo(base, 'logo-empilhada', '58px', 212, 174, por_tema=False)}</a>
+      <a class="marca" href="{base}index.html" style="margin-bottom:16px" aria-label="MegaGramas, página inicial">{logo(base, '44px', classe='marca-nome-rodape', por_tema=False)}</a>
       <p style="max-width:34ch">{SLOGAN}. Grama sintética para residências, empresas, playgrounds e áreas de lazer.</p>
     </div>
     <div><h4>Linhas</h4><ul>{modelos}</ul></div>
