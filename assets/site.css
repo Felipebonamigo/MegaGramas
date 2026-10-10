@@ -484,3 +484,38 @@ footer footer .fim{border-top:1px solid rgba(255,255,255,.12); margin-top:34px; 
 .prosa ul{margin:0 0 13px; padding-left:20px; display:grid; gap:7px}
 .prosa .preencher{background:color-mix(in srgb, #D58B12 22%, transparent); border-bottom:1px solid #D58B12; padding:1px 5px; border-radius:2px; color:var(--ink); font-family:'IBM Plex Mono',monospace; font-size:.85em}
 .prosa .atualizado{font-family:'IBM Plex Mono',monospace; font-size:.75rem; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-3); margin-bottom:30px}
+
+/* ============ fotos reais e dados comerciais ============ */
+.foto-real{display:block; width:100%; height:auto; border-radius:var(--r); object-fit:cover}
+.foto-real.foto-16x9{aspect-ratio:16/10}
+.foto-real.foto-4x3{aspect-ratio:4/3}
+.foto-real.foto-1x1{aspect-ratio:1/1}
+.legenda-foto{margin-top:9px; font-size:.82rem; color:var(--ink-3)}
+
+/* preço: a objeção que o site precisava responder */
+.preco{margin:18px 0 0; font-size:1.02rem; color:var(--ink-2)}
+.preco strong{font-family:'Archivo',sans-serif; font-weight:800; font-size:1.5rem;
+  letter-spacing:-.03em; color:var(--destaque); display:inline-block; vertical-align:-2px}
+
+.projetos{display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:20px}
+.projeto{margin:0}
+.projeto figcaption{margin-top:13px; display:flex; flex-direction:column; gap:5px}
+.projeto figcaption strong{font-family:'Archivo',sans-serif; font-weight:700; font-size:1.05rem; letter-spacing:-.015em}
+.projeto figcaption span{font-size:.92rem; color:var(--ink-2)}
+
+.prazos{margin-top:28px; background:var(--surface); border:1px solid var(--linha);
+  border-radius:var(--r); padding:8px 22px 20px; box-shadow:var(--sombra)}
+.prazos h3{font-family:'IBM Plex Mono',monospace; font-size:.68rem; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-3); font-weight:500; padding-block:18px 6px}
+.prazos ul{list-style:none; margin:0; padding:0}
+.prazos li{display:flex; gap:18px; padding:10px 0; border-bottom:1px solid var(--linha); font-size:.9rem}
+.prazos li:last-child{border-bottom:0}
+.prazos .k{flex:0 0 38%; font-weight:600}
+.prazos .v{color:var(--ink-2)}
+.prazos .obs{margin-top:14px; font-size:.85rem; color:var(--ink-3)}
+@media (max-width:560px){ .prazos li{flex-direction:column; gap:3px} .prazos .k{flex:none} }
+.res-preco{margin-top:12px; padding-top:12px; border-top:1px solid rgba(255,255,255,.16);
+  font-size:.9rem; color:var(--on-verde-2)}
+.res-preco strong{font-family:'Archivo',sans-serif; font-weight:800; font-size:1.18rem;
+  color:#fff; letter-spacing:-.02em}
+.res-preco span{display:block; margin-top:3px; font-size:.78rem}

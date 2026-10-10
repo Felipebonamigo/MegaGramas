@@ -100,58 +100,7 @@
       <h2>Três linhas, escolhidas pelo uso — não pelo ambiente.</h2>
       <p class="lead">A mesma grama pode ser usada em espaços diferentes. O que define o modelo certo é a intensidade de uso e o efeito visual que você quer.</p>
     </div>
-    <div class="modelos">
-
-      <article class="modelo">
-        <div class="foto foto-16x9"><span class="tag"><b>Foto do produto</b>Close da fibra + aplicação decorativa</span></div>
-        <div class="corpo">
-          <h3>Decorativa</h3>
-          <p>Jardins, varandas, fachadas e ambientes residenciais. Prioriza aparência e acabamento.</p>
-          <ul class="specs">
-            <li><span class="k">Altura</span><span class="v">12 a 25 mm</span></li>
-            <li><span class="k">Maciez</span><span class="v">Média</span></li>
-            <li><span class="k">Resistência</span><span class="v">Uso leve a moderado</span></li>
-            <li><span class="k">Aplicação</span><span class="v">Jardins, fachadas, varandas</span></li>
-            <li><span class="k">Uso</span><span class="v">Interno e externo</span></li>
-          </ul>
-          <a class="btn btn-linha" href="{{BASE}}grama-decorativa/index.html">Ver detalhes da linha</a>
-        </div>
-      </article>
-
-      <article class="modelo">
-        <div class="foto foto-16x9"><span class="tag"><b>Foto do produto</b>Close da fibra + playground</span></div>
-        <div class="corpo">
-          <h3>Lazer e Playground</h3>
-          <p>Espaços infantis, escolas, condomínios e áreas recreativas. Fibra mais alta e macia ao toque.</p>
-          <ul class="specs">
-            <li><span class="k">Altura</span><span class="v">25 a 40 mm</span></li>
-            <li><span class="k">Maciez</span><span class="v">Alta</span></li>
-            <li><span class="k">Resistência</span><span class="v">Uso recreativo frequente</span></li>
-            <li><span class="k">Aplicação</span><span class="v">Playgrounds, escolas, lazer</span></li>
-            <li><span class="k">Uso</span><span class="v">Interno e externo</span></li>
-          </ul>
-          <a class="btn btn-linha" href="{{BASE}}grama-playground/index.html">Ver detalhes da linha</a>
-        </div>
-      </article>
-
-      <article class="modelo">
-        <div class="foto foto-16x9"><span class="tag"><b>Foto do produto</b>Close da fibra + corredor comercial</span></div>
-        <div class="corpo">
-          <h3>Alto Tráfego</h3>
-          <p>Áreas comerciais, condomínios, circulação intensa e o entorno de quadras esportivas. Fibra mais firme e baixa.</p>
-          <ul class="specs">
-            <li><span class="k">Altura</span><span class="v">12 a 20 mm</span></li>
-            <li><span class="k">Maciez</span><span class="v">Baixa — fibra firme</span></li>
-            <li><span class="k">Resistência</span><span class="v">Circulação intensa</span></li>
-            <li><span class="k">Aplicação</span><span class="v">Comércio, condomínios, passagens</span></li>
-            <li><span class="k">Uso</span><span class="v">Interno e externo</span></li>
-          </ul>
-          <a class="btn btn-linha" href="{{BASE}}grama-alto-trafego/index.html">Ver detalhes da linha</a>
-        </div>
-      </article>
-
-    </div>
-    <p class="aviso-modelos">Na dúvida entre duas alturas, a decisão costuma ser simples: quanto maior a circulação, mais baixa e firme a fibra. Quanto mais a área for de estar e contemplação, mais alta e macia.</p>
+    {{MODELOS}}
     <div class="cta-linha" style="margin-top:28px">
       <a class="btn btn-zap" href="#" data-zap="orientacao">Não sei qual escolher — quero orientação</a>
     </div>
@@ -187,7 +136,7 @@
     <div class="sec-head">
       <p class="eyebrow">Calculadora de metragem</p>
       <h2>Quanto de grama eu preciso?</h2>
-      <p class="lead">O rolo tem <strong style="color:#fff">2,00 m de largura fixa</strong> e é vendido por metro linear. Por isso a conta não é só largura × comprimento: a área precisa ser coberta em faixas de 2 m. Esta calculadora monta as faixas, escolhe a orientação com menos desperdício e mostra onde ficam as emendas.</p>
+      <p class="lead">A grama é vendida por m², mas vem em <strong style="color:#fff">rolo de 2,00 m de largura fixa</strong>. Por isso a conta não para em largura × comprimento: a área precisa ser coberta em faixas, e a última quase sempre sobra. Esta calculadora monta as faixas, escolhe a orientação com menos desperdício e mostra onde ficam as emendas.</p>
     </div>
 
     <!--CALC:INICIO-->
@@ -223,10 +172,11 @@
             <div class="k">Você precisa comprar</div>
             <div class="v" id="res-linear">—</div>
             <div class="eq" id="res-eq"></div>
+            <div class="res-preco" id="res-preco"></div>
           </div>
           <div class="res-linhas">
             <div class="res-item"><div class="k">Área do espaço</div><div class="v" id="res-area">—</div></div>
-            <div class="res-item"><div class="k">Faixas de 2,00 m</div><div class="v" id="res-faixas">—</div></div>
+            <div class="res-item"><div class="k">Faixas do rolo</div><div class="v" id="res-faixas">—</div></div>
             <div class="res-item"><div class="k">Emendas</div><div class="v" id="res-emendas">—</div></div>
             <div class="res-item"><div class="k">Sobra de corte</div><div class="v" id="res-sobra">—</div></div>
           </div>

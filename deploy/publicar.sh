@@ -48,9 +48,9 @@ rsync -a --delete \
   --include='robots.txt' --include='sitemap.xml' \
   --include='assets/***' \
   --include='calculadora/***' \
-  --include='grama-decorativa/***' \
-  --include='grama-playground/***' \
-  --include='grama-alto-trafego/***' \
+  --include='grama-12mm/***' \
+  --include='grama-20mm/***' \
+  --include='grama-real-30mm/***' \
   --include='projetos/***' \
   --include='perguntas-frequentes/***' \
   --include='politica-de-privacidade/***' \

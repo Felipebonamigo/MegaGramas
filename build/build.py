@@ -13,8 +13,9 @@ import json, os, re, sys
 AQUI = os.path.dirname(os.path.abspath(__file__))
 RAIZ = os.path.dirname(AQUI)
 sys.path.insert(0, AQUI)
-from dados import (SITE, MARCA, SLOGAN, ANOS, NAV, GRUPOS_FAQ,
-                   PERGUNTAS, MODELOS, APLICACOES_HOME)
+from dados import (SITE, MARCA, SLOGAN, ANOS, NAV, GRUPOS_FAQ, PERGUNTAS, MODELOS,
+                   APLICACOES_HOME, PRAZOS, PRECO_MINIMO, RAZAO_SOCIAL, NOME_FANTASIA,
+                   CNPJ, EMAIL, WHATSAPP_EXIBIDO)
 
 HOME_CORPO = open(os.path.join(AQUI, 'partes', 'home.html'), encoding='utf-8').read()
 BLOCO_CALC = re.search(r'<!--CALC:INICIO-->(.*?)<!--CALC:FIM-->', HOME_CORPO, re.S).group(1)
@@ -56,6 +57,15 @@ def logo(base, altura, classe='', por_tema=True):
 
 
 # ---------------------------------------------------------------- componentes
+
+def foto_real(base, nome, alt, classe="foto-4x3", larg=900, altura=675):
+    """Foto real do cliente: WebP na frente, JPEG atrás, carregamento preguiçoso."""
+    return (f'<picture>'
+            f'<source srcset="{base}assets/fotos/{nome}.webp" type="image/webp">'
+            f'<img class="{classe} foto-real" src="{base}assets/fotos/{nome}.jpg" '
+            f'alt="{alt}" loading="lazy" decoding="async" width="{larg}" height="{altura}">'
+            f'</picture>')
+
 
 def foto(legenda, titulo="Foto", classe="foto-4x3"):
     return (f'<div class="foto {classe}"><span class="tag"><b>{titulo}</b>{legenda}</span></div>')
@@ -204,8 +214,42 @@ LD_NEGOCIO = {
 URLS = []
 
 
+def cards_modelos():
+    """Os cards da home, gerados a partir de dados.py — assim o catálogo vive
+    num lugar só e a home não pode divergir das páginas de modelo."""
+    saida = []
+    for m in MODELOS:
+        specs = ''.join(f'<li><span class="k">{k}</span><span class="v">{v}</span></li>'
+                        for k, v in m['specs'])
+        saida.append(
+            '<article class="modelo">'
+            + foto_real('{{BASE}}', m['foto'],
+                        'Close da fibra da grama sintética ' + m['nome'], 'foto-16x9')
+            + f'<div class="corpo"><h3>{m["nome"]}</h3><p>{m["intro"]}</p>'
+              f'<ul class="specs">{specs}</ul>'
+              f'<a class="btn btn-linha" href="{{{{BASE}}}}{m["slug"]}/index.html">'
+              f'Ver detalhes do modelo</a></div></article>')
+    nota = (f'<p class="aviso-modelos">Os três partem de <strong>R$ {PRECO_MINIMO} o m²</strong>. '
+            f'A de 12 mm tem garantia de 3 meses; a de 20 mm e a Real de 30 mm, 12 meses. '
+            f'Na dúvida entre duas alturas, peça uma amostra: a diferença aparece muito '
+            f'mais ao vivo do que em foto.</p>')
+    return '<div class="modelos">' + ''.join(saida) + '</div>' + nota
+
+
+def prazos_html():
+    itens = ''.join(f'<li><span class="k">{regiao}</span><span class="v">{prazo}</span></li>'
+                    for regiao, prazo in PRAZOS)
+    return ('<div class="prazos"><h3>Prazo de entrega</h3>'
+            f'<ul>{itens}</ul>'
+            '<p class="obs">O frete é calculado conforme o destino e o tamanho do pedido. '
+            'Também vendemos pelo Mercado Livre — nesse caso valem os prazos e os valores '
+            'da plataforma.</p></div>')
+
+
 def gerar_home():
     corpo = HOME_CORPO.replace('<!--CALC:INICIO-->', '').replace('<!--CALC:FIM-->', '')
+    corpo = corpo.replace('{{MODELOS}}', cards_modelos())
+    corpo = corpo.replace('<div class="faixa-extra">', prazos_html() + '<div class="faixa-extra">')
     topo = [q for q in PERGUNTAS if q['top']]
     bloco = faq_html(topo) + (
       '<p style="margin-top:26px"><a class="btn btn-linha" href="{{BASE}}perguntas-frequentes/index.html">'
@@ -224,7 +268,7 @@ def gerar_calculadora():
   <div class="wrap">
     {migalhas('{{BASE}}', [("Calculadora de metragem", None)])}
     <h1>Calculadora de metragem de grama sintética</h1>
-    <p class="lead">Informe as medidas do espaço e veja quantos metros lineares comprar, quantas emendas o projeto vai ter e quanto sobra de corte. O cálculo é feito em faixas de 2&nbsp;m — que é como a grama realmente é vendida.</p>
+    <p class="lead">Informe as medidas do espaço e veja quantos metros lineares comprar, quantas emendas o projeto vai ter e quanto sobra de corte. O cálculo é feito em faixas de 2&nbsp;m — que é a largura do rolo.</p>
   </div>
 </section>
 
@@ -233,7 +277,7 @@ def gerar_calculadora():
     <div class="sec-head">
       <p class="eyebrow">Calcule agora</p>
       <h2>Quanto de grama eu preciso?</h2>
-      <p class="lead">O rolo tem <strong style="color:#fff">2,00 m de largura fixa</strong> e é vendido por metro linear. Por isso a conta não é só largura × comprimento: a área precisa ser coberta em faixas de 2 m, e a última quase sempre sobra.</p>
+      <p class="lead">A grama é vendida por m², mas vem em <strong style="color:#fff">rolo de 2,00 m de largura fixa</strong>. Por isso a conta não é só largura × comprimento: a área precisa ser coberta em faixas, e a última quase sempre sobra — e é esse pedaço que costuma faltar no orçamento.</p>
     </div>
     {BLOCO_CALC}
   </div>
@@ -246,9 +290,9 @@ def gerar_calculadora():
       <h2>Por que área ÷ 2 dá o número errado.</h2>
     </div>
     <div class="prosa">
-      <p>Grama sintética não vem em placas: vem em rolo de <strong>2,00 m de largura fixa</strong>, cortado no comprimento que você pedir. Cada metro linear equivale a 2 m² de material.</p>
+      <p>A grama é vendida por metro quadrado, mas não vem em placas: vem em rolo de <strong>2,00 m de largura fixa</strong>, cortado no comprimento que você pedir. Cada metro linear do rolo equivale a 2 m² de material.</p>
       <p>Por isso a área do espaço não define a compra. Um jardim de 7,5 m × 7 m tem 52,50 m², e dividir por 2 daria 26,25 m lineares. Só que esses 26,25 m não cobrem o espaço: para atravessar 7,5 m de largura são necessárias 4 faixas inteiras de 2 m, cada uma com 7 m de comprimento. São 28 m lineares — e a quarta faixa sobra 0,5 m para fora, que é o desperdício normal de qualquer corte.</p>
-      <p>Comprar pelo cálculo por área significa receber material a menos e descobrir isso no dia da instalação.</p>
+      <p>Multiplicar largura por comprimento dá a área do espaço, que é o ponto de partida certo. O que a conta precisa somar depois é o aproveitamento: como as faixas do rolo cobrem essa área, e quanto sobra no corte. Sem isso, o material chega a menos e você descobre no dia da instalação.</p>
       <h3>O sentido das faixas muda o resultado</h3>
       <p>O mesmo espaço pode ser coberto em duas orientações, e elas quase nunca custam igual. A calculadora monta as duas, compara e recomenda uma — levando em conta que emenda não é de graça: ela custa mão de obra e aparece no acabamento. É por isso que um corredor de 1,5 m × 30 m sai como uma peça única de 30 m, e não como 15 faixas emendadas de 22,5 m.</p>
       <h3>Quando o cálculo não basta</h3>
@@ -278,30 +322,31 @@ def gerar_modelo(m):
     outros = [o for o in MODELOS if o['slug'] != m['slug']]
     specs = ''.join(f'<li><span class="k">{k}</span><span class="v">{v}</span></li>' for k, v in m['specs'])
     aplic = ''.join(f'<li>{a}</li>' for a in m['aplicacoes'])
-    alturas = ''.join(
-      f'<div class="altura"><span class="mm">{h.split()[0]} <small>mm</small></span><p>{t}</p></div>'
-      for h, t in m['alturas'])
     rel = ''.join(
-      f'<a class="rel" href="{{{{BASE}}}}{o["slug"]}/index.html"><span class="k">Outra linha</span>'
-      f'<h3>{o["nome"]}</h3><p>{o["altura"]} · {o["aplicacoes"][0].lower()}, {o["aplicacoes"][1].lower()}</p>'
+      f'<a class="rel" href="{{{{BASE}}}}{o["slug"]}/index.html"><span class="k">Outro modelo</span>'
+      f'<h3>{o["nome"]}</h3><p>{o["intro"].split(".")[0]}.</p>'
       f'<span class="seta">Ver detalhes &rarr;</span></a>' for o in outros)
+    comparacao = ''.join(
+      f'<li><span class="k">{o["nome"]}</span><span class="v">{o["specs"][1][1]}</span></li>'
+      for o in MODELOS)
     perguntas = [q for q in PERGUNTAS if q['g'] in ('escolha', 'instalacao')]
     corpo = f'''<section class="pagina-hero">
   <div class="wrap">
     {migalhas('{{BASE}}', [("Modelos", "index.html#modelos"), (m['nome'], None)])}
     <div class="duas-colunas">
       <div>
-        <p class="eyebrow">Linha {m['nome']} &middot; {m['altura']}</p>
+        <p class="eyebrow">Modelo {m['nome']} &middot; garantia de {m['garantia']}</p>
         <h1 style="margin-top:14px">{m['h1']}</h1>
         <p class="lead">{m['intro']}</p>
+        <p class="preco">A partir de <strong>R$ {PRECO_MINIMO}</strong> o m²</p>
         <div class="cta-linha">
-          <a class="btn btn-zap" href="#" data-zap="orientacao">{ZAP_SVG}Pedir orçamento desta linha</a>
+          <a class="btn btn-zap" href="#" data-zap="orientacao">{ZAP_SVG}Pedir orçamento deste modelo</a>
           <a class="btn btn-linha" href="{{{{BASE}}}}calculadora/index.html">Calcular metragem</a>
         </div>
       </div>
-      <div class="ficha">
-        <h3>Ficha técnica</h3>
-        <ul class="specs">{specs}</ul>
+      <div>
+        {foto_real('{{BASE}}', m['foto'], f'Close da fibra da grama sintética {m["nome"]}', 'foto-16x9')}
+        <p class="legenda-foto">Fibra da {m['nome']} vista de perto.</p>
       </div>
     </div>
   </div>
@@ -309,33 +354,26 @@ def gerar_modelo(m):
 
 <section>
   <div class="wrap">
-    <div class="sec-head"><p class="eyebrow">Onde se aplica</p><h2>Para que tipo de espaço essa linha foi feita.</h2></div>
     <div class="duas-colunas">
-      <ul class="aplic">{aplic}</ul>
-      {foto(m['foto'], 'Foto da linha', 'foto-16x9')}
-    </div>
-    <div class="aviso" style="margin-top:28px">{m['aviso']}</div>
-  </div>
-</section>
-
-<section style="background:var(--surface-2)">
-  <div class="wrap">
-    <div class="sec-head">
-      <p class="eyebrow">Escolher dentro da linha</p>
-      <h2>Qual altura pedir.</h2>
-      <p class="lead">A faixa de {m['altura']} cobre usos diferentes. Quanto maior a circulação, mais baixa e firme a fibra; quanto mais o espaço for de estar, mais alta e macia.</p>
-    </div>
-    <div class="alturas">{alturas}</div>
-    <div class="cta-linha" style="margin-top:28px">
-      <a class="btn btn-zap" href="#" data-zap="orientacao">Não sei qual altura pedir — quero orientação</a>
+      <div>
+        <div class="sec-head"><p class="eyebrow">Onde se aplica</p><h2>Para que tipo de espaço esse modelo foi feito.</h2></div>
+        <ul class="aplic">{aplic}</ul>
+        <div class="aviso" style="margin-top:26px">{m['nota']}</div>
+      </div>
+      <div class="ficha">
+        <h3>Ficha técnica</h3>
+        <ul class="specs">{specs}</ul>
+        <h3>Os três modelos</h3>
+        <ul class="specs">{comparacao}</ul>
+      </div>
     </div>
   </div>
 </section>
 
 <section class="calc">
   <div class="wrap">
-    <div class="sec-head"><p class="eyebrow">Quanto comprar</p><h2>A grama é vendida por metro linear.</h2>
-      <p class="lead">O rolo tem 2,00 m de largura fixa. Calcule a metragem do seu espaço em faixas de 2 m — com as emendas e a sobra de corte à mostra.</p></div>
+    <div class="sec-head"><p class="eyebrow">Quanto comprar</p><h2>Calcule a metragem do seu espaço.</h2>
+      <p class="lead">A grama é vendida por m², mas vem em rolo de largura fixa — então a quantidade a comprar depende de como as faixas cobrem a área. A calculadora mostra as faixas, as emendas e a sobra de corte.</p></div>
     {BLOCO_CALC}
   </div>
 </section>
@@ -350,7 +388,7 @@ def gerar_modelo(m):
 
 <section>
   <div class="wrap">
-    <div class="sec-head"><p class="eyebrow">Outras linhas</p><h2>Talvez não seja essa a sua.</h2></div>
+    <div class="sec-head"><p class="eyebrow">Outros modelos</p><h2>Talvez não seja esse o seu.</h2></div>
     <div class="relacionados">{rel}</div>
   </div>
 </section>'''
@@ -359,26 +397,32 @@ def gerar_modelo(m):
 
 
 def gerar_projetos():
-    galeria = ''.join(foto('Instalação finalizada', f'Projeto {i:02d}') for i in range(1, 9))
-    depo = ''.join('<div class="depo-card"><span class="aspas">&ldquo;</span>'
-                   '<span class="slot">Depoimento real de cliente.<br>Nome · cidade · tipo de projeto.</span></div>'
-                   for _ in range(3))
+    reais = [
+      ('projeto-padel', '500 m² para a área de circulação',
+       'Empreendimento de padel em Espumoso/RS. A grama resolve a circulação entre as '
+       'quadras — o piso de jogo é outro produto.', 820, 820),
+      ('projeto-revenda', '320 m² instalados',
+       'Revenda de veículos em Cachoeirinha/RS. Área interna de exposição, com circulação '
+       'constante de clientes.', 820, 820),
+    ]
+    cards = ''.join(
+      f'<figure class="projeto">'
+      + foto_real('{{BASE}}', nome, legenda, 'foto-1x1', w, h)
+      + f'<figcaption><strong>{legenda}</strong><span>{desc}</span></figcaption></figure>'
+      for nome, legenda, desc, w, h in reais)
     corpo = f'''<section class="pagina-hero">
   <div class="wrap">
     {migalhas('{{BASE}}', [("Projetos realizados", None)])}
     <h1>Projetos realizados</h1>
-    <p class="lead">{ANOS} anos instalando grama sintética em residências, condomínios, escolas e empresas. Abaixo, espaços entregues e o que os clientes disseram depois.</p>
+    <p class="lead">{ANOS} anos instalando grama sintética em residências, condomínios,
+    escolas, academias e empresas — principalmente em Porto Alegre e Região Metropolitana,
+    e também no interior do Rio Grande do Sul e em Santa Catarina.</p>
   </div>
 </section>
 
 <section>
   <div class="wrap">
-    <div class="numeros">
-      <div class="numero"><div class="v">{ANOS}</div><div class="k">anos de mercado</div></div>
-      <div class="numero vazio"><div class="v">&nbsp;&nbsp;&nbsp;&nbsp;</div><div class="k">projetos realizados <em style="color:var(--ink-3)">— preencher</em></div></div>
-      <div class="numero vazio"><div class="v">&nbsp;&nbsp;&nbsp;&nbsp;</div><div class="k">m² vendidos e instalados <em style="color:var(--ink-3)">— preencher</em></div></div>
-    </div>
-    <div class="galeria">{galeria}</div>
+    <div class="projetos">{cards}</div>
   </div>
 </section>
 
@@ -387,29 +431,31 @@ def gerar_projetos():
     <div class="sec-head"><p class="eyebrow">Antes e depois</p><h2>O mesmo espaço, duas fotos.</h2></div>
     <div class="ad">
       <figure><figcaption>Antes</figcaption>
-        <div class="foto foto-4x3" style="background:linear-gradient(168deg,#9A8F70 0%,#5A5138 100%)"><span class="tag"><b>Foto</b>Área com grama falhada, barro ou piso exposto — mesmo ângulo do depois</span></div>
+        <div class="foto foto-4x3" style="background:linear-gradient(168deg,#9A8F70 0%,#5A5138 100%)"><span class="tag"><b>Foto</b>Área antes da instalação — mesmo ângulo do depois</span></div>
       </figure>
       <figure><figcaption>Depois</figcaption>
         {foto('Mesmo ângulo, espaço finalizado e em uso')}
       </figure>
     </div>
-    <p class="ad-legenda">&ldquo;Transformação realizada com grama sintética 32 mm.&rdquo;</p>
+    <p class="ad-legenda">Você tem vários pares de antes e depois prontos — playground, laje
+    de creche, pátio de apartamento, academia, entorno de piscina. É só mandar os arquivos
+    que eles entram aqui.</p>
   </div>
 </section>
 
 <section>
-  <div class="wrap">
-    <div class="sec-head"><p class="eyebrow">O que dizem</p><h2>Depoimentos de clientes.</h2></div>
-    <div class="depo">{depo}</div>
-    <div class="cta-linha" style="margin-top:34px">
+  <div class="wrap-s">
+    <div class="sec-head"><p class="eyebrow">Fale com a gente</p><h2>Quer um projeto como esses?</h2>
+      <p class="lead">Mande as medidas e uma foto do espaço. A partir de
+      R$ {PRECO_MINIMO} o m², com instalação em Porto Alegre e Região Metropolitana.</p></div>
+    <div class="cta-linha">
       <a class="btn btn-zap" href="#" data-zap="projeto">{ZAP_SVG}Consultar meu projeto</a>
     </div>
   </div>
 </section>'''
     ld = ld_migalhas([("Início", SITE + "/"), ("Projetos", SITE + "/projetos/")])
     URLS.append((pagina('projetos', "Projetos de Grama Sintética Realizados",
-      f"Projetos de grama sintética instalados em residências, condomínios, escolas e empresas. {ANOS} anos de mercado, "
-      "com fotos de antes e depois e depoimentos de clientes.",
+      f"Projetos de grama sintética instalados em residências, condomínios, escolas e empresas no Rio Grande do Sul. {ANOS} anos de mercado.",
       corpo, 'projetos/index.html', [ld]), '0.7'))
 
 
@@ -445,7 +491,6 @@ def gerar_faq():
 
 
 def gerar_privacidade():
-    pr = lambda t: f'<span class="preencher">{t}</span>'
     corpo = f'''<section class="pagina-hero">
   <div class="wrap-s">
     {migalhas('{{BASE}}', [("Política de privacidade", None)])}
@@ -456,68 +501,68 @@ def gerar_privacidade():
 <section>
   <div class="wrap-s">
     <div class="prosa">
-      <p class="atualizado">Última atualização: {pr('data')}</p>
+      <p class="atualizado">Última atualização: 10 de outubro de 2026</p>
 
-
-      <p>Esta política descreve como a {pr('razão social')}, inscrita no CNPJ sob o nº {pr('CNPJ')}, com sede em {pr('endereço completo')} — referida aqui como {MARCA} — trata os dados pessoais de quem usa o site megagramas.com.br, conforme a Lei nº 13.709/2018 (LGPD).</p>
+      <p>A {MARCA} é uma marca comercial operada por {RAZAO_SOCIAL}, nome fantasia
+      {NOME_FANTASIA}, inscrita no CNPJ nº {CNPJ}, responsável pelo tratamento dos dados
+      pessoais descritos nesta política.</p>
 
       <h2>1. Quais dados coletamos</h2>
-      <p>Coletamos apenas o necessário para atender e orçar:</p>
+      <p>O atendimento acontece pelo WhatsApp. Ao iniciar uma conversa a partir deste site,
+      você normalmente informa nome, telefone, cidade, as medidas do espaço e fotos do local
+      — o conteúdo que você mesmo decide enviar.</p>
+      <p>A calculadora de metragem funciona inteiramente no seu navegador: as medidas que
+      você digita não são enviadas para nós, a não ser que você mesmo as mande pelo WhatsApp.</p>
+      <p>Este site não possui formulário de cadastro, não realiza compras ou pagamentos e
+      não utiliza ferramentas de análise de audiência ou de publicidade. Caso isso mude,
+      esta política será atualizada antes da ativação, com o respectivo painel de
+      preferências de cookies.</p>
+
+      <h2>2. Como utilizamos seus dados</h2>
+      <p>Utilizamos os dados para responder dúvidas, preparar orçamentos, atender
+      solicitações e dar continuidade ao relacionamento comercial. A negociação acontece
+      pelos nossos canais de contato.</p>
+      <p>Quando você autoriza separadamente, também utilizamos seus contatos para enviar
+      promoções e novidades da {MARCA}. Essa autorização é opcional e pode ser retirada a
+      qualquer momento, sem impedir o atendimento.</p>
+
+      <h2>3. Compartilhamento de informações</h2>
+      <p>Os dados podem ser tratados por fornecedores que apoiam o funcionamento do site, a
+      hospedagem e o serviço de e-mail. O WhatsApp, operado pela Meta, trata as conversas
+      conforme a política da própria plataforma.</p>
+      <p>Caso o atendimento resulte em uma contratação, informações necessárias também
+      poderão ser compartilhadas com prestadores envolvidos na entrega ou na instalação.
+      Dados poderão ser fornecidos a autoridades quando houver obrigação legal.</p>
+
+      <h2>4. Armazenamento e segurança</h2>
+      <p>Conservamos os dados pelo período necessário ao atendimento, ao relacionamento
+      comercial e ao cumprimento de obrigações legais ou exercício de direitos.</p>
+      <p>Os contatos autorizados para promoções são utilizados enquanto essa finalidade
+      permanecer válida ou até a retirada da autorização, ressalvadas as hipóteses legais
+      de conservação.</p>
+      <p>Adotamos medidas de proteção compatíveis com o tratamento realizado, como restrição
+      de acesso e cuidados com as contas e sistemas utilizados.</p>
+
+      <h2>5. Seus direitos</h2>
+      <p>Você pode solicitar confirmação do tratamento, acesso e correção dos seus dados,
+      informações sobre compartilhamento e, nas situações previstas em lei, exclusão,
+      anonimização, bloqueio ou portabilidade.</p>
+      <p>Também pode retirar seu consentimento e solicitar o cancelamento de mensagens
+      promocionais. Algumas informações poderão ser conservadas quando houver fundamento
+      legal para isso.</p>
+
+      <h2>6. Contato</h2>
+      <p>Para dúvidas sobre esta política, pedidos relacionados aos seus dados ou
+      cancelamento de comunicações promocionais, entre em contato:</p>
       <ul>
-        <li><strong>Dados que você nos envia.</strong> Ao clicar em um botão de WhatsApp do site, você inicia uma conversa em que normalmente informa nome, telefone, medidas do espaço, fotos e a cidade de entrega.</li>
-        <li><strong>Dados de navegação.</strong> Endereço IP, tipo de dispositivo e navegador, páginas visitadas, tempo de permanência e origem do acesso, coletados por ferramentas de medição de audiência.</li>
-        <li><strong>Dados da calculadora.</strong> As medidas digitadas são processadas no seu próprio navegador e não são enviadas para nós — a não ser que você mesmo as envie pelo WhatsApp.</li>
-      </ul>
-      <p>Não coletamos dados sensíveis nem dados de crianças e adolescentes de forma intencional.</p>
-
-      <h2>2. Para que usamos</h2>
-      <ul>
-        <li>Responder contatos, elaborar orçamentos e prestar suporte.</li>
-        <li>Organizar a entrega e, quando contratada, a instalação.</li>
-        <li>Entender como o site é usado e melhorar as páginas.</li>
-        <li>Medir o resultado de anúncios, quando houver campanhas ativas.</li>
-        <li>Cumprir obrigações legais, fiscais e regulatórias.</li>
+        <li>E-mail: <a href="mailto:{EMAIL}">{EMAIL}</a></li>
+        <li>WhatsApp: {WHATSAPP_EXIBIDO}</li>
       </ul>
 
-      <h2>3. Base legal</h2>
-      <p>Tratamos dados com fundamento na execução de contrato e nos procedimentos preliminares a ele (art. 7º, V), no legítimo interesse para medição e melhoria do site (art. 7º, IX), no cumprimento de obrigação legal (art. 7º, II) e no consentimento, quando aplicável (art. 7º, I) — este último podendo ser revogado a qualquer momento.</p>
-
-      <h2>4. Com quem compartilhamos</h2>
-      <p>Não vendemos dados pessoais. Compartilhamos apenas o necessário com:</p>
-      <ul>
-        <li><strong>Provedores de tecnologia</strong> que sustentam o site e a medição de audiência, como Google e Meta.</li>
-        <li><strong>WhatsApp (Meta)</strong>, que é o canal de atendimento e trata as conversas conforme a própria política.</li>
-        <li><strong>Transportadoras e equipes de instalação</strong>, com os dados necessários para a entrega e o serviço.</li>
-        <li><strong>Autoridades públicas</strong>, quando houver exigência legal ou ordem judicial.</li>
-      </ul>
-
-      <h2>5. Cookies e tecnologias semelhantes</h2>
-      <p>O site usa cookies para funcionamento básico e para medição de audiência. Você pode bloqueá-los nas configurações do seu navegador; algumas funções podem deixar de operar corretamente.</p>
-      <p>A calculadora guarda no próprio navegador apenas preferências de exibição. Essa informação não sai do seu dispositivo e não chega até nós.</p>
-
-      <h2>6. Por quanto tempo guardamos</h2>
-      <p>Mantemos os dados pelo tempo necessário às finalidades acima e aos prazos legais aplicáveis — entre eles os prazos fiscais e o prazo de garantia do produto. Depois disso, os dados são eliminados ou anonimizados.</p>
-
-      <h2>7. Seus direitos</h2>
-      <p>A LGPD garante a você, a qualquer momento e sem custo, o direito de:</p>
-      <ul>
-        <li>Confirmar se tratamos seus dados e acessá-los.</li>
-        <li>Corrigir dados incompletos, inexatos ou desatualizados.</li>
-        <li>Pedir anonimização, bloqueio ou eliminação de dados desnecessários ou tratados em desconformidade com a lei.</li>
-        <li>Solicitar a portabilidade a outro fornecedor.</li>
-        <li>Revogar o consentimento e pedir a eliminação dos dados tratados com base nele.</li>
-        <li>Se opor a um tratamento e obter informação sobre com quem compartilhamos seus dados.</li>
-      </ul>
-      <p>Para exercer qualquer um desses direitos, escreva para {pr('e-mail de contato')}. Respondemos no prazo previsto em lei.</p>
-
-      <h2>8. Segurança</h2>
-      <p>Adotamos medidas técnicas e administrativas para proteger os dados contra acessos não autorizados e situações de perda, alteração ou divulgação indevida. Nenhum sistema é totalmente imune, e nos comprometemos a comunicar você e a ANPD caso ocorra um incidente com risco relevante.</p>
-
-      <h2>9. Encarregado pelo tratamento de dados</h2>
-      <p>Encarregado (DPO): {pr('nome')} — {pr('e-mail do encarregado')}.</p>
-
-      <h2>10. Alterações desta política</h2>
-      <p>Podemos atualizar este texto. A data no topo sempre indica a versão vigente; mudanças relevantes serão informadas no site.</p>
+      <h2>7. Atualizações</h2>
+      <p>Esta política poderá ser atualizada para refletir mudanças no site ou no tratamento
+      de dados. A versão vigente estará disponível nesta página, com a respectiva data de
+      atualização.</p>
     </div>
   </div>
 </section>'''

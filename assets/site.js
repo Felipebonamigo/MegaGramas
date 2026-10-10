@@ -6,6 +6,7 @@
   var SITE = "megagramas.com.br";
   var LARGURA_ROLO = 2;              /* metros — largura fixa do rolo */
   var LINEAR_POR_VOLUME = 25;        /* metros lineares por volume = 50 m² */
+  var PRECO_MINIMO = 24.20;          /* R$/m², o menor preço do catálogo */
   var PESO_EMENDA = 1.5;             /* quanto uma emenda "custa", em metros lineares equivalentes */
   var EPS = 1e-9;
 
@@ -111,9 +112,14 @@
     var sobra = r.m2 - area;
     var pct = area > 0 ? (sobra / area) * 100 : 0;
 
-    el("res-linear").innerHTML = fmt(r.linear) + ' <small>m lineares</small>';
-    el("res-eq").textContent = "Rolo de 2,00 m de largura · equivale a " + fmt(r.m2) + " m² · " +
-      (r.volumes === 1 ? "1 volume" : r.volumes + " volumes");
+    /* A grama é vendida por m², então o m² é o número que o cliente precisa ver.
+       O metro linear e as faixas ficam como detalhe: explicam de onde vem o número. */
+    el("res-linear").innerHTML = fmt(r.m2) + ' <small>m²</small>';
+    el("res-eq").textContent = fmt(r.linear) + " m lineares em rolo de " + fmt(LARGURA_ROLO) +
+      " m de largura · " + (r.volumes === 1 ? "1 volume" : r.volumes + " volumes");
+    el("res-preco").innerHTML = 'A partir de <strong>R$ ' +
+      (r.m2 * PRECO_MINIMO).toLocaleString("pt-BR", {minimumFractionDigits:2, maximumFractionDigits:2}) +
+      '</strong> <span>· o valor final depende do modelo escolhido</span>';
     el("res-area").textContent = fmt(area) + " m²";
     el("res-faixas").textContent = r.faixas + (r.faixas === 1 ? " faixa" : " faixas") + " de " + fmt(r.orientacao === "vertical" ? L : W) + " m";
     el("res-emendas").textContent = r.emendas === 0 ? "Nenhuma — peça única" : r.emendas + (r.emendas === 1 ? " emenda" : " emendas");
@@ -164,7 +170,7 @@
       var r = atual.r;
       return "Olá! Usei a calculadora do site " + SITE + ".\n\n" +
         "Espaço: " + fmt(atual.W) + " m x " + fmt(atual.L) + " m (" + fmt(atual.area) + " m²)\n" +
-        "Sugestão da calculadora: " + fmt(r.linear) + " m lineares = " + fmt(r.m2) + " m²\n" +
+        "Sugestão da calculadora: " + fmt(r.m2) + " m² (" + fmt(r.linear) + " m lineares)\n" +
         "Faixas: " + r.faixas + " · Emendas: " + r.emendas + " · Sobra: " + fmt(atual.sobra) + " m²\n\n" +
         "Quero confirmar a quantidade e receber o orçamento.";
     }

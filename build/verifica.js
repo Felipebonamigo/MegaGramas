@@ -16,8 +16,8 @@ const fs = require('fs');
 const BASE = (process.argv[2] || 'http://localhost:8765').replace(/\/$/, '');
 const AXE = fs.readFileSync(require.resolve('axe-core/axe.min.js'), 'utf8');
 
-const PAGINAS = ['index.html', 'calculadora/index.html', 'grama-decorativa/index.html',
-  'grama-playground/index.html', 'grama-alto-trafego/index.html', 'projetos/index.html',
+const PAGINAS = ['index.html', 'calculadora/index.html', 'grama-12mm/index.html',
+  'grama-20mm/index.html', 'grama-real-30mm/index.html', 'projetos/index.html',
   'perguntas-frequentes/index.html', 'politica-de-privacidade/index.html', '404.html'];
 
 const falhas = [];
@@ -96,20 +96,20 @@ async function existe(url) {
   await p.goto(`${BASE}/calculadora/index.html`, { waitUntil: 'domcontentloaded' });
   await p.waitForTimeout(250);
   const CASOS = [
-    ['7,5', '7',  '28,00 m lineares', '3 emendas'],
-    ['4',   '6',  '12,00 m lineares', '1 emenda'],
-    ['2',   '10', '10,00 m lineares', 'Nenhuma — peça única'],
-    ['1,5', '30', '30,00 m lineares', 'Nenhuma — peça única'],
-    ['10',  '2,2','11,00 m lineares', '4 emendas'],
+    ['7,5', '7',  '56,00 m²', '3 emendas'],
+    ['4',   '6',  '24,00 m²', '1 emenda'],
+    ['2',   '10', '20,00 m²', 'Nenhuma — peça única'],
+    ['1,5', '30', '60,00 m²', 'Nenhuma — peça única'],
+    ['10',  '2,2','22,00 m²', '4 emendas'],
   ];
-  for (const [l, c, linearEsperado, emendasEsperadas] of CASOS) {
+  for (const [l, c, areaEsperada, emendasEsperadas] of CASOS) {
     await p.fill('#ent-largura', l);
     await p.fill('#ent-comprimento', c);
     await p.waitForTimeout(80);
-    const linear = (await p.locator('#res-linear').innerText()).trim();
+    const area = (await p.locator('#res-linear').innerText()).trim();
     const emendas = (await p.locator('#res-emendas').innerText()).trim();
-    if (linear !== linearEsperado || emendas !== emendasEsperadas) {
-      falhas.push(`calculadora ${l} x ${c}: deu "${linear} / ${emendas}", esperava "${linearEsperado} / ${emendasEsperadas}"`);
+    if (area !== areaEsperada || emendas !== emendasEsperadas) {
+      falhas.push(`calculadora ${l} x ${c}: deu "${area} / ${emendas}", esperava "${areaEsperada} / ${emendasEsperadas}"`);
     }
   }
   // e os botões precisam apontar para o WhatsApp configurado

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Calculadora de Metragem de Grama Sintética | MegaGramas</title>
+<title>Calculadora de Metragem de Grama Sintética | Mega Gramas</title>
 <meta name="description" content="Calcule quantos metros lineares de grama sintética o seu espaço precisa. O cálculo é feito em faixas de 2 m, mostra as emendas e a sobra de corte — e não pela divisão simples da área, que dá material a menos.">
 <link rel="canonical" href="https://megagramas.com.br/calculadora/">
 <meta name="theme-color" content="#0F5C27">
@@ -12,9 +12,9 @@
 
 <meta property="og:type" content="website">
 <meta property="og:locale" content="pt_BR">
-<meta property="og:site_name" content="MegaGramas">
+<meta property="og:site_name" content="Mega Gramas">
 <meta property="og:url" content="https://megagramas.com.br/calculadora/">
-<meta property="og:title" content="Calculadora de Metragem de Grama Sintética | MegaGramas">
+<meta property="og:title" content="Calculadora de Metragem de Grama Sintética | Mega Gramas">
 <meta property="og:description" content="Calcule quantos metros lineares de grama sintética o seu espaço precisa. O cálculo é feito em faixas de 2 m, mostra as emendas e a sobra de corte — e não pela divisão simples da área, que dá material a menos.">
 <meta property="og:image" content="https://megagramas.com.br/og.png">
 <meta property="og:image:width" content="1200">
@@ -66,7 +66,7 @@
   <div class="wrap">
     <nav class="migalhas" aria-label="Você está aqui"><a href="../index.html">Início</a><span aria-hidden="true">/</span><span>Calculadora de metragem</span></nav>
     <h1>Calculadora de metragem de grama sintética</h1>
-    <p class="lead">Informe as medidas do espaço e veja quantos metros lineares comprar, quantas emendas o projeto vai ter e quanto sobra de corte. O cálculo é feito em faixas de 2&nbsp;m — que é como a grama realmente é vendida.</p>
+    <p class="lead">Informe as medidas do espaço e veja quantos metros lineares comprar, quantas emendas o projeto vai ter e quanto sobra de corte. O cálculo é feito em faixas de 2&nbsp;m — que é a largura do rolo.</p>
   </div>
 </section>
 
@@ -75,7 +75,7 @@
     <div class="sec-head">
       <p class="eyebrow">Calcule agora</p>
       <h2>Quanto de grama eu preciso?</h2>
-      <p class="lead">O rolo tem <strong style="color:#fff">2,00 m de largura fixa</strong> e é vendido por metro linear. Por isso a conta não é só largura × comprimento: a área precisa ser coberta em faixas de 2 m, e a última quase sempre sobra.</p>
+      <p class="lead">A grama é vendida por m², mas vem em <strong style="color:#fff">rolo de 2,00 m de largura fixa</strong>. Por isso a conta não é só largura × comprimento: a área precisa ser coberta em faixas, e a última quase sempre sobra — e é esse pedaço que costuma faltar no orçamento.</p>
     </div>
     
     <div class="calc-box">
@@ -110,10 +110,11 @@
             <div class="k">Você precisa comprar</div>
             <div class="v" id="res-linear">—</div>
             <div class="eq" id="res-eq"></div>
+            <div class="res-preco" id="res-preco"></div>
           </div>
           <div class="res-linhas">
             <div class="res-item"><div class="k">Área do espaço</div><div class="v" id="res-area">—</div></div>
-            <div class="res-item"><div class="k">Faixas de 2,00 m</div><div class="v" id="res-faixas">—</div></div>
+            <div class="res-item"><div class="k">Faixas do rolo</div><div class="v" id="res-faixas">—</div></div>
             <div class="res-item"><div class="k">Emendas</div><div class="v" id="res-emendas">—</div></div>
             <div class="res-item"><div class="k">Sobra de corte</div><div class="v" id="res-sobra">—</div></div>
           </div>
@@ -145,9 +146,9 @@
       <h2>Por que área ÷ 2 dá o número errado.</h2>
     </div>
     <div class="prosa">
-      <p>Grama sintética não vem em placas: vem em rolo de <strong>2,00 m de largura fixa</strong>, cortado no comprimento que você pedir. Cada metro linear equivale a 2 m² de material.</p>
+      <p>A grama é vendida por metro quadrado, mas não vem em placas: vem em rolo de <strong>2,00 m de largura fixa</strong>, cortado no comprimento que você pedir. Cada metro linear do rolo equivale a 2 m² de material.</p>
       <p>Por isso a área do espaço não define a compra. Um jardim de 7,5 m × 7 m tem 52,50 m², e dividir por 2 daria 26,25 m lineares. Só que esses 26,25 m não cobrem o espaço: para atravessar 7,5 m de largura são necessárias 4 faixas inteiras de 2 m, cada uma com 7 m de comprimento. São 28 m lineares — e a quarta faixa sobra 0,5 m para fora, que é o desperdício normal de qualquer corte.</p>
-      <p>Comprar pelo cálculo por área significa receber material a menos e descobrir isso no dia da instalação.</p>
+      <p>Multiplicar largura por comprimento dá a área do espaço, que é o ponto de partida certo. O que a conta precisa somar depois é o aproveitamento: como as faixas do rolo cobrem essa área, e quanto sobra no corte. Sem isso, o material chega a menos e você descobre no dia da instalação.</p>
       <h3>O sentido das faixas muda o resultado</h3>
       <p>O mesmo espaço pode ser coberto em duas orientações, e elas quase nunca custam igual. A calculadora monta as duas, compara e recomenda uma — levando em conta que emenda não é de graça: ela custa mão de obra e aparece no acabamento. É por isso que um corredor de 1,5 m × 30 m sai como uma peça única de 30 m, e não como 15 faixas emendadas de 22,5 m.</p>
       <h3>Quando o cálculo não basta</h3>
@@ -163,7 +164,7 @@
 <section style="background:var(--surface-2)">
   <div class="wrap-s">
     <div class="sec-head"><p class="eyebrow">Sobre metragem</p><h2>Dúvidas frequentes.</h2></div>
-    <div class="faq"><details><summary>É vendida por m²?</summary><div class="resp">O rolo tem 2,00 m de largura fixa e é vendido por metro linear — cada metro linear equivale a 2 m². Por isso o cálculo é feito em faixas de 2 m e não apenas pela área do espaço. A calculadora do site faz essa conta.</div></details><details><summary>Vocês fazem cortes sob medida?</summary><div class="resp">Sim, conforme a necessidade do projeto e a disponibilidade do modelo escolhido.</div></details><details><summary>Como calculo quantos metros preciso?</summary><div class="resp">Use a calculadora do site: informe largura e comprimento e ela monta as faixas de 2 m, mostra as emendas e a sobra de corte. Se o espaço for irregular, envie as medidas e uma foto que a equipe calcula para você.</div></details></div>
+    <div class="faq"><details><summary>É vendida por m²?</summary><div class="resp">Sim! A grama sintética é vendida por metro quadrado (m²). Para calcular a área, multiplique a largura pelo comprimento do espaço. A quantidade necessária pode incluir uma margem para recortes e emendas, conforme o formato do local.</div></details><details><summary>Vocês fazem cortes sob medida?</summary><div class="resp">Envie as medidas do seu espaço para consultarmos as opções de corte disponíveis. O corte depende da largura do rolo e do modelo escolhido, podendo exigir recortes e emendas na instalação.</div></details><details><summary>Como calculo quantos metros preciso?</summary><div class="resp">Multiplique a largura pelo comprimento do espaço. Por exemplo: uma área de 3 metros de largura por 4 metros de comprimento tem 12 m². Se o local tiver um formato irregular, divida-o em partes e some as áreas. Envie as medidas para a Mega Gramas: ajudamos a calcular a quantidade necessária, considerando a largura do rolo, os recortes e as emendas.</div></details></div>
   </div>
 </section>
 </main>
@@ -174,12 +175,12 @@
       <a class="marca" href="../index.html" style="margin-bottom:16px" aria-label="MegaGramas, página inicial"><picture><source srcset="../assets/logo/marca-escuro.webp" type="image/webp"><img src="../assets/logo/marca-escuro.png" alt="" width="123" height="120" style="height:44px"></picture><span class="marca-nome marca-nome-rodape">MEGA<span>GRAMAS</span></span></a>
       <p style="max-width:34ch">Naturalmente mais possibilidades. Grama sintética para residências, empresas, playgrounds e áreas de lazer.</p>
     </div>
-    <div><h4>Linhas</h4><ul><li><a href="../grama-decorativa/index.html">Decorativa</a></li><li><a href="../grama-playground/index.html">Lazer e Playground</a></li><li><a href="../grama-alto-trafego/index.html">Alto Tráfego</a></li></ul></div>
+    <div><h4>Linhas</h4><ul><li><a href="../grama-12mm/index.html">12 mm</a></li><li><a href="../grama-20mm/index.html">20 mm</a></li><li><a href="../grama-real-30mm/index.html">Real 30 mm</a></li></ul></div>
     <div><h4>Navegar</h4><ul><li><a href="../index.html#modelos">Modelos</a></li><li><a href="../calculadora/index.html">Calculadora</a></li><li><a href="../projetos/index.html">Projetos</a></li><li><a href="../perguntas-frequentes/index.html">Dúvidas</a></li><li><a href="../politica-de-privacidade/index.html">Política de privacidade</a></li></ul></div>
   </div>
   <div class="wrap fim">
     <span>megagramas.com.br</span>
-    <span>&copy; 2026 MegaGramas</span>
+    <span>&copy; 2026 Mega Gramas</span>
     <span>Naturalmente mais possibilidades</span>
   </div>
 </footer>
