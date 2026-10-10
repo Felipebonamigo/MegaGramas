@@ -519,3 +519,10 @@ footer footer .fim{border-top:1px solid rgba(255,255,255,.12); margin-top:34px; 
 .res-preco strong{font-family:'Archivo',sans-serif; font-weight:800; font-size:1.18rem;
   color:#fff; letter-spacing:-.02em}
 .res-preco span{display:block; margin-top:3px; font-size:.78rem}
+
+/* ============ galeria de antes e depois ============ */
+.galeria-ad{display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:20px}
+.par-ad{margin:0}
+.par-ad figcaption{margin-top:12px; display:flex; flex-direction:column; gap:4px}
+.par-ad figcaption strong{font-family:'Archivo',sans-serif; font-weight:700; font-size:1rem; letter-spacing:-.015em}
+.par-ad figcaption span{font-size:.9rem; color:var(--ink-2)}

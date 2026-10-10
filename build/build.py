@@ -14,7 +14,7 @@ AQUI = os.path.dirname(os.path.abspath(__file__))
 RAIZ = os.path.dirname(AQUI)
 sys.path.insert(0, AQUI)
 from dados import (SITE, MARCA, SLOGAN, ANOS, NAV, GRUPOS_FAQ, PERGUNTAS, MODELOS,
-                   APLICACOES_HOME, PRAZOS, PRECO_MINIMO, RAZAO_SOCIAL, NOME_FANTASIA,
+                   APLICACOES_HOME, PRAZOS, PRECO_MINIMO, RAZAO_SOCIAL, NOME_FANTASIA, ANTES_DEPOIS,
                    CNPJ, EMAIL, WHATSAPP_EXIBIDO)
 
 HOME_CORPO = open(os.path.join(AQUI, 'partes', 'home.html'), encoding='utf-8').read()
@@ -57,6 +57,18 @@ def logo(base, altura, classe='', por_tema=True):
 
 
 # ---------------------------------------------------------------- componentes
+
+def galeria_antes_depois(base, limite=None):
+    """As imagens já trazem os rótulos ANTES/DEPOIS e a marca embutidos, então
+    o site não acrescenta rótulo nenhum — só a legenda do espaço."""
+    return '<div class="galeria-ad">' + ''.join(
+        '<figure class="par-ad">'
+        + foto_real(base, par['arq'], 'Antes e depois: ' + par['titulo'].lower(),
+                    'foto-1x1', 760, 760)
+        + f'<figcaption><strong>{par["titulo"]}</strong>'
+          f'<span>{par["desc"]}</span></figcaption></figure>'
+        for par in ANTES_DEPOIS[:limite]) + '</div>'
+
 
 def foto_real(base, nome, alt, classe="foto-4x3", larg=900, altura=675):
     """Foto real do cliente: WebP na frente, JPEG atrás, carregamento preguiçoso."""
@@ -249,6 +261,10 @@ def prazos_html():
 def gerar_home():
     corpo = HOME_CORPO.replace('<!--CALC:INICIO-->', '').replace('<!--CALC:FIM-->', '')
     corpo = corpo.replace('{{MODELOS}}', cards_modelos())
+    corpo = corpo.replace('{{ANTES_DEPOIS}}',
+      galeria_antes_depois('{{BASE}}', limite=3)
+      + '<p class="ad-legenda"><a class="btn btn-linha" href="{{BASE}}projetos/index.html">'
+        'Ver todos os projetos</a></p>')
     corpo = corpo.replace('<div class="faixa-extra">', prazos_html() + '<div class="faixa-extra">')
     topo = [q for q in PERGUNTAS if q['top']]
     bloco = faq_html(topo) + (
@@ -429,17 +445,7 @@ def gerar_projetos():
 <section style="background:var(--surface-2)">
   <div class="wrap">
     <div class="sec-head"><p class="eyebrow">Antes e depois</p><h2>O mesmo espaço, duas fotos.</h2></div>
-    <div class="ad">
-      <figure><figcaption>Antes</figcaption>
-        <div class="foto foto-4x3" style="background:linear-gradient(168deg,#9A8F70 0%,#5A5138 100%)"><span class="tag"><b>Foto</b>Área antes da instalação — mesmo ângulo do depois</span></div>
-      </figure>
-      <figure><figcaption>Depois</figcaption>
-        {foto('Mesmo ângulo, espaço finalizado e em uso')}
-      </figure>
-    </div>
-    <p class="ad-legenda">Você tem vários pares de antes e depois prontos — playground, laje
-    de creche, pátio de apartamento, academia, entorno de piscina. É só mandar os arquivos
-    que eles entram aqui.</p>
+    {galeria_antes_depois('{{BASE}}')}
   </div>
 </section>
 
