@@ -113,3 +113,20 @@ PRAZOS = [
     ("Santa Catarina", "De 3 a 5 dias úteis."),
     ("Demais regiões", "Consulte o prazo informando seu CEP."),
 ]
+
+
+# Pares de antes e depois. As imagens já vêm com os rótulos ANTES/DEPOIS e a
+# marca embutidos, então o site não acrescenta rótulo nenhum — só a legenda.
+# Para somar um par novo: exportar em assets/fotos/ e acrescentar aqui.
+ANTES_DEPOIS = [
+  dict(arq="ad-patio-apartamento", titulo="Pátio de apartamento",
+       desc="A pedra britada deu lugar a uma área de estar — o espaço passou a ser usado."),
+  dict(arq="ad-corredor-padel", titulo="Corredor entre quadras de padel",
+       desc="O concreto da circulação recebeu grama. O piso de jogo é outro produto."),
+  dict(arq="ad-academia", titulo="Academia",
+       desc="O tatame de EVA deu lugar à grama na área de treino funcional."),
+  dict(arq="ad-jardim-condominio", titulo="Jardim de condomínio",
+       desc="Grama natural falhada por sombra e circulação, substituída por sintética."),
+  dict(arq="ad-corredor-escola", titulo="Corredor de escola",
+       desc="Pedra portuguesa irregular substituída por grama em toda a passagem."),
+]
