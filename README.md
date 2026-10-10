@@ -159,38 +159,49 @@ acessibilidade nos dois temas.
 
 ---
 
-## Antes de publicar
+## Estado do conteúdo
 
-**Obrigatório**
+**Confirmado pelo cliente**
 
-- [x] ~~**Número do WhatsApp**~~ — configurado: `5551999694547` (51 99969-4547),
-      na constante `WHATSAPP` em `assets/site.js`. Os 8 pontos de entrada
-      abrem o WhatsApp com mensagens distintas por seção.
-- [ ] **Fotos** — todo bloco verde texturizado é um slot; a legenda diz qual
-      foto entra. Serve como lista de produção.
-- [ ] **Revisar as respostas do FAQ** — são rascunhos e estão marcados como
-      tal na página. Remover o `<span class="rascunho">` depois de aprovar.
-- [ ] **Conferir as especificações dos modelos** — as alturas são faixas de
-      mercado, não o catálogo real.
-- [ ] Remover a barra "Rascunho para revisão" do topo (`<div class="notas">`).
+- [x] **Largura do rolo: 2,00 m.** É a premissa de todo o cálculo de faixas —
+      se mudar, todos os números da calculadora mudam junto.
+- [x] **Catálogo:** 12 mm, 20 mm e Real 30 mm. Não existem as linhas
+      "Decorativa", "Lazer e Playground" e "Alto Tráfego" que o site vendeu
+      até outubro de 2026 — eram uma invenção para preencher o briefing.
+- [x] **Preço:** a partir de R$ 24,20 o m².
+- [x] **Garantia:** 3 meses na de 12 mm, 12 meses nas demais.
+- [x] **Região:** instalação em Porto Alegre e Região Metropolitana, mais RS e
+      SC mediante consulta; entrega para todo o Brasil.
+- [x] **As 16 respostas do FAQ**, revisadas pelo cliente.
+- [x] **Política de privacidade** com razão social, CNPJ e e-mail reais.
+- [x] **WhatsApp** `5551999694547`, em `assets/site.js`.
 
-**Falta definir**
+**Ainda falta**
 
-- [ ] Região de atendimento (cidade e estado) — decisivo para busca local
-- [ ] Faixa de preço por m²
-- [ ] Prazo de entrega e frete
-- [ ] Números de prova: projetos realizados e m² instalados
-- [ ] Imagem de compartilhamento 1200×630 (`og.jpg`)
-- [ ] Política de privacidade — exigida para anunciar no Google e no Meta
+- [ ] **Fotos.** Entraram 5: as três de fibra (uma por modelo) e dois projetos
+      com metragem. Falta o grosso — os pares de antes e depois, que existem e
+      são bons. Todo bloco verde texturizado no site ainda é um espaço
+      reservado, e a legenda diz qual foto entra ali.
+- [ ] **Qual close de fibra é 12 mm e qual é 20 mm.** A Real 30 mm é
+      inequívoca pelos fios de palha; as outras duas foram deduzidas pela
+      altura aparente e podem estar trocadas.
+- [ ] **Números de prova:** quantos projetos realizados e quantos m²
+      instalados.
+- [ ] **Mercado Livre:** a loja existe e o site não menciona.
+- [ ] **Grama esportiva:** em desenvolvimento. Decidir se ganha um "em breve"
+      ou segue fora do site.
 
 **Depois de publicar**
 
-- [ ] GA4 e Meta Pixel
+- [ ] GA4 e Meta Pixel. No dia em que entrarem, a política de privacidade
+      precisa voltar a descrever cookies, Google Analytics e Pixel — o texto
+      original do cliente já traz esses parágrafos prontos. Hoje a política
+      descreve o site como ele é: atendimento por WhatsApp, sem formulário,
+      sem analytics.
 - [ ] Conversão do Google Ads no clique de cada botão de WhatsApp — cada botão
       já envia uma mensagem diferente (`MENSAGENS` no script), então dá para
-      saber qual seção gerou o contato mesmo sem ferramenta de analytics
-- [ ] Páginas por modelo e por cidade, que é o que faz o site ranquear além da
-      home
+      saber qual seção gerou o contato mesmo sem ferramenta de analytics.
+- [ ] Páginas por cidade, que é o que faz o site ranquear em busca local.
 
 ---
 

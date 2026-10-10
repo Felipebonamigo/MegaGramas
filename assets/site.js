@@ -4,7 +4,8 @@
   /* ===== configuração ===== */
   var WHATSAPP = "5551999694547";    /* 55 + DDD 51 + 99969-4547 */
   var SITE = "megagramas.com.br";
-  var LARGURA_ROLO = 2;              /* metros — largura fixa do rolo */
+  var LARGURA_ROLO = 2;              /* metros — confirmado pelo cliente em out/2026.
+                                        Mudar isto muda todo o cálculo de faixas. */
   var LINEAR_POR_VOLUME = 25;        /* metros lineares por volume = 50 m² */
   var PRECO_MINIMO = 24.20;          /* R$/m², o menor preço do catálogo */
   var PESO_EMENDA = 1.5;             /* quanto uma emenda "custa", em metros lineares equivalentes */
