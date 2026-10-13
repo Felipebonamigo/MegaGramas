@@ -35,7 +35,7 @@ Também incluso: tema claro e escuro automático, layout responsivo até 390 px,
 
 ## Estrutura
 
-Site estático de 8 páginas. Sem build obrigatório para visualizar — abrir
+Site estático de 9 páginas. Sem build obrigatório para visualizar — abrir
 `index.html` no navegador já funciona.
 
 ```
@@ -80,7 +80,7 @@ o IP de cada visitante seja enviado para o Google.
 python3 build/build.py
 ```
 
-Sem dependências — só Python 3. O comando reescreve as 8 páginas, a `404.html`,
+Sem dependências — só Python 3. O comando reescreve as 8 páginas do sitemap, a `404.html`,
 o `robots.txt` e o `sitemap.xml`.
 
 A home é gerada a partir de `build/partes/home.html`, que é um fragmento com
@@ -178,18 +178,28 @@ acessibilidade nos dois temas.
 
 **Ainda falta**
 
-- [ ] **Fotos.** Entraram 5: as três de fibra (uma por modelo) e dois projetos
-      com metragem. Falta o grosso — os pares de antes e depois, que existem e
-      são bons. Todo bloco verde texturizado no site ainda é um espaço
-      reservado, e a legenda diz qual foto entra ali.
+- [ ] **Quatro cards de "onde utilizar" sem foto:** varanda de apartamento,
+      área comum de condomínio, recepção ou área externa comercial, entorno de
+      quadra. Conferido na pasta do cliente em out/2026: **não existe foto
+      limpa e individual desses quatro espaços**. O que existe são colagens
+      quadradas de antes e depois, com rótulo e marca embutidos, que não
+      servem como card de ambiente. Decidir entre encomendar as fotos ou
+      reduzir a grade aos quatro que têm.
+- [ ] **Oito pares de antes e depois ainda não publicados:** piscina (3),
+      playground (2) e residencial (3). Estão na pasta do cliente.
 - [ ] **Qual close de fibra é 12 mm e qual é 20 mm.** A Real 30 mm é
       inequívoca pelos fios de palha; as outras duas foram deduzidas pela
-      altura aparente e podem estar trocadas.
+      altura aparente e podem estar trocadas. A pasta tem duas versões de cada
+      altura — os nomes dos arquivos podem resolver isso.
 - [ ] **Números de prova:** quantos projetos realizados e quantos m²
       instalados.
+- [ ] **Três depoimentos:** nome, cidade e tipo de projeto.
 - [ ] **Mercado Livre:** a loja existe e o site não menciona.
 - [ ] **Grama esportiva:** em desenvolvimento. Decidir se ganha um "em breve"
       ou segue fora do site.
+
+Publicadas até aqui: 15 fotos — hero, 4 cards de ambiente, 3 closes de fibra,
+2 instalações com metragem e 5 pares de antes e depois.
 
 **Depois de publicar**
 
