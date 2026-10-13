@@ -65,6 +65,12 @@ PERGUNTAS = [
 ]
 
 # O catálogo real: três alturas, não três "linhas" por aplicação.
+#
+# Os arquivos de fibra em assets/fotos/ foram trocados em out/2026: o que
+# estava publicado como 12 mm era, na pasta do cliente, FIBRAS - FIO GRAMA
+# 20mm, e vice-versa. Conferido por comparação pixel a pixel contra a pasta
+# (diferença média ~1,9 de 255 nos pares certos, ~47 nos trocados). A Real
+# 30 mm sempre esteve correta. Hoje o nome do arquivo bate com o conteúdo.
 MODELOS = [
  dict(
   slug="grama-12mm", nome="12 mm", altura="12 mm", garantia="3 meses", foto="fibra-12mm",
