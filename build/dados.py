@@ -102,18 +102,17 @@ MODELOS = [
   nota="É a escolha quando o objetivo é a aparência de gramado natural. Vale ver pessoalmente: a diferença entre ela e a de 20 mm aparece muito mais ao vivo que em foto."),
 ]
 
-# Cards de "onde utilizar". foto=None ainda usa espaço reservado; quando a
-# foto chegar, basta nomear o arquivo exportado em assets/fotos/.
+# Cards de "onde utilizar": só entram os que têm foto, nomeada em assets/fotos/.
 APLICACOES_HOME = [
   dict(nome="Jardins e residências",        foto="amb-jardim",     legenda="Jardim residencial com grama sintética"),
   dict(nome="Áreas de lazer e piscina",     foto="amb-piscina",    legenda="Área de piscina com grama sintética"),
   dict(nome="Playgrounds e escolas",        foto="amb-playground", legenda="Playground com grama sintética"),
   dict(nome="Academias e áreas de treino",  foto="amb-academia",   legenda="Academia com grama sintética na área funcional"),
-  dict(nome="Sacadas e varandas",           foto=None, legenda="Varanda de apartamento"),
-  dict(nome="Condomínios",                  foto=None, legenda="Área comum de condomínio"),
-  dict(nome="Empresas e escritórios",       foto=None, legenda="Recepção ou área externa comercial"),
-  dict(nome="Circulação em áreas esportivas", foto=None, legenda="Entorno de quadra, não o campo de jogo"),
 ]
+
+# Atendidos, mas sem foto: entram como uma linha de texto no fim da seção.
+APLICACOES_TEXTO = ("Também atendemos sacadas e varandas, áreas comuns de condomínio, "
+                    "empresas e escritórios e a circulação no entorno de quadras.")
 
 PRAZOS = [
     ("Porto Alegre e Região Metropolitana",
@@ -138,4 +137,20 @@ ANTES_DEPOIS = [
        desc="Grama natural falhada por sombra e circulação, substituída por sintética."),
   dict(arq="ad-corredor-escola", titulo="Corredor de escola",
        desc="Pedra portuguesa irregular substituída por grama em toda a passagem."),
+  dict(arq="ad-piscina-gramado", titulo="Piscina com gramado",
+       desc="O gramado natural ao redor da piscina deu lugar à grama sintética."),
+  dict(arq="ad-piscina-deck", titulo="Deck de piscina",
+       desc="O piso de pedra ao redor da piscina foi coberto por grama."),
+  dict(arq="ad-piscina-brita", titulo="Piscina em área estreita",
+       desc="A brita deu lugar à grama em volta da piscina."),
+  dict(arq="ad-playground-areia", titulo="Playground com areia",
+       desc="A areia do entorno dos brinquedos deu lugar à grama."),
+  dict(arq="ad-playground-concreto", titulo="Playground em terraço",
+       desc="O piso de concreto deu lugar à grama sob os brinquedos."),
+  dict(arq="ad-predio-gramado", titulo="Área externa de prédio",
+       desc="O piso cinza junto ao edifício ganhou um gramado."),
+  dict(arq="ad-entrada-pedra", titulo="Entrada com piso de pedra",
+       desc="Faixas de grama sobre o piso de pedra da entrada."),
+  dict(arq="ad-patio-externo", titulo="Pátio externo",
+       desc="O piso de concreto deu lugar à grama."),
 ]

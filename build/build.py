@@ -14,7 +14,7 @@ AQUI = os.path.dirname(os.path.abspath(__file__))
 RAIZ = os.path.dirname(AQUI)
 sys.path.insert(0, AQUI)
 from dados import (SITE, MARCA, SLOGAN, ANOS, NAV, GRUPOS_FAQ, PERGUNTAS, MODELOS,
-                   APLICACOES_HOME, PRAZOS, PRECO_MINIMO, RAZAO_SOCIAL, NOME_FANTASIA, ANTES_DEPOIS,
+                   APLICACOES_HOME, APLICACOES_TEXTO, PRAZOS, PRECO_MINIMO, RAZAO_SOCIAL, NOME_FANTASIA, ANTES_DEPOIS,
                    CNPJ, EMAIL, WHATSAPP_EXIBIDO)
 
 HOME_CORPO = open(os.path.join(AQUI, 'partes', 'home.html'), encoding='utf-8').read()
@@ -266,10 +266,10 @@ def gerar_home():
                 'foto-hero', 1400, 788))
     cards_ap = ''.join(
         '<div class="card-local">'
-        + (foto_real('{{BASE}}', a['foto'], a['legenda'], 'foto-4x3', 760, 570)
-           if a['foto'] else foto(a['legenda']))
+        + foto_real('{{BASE}}', a['foto'], a['legenda'], 'foto-4x3', 760, 570)
         + f'<h3>{a["nome"]}</h3></div>' for a in APLICACOES_HOME)
-    corpo = corpo.replace('{{APLICACOES}}', f'<div class="grid-cards">{cards_ap}</div>')
+    corpo = corpo.replace('{{APLICACOES}}',
+      f'<div class="grid-cards">{cards_ap}</div><p class="ad-legenda">{APLICACOES_TEXTO}</p>')
     corpo = corpo.replace('{{MODELOS}}', cards_modelos())
     corpo = corpo.replace('{{ANTES_DEPOIS}}',
       galeria_antes_depois('{{BASE}}', limite=3)
