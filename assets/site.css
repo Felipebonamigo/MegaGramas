@@ -526,3 +526,4 @@ footer footer .fim{border-top:1px solid rgba(255,255,255,.12); margin-top:34px; 
 .par-ad figcaption{margin-top:12px; display:flex; flex-direction:column; gap:4px}
 .par-ad figcaption strong{font-family:'Archivo',sans-serif; font-weight:700; font-size:1rem; letter-spacing:-.015em}
 .par-ad figcaption span{font-size:.9rem; color:var(--ink-2)}
+.foto-real.foto-hero{aspect-ratio:16/9; box-shadow:var(--sombra-alta)}

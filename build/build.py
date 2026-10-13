@@ -260,6 +260,16 @@ def prazos_html():
 
 def gerar_home():
     corpo = HOME_CORPO.replace('<!--CALC:INICIO-->', '').replace('<!--CALC:FIM-->', '')
+    corpo = corpo.replace('{{HERO}}',
+      foto_real('{{BASE}}', 'hero-jardim',
+                'Jardim residencial com grama sintética ao entardecer',
+                'foto-hero', 1400, 788))
+    cards_ap = ''.join(
+        '<div class="card-local">'
+        + (foto_real('{{BASE}}', a['foto'], a['legenda'], 'foto-4x3', 760, 570)
+           if a['foto'] else foto(a['legenda']))
+        + f'<h3>{a["nome"]}</h3></div>' for a in APLICACOES_HOME)
+    corpo = corpo.replace('{{APLICACOES}}', f'<div class="grid-cards">{cards_ap}</div>')
     corpo = corpo.replace('{{MODELOS}}', cards_modelos())
     corpo = corpo.replace('{{ANTES_DEPOIS}}',
       galeria_antes_depois('{{BASE}}', limite=3)

@@ -102,9 +102,18 @@ MODELOS = [
   nota="É a escolha quando o objetivo é a aparência de gramado natural. Vale ver pessoalmente: a diferença entre ela e a de 20 mm aparece muito mais ao vivo que em foto."),
 ]
 
-APLICACOES_HOME = ["Jardins e residências", "Sacadas e varandas", "Condomínios",
-                   "Empresas e escritórios", "Playgrounds e escolas", "Áreas de lazer",
-                   "Academias e áreas de treino", "Circulação em áreas esportivas"]
+# Cards de "onde utilizar". foto=None ainda usa espaço reservado; quando a
+# foto chegar, basta nomear o arquivo exportado em assets/fotos/.
+APLICACOES_HOME = [
+  dict(nome="Jardins e residências",        foto="amb-jardim",     legenda="Jardim residencial com grama sintética"),
+  dict(nome="Áreas de lazer e piscina",     foto="amb-piscina",    legenda="Área de piscina com grama sintética"),
+  dict(nome="Playgrounds e escolas",        foto="amb-playground", legenda="Playground com grama sintética"),
+  dict(nome="Academias e áreas de treino",  foto="amb-academia",   legenda="Academia com grama sintética na área funcional"),
+  dict(nome="Sacadas e varandas",           foto=None, legenda="Varanda de apartamento"),
+  dict(nome="Condomínios",                  foto=None, legenda="Área comum de condomínio"),
+  dict(nome="Empresas e escritórios",       foto=None, legenda="Recepção ou área externa comercial"),
+  dict(nome="Circulação em áreas esportivas", foto=None, legenda="Entorno de quadra, não o campo de jogo"),
+]
 
 PRAZOS = [
     ("Porto Alegre e Região Metropolitana",
