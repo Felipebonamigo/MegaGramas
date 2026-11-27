@@ -21,7 +21,7 @@ rm -f "$SAIDA"
 zip -rq "$SAIDA" \
   index.html 404.html og.png robots.txt sitemap.xml \
   assets \
-  calculadora grama-12mm grama-20mm grama-real-30mm \
+  calculadora mega-economica-10mm mega-decor-12mm mega-plus-12mm mega-plus-mais-20mm mega-natural-garden-20mm mega-natural-garden-mais-32mm mega-color-12mm \
   projetos perguntas-frequentes politica-de-privacidade \
   -x '*.DS_Store'
 

@@ -16,9 +16,12 @@ const fs = require('fs');
 const BASE = (process.argv[2] || 'http://localhost:8765').replace(/\/$/, '');
 const AXE = fs.readFileSync(require.resolve('axe-core/axe.min.js'), 'utf8');
 
-const PAGINAS = ['index.html', 'calculadora/index.html', 'grama-12mm/index.html',
-  'grama-20mm/index.html', 'grama-real-30mm/index.html', 'projetos/index.html',
-  'perguntas-frequentes/index.html', 'politica-de-privacidade/index.html', '404.html'];
+const PAGINAS = ['index.html', 'calculadora/index.html',
+  'mega-economica-10mm/index.html', 'mega-decor-12mm/index.html', 'mega-plus-12mm/index.html',
+  'mega-plus-mais-20mm/index.html', 'mega-natural-garden-20mm/index.html',
+  'mega-natural-garden-mais-32mm/index.html', 'mega-color-12mm/index.html',
+  'projetos/index.html', 'perguntas-frequentes/index.html',
+  'politica-de-privacidade/index.html', '404.html'];
 
 const falhas = [];
 const cacheLinks = new Map();
@@ -95,23 +98,47 @@ async function existe(url) {
   const p = await navegador.newPage();
   await p.goto(`${BASE}/calculadora/index.html`, { waitUntil: 'domcontentloaded' });
   await p.waitForTimeout(250);
+  // [largura, comprimento, compra recomendada, emendas]
   const CASOS = [
-    ['7,5', '7',  '56,00 m²', '3 emendas'],
-    ['4',   '6',  '24,00 m²', '1 emenda'],
-    ['2',   '10', '20,00 m²', 'Nenhuma — peça única'],
-    ['1,5', '30', '60,00 m²', 'Nenhuma — peça única'],
-    ['10',  '2,2','22,00 m²', '4 emendas'],
+    ['7,5', '7',  '56 m²', '3 emendas'],
+    ['4',   '6',  '24 m²', '1 emenda'],
+    ['2',   '10', '20 m²', 'Nenhuma — peça única'],
+    // a faixa de 30 m é maior que o rolo de 25 m: emenda também no comprimento
+    ['1,5', '30', '60 m²', '1 emenda'],
+    ['10',  '2,2','22 m²', '4 emendas'],
   ];
-  for (const [l, c, areaEsperada, emendasEsperadas] of CASOS) {
+  for (const [l, c, compraEsperada, emendasEsperadas] of CASOS) {
     await p.fill('#ent-largura', l);
     await p.fill('#ent-comprimento', c);
     await p.waitForTimeout(80);
-    const area = (await p.locator('#res-linear').innerText()).trim();
+    const compra = (await p.locator('#res-compra').innerText()).trim();
     const emendas = (await p.locator('#res-emendas').innerText()).trim();
-    if (area !== areaEsperada || emendas !== emendasEsperadas) {
-      falhas.push(`calculadora ${l} x ${c}: deu "${area} / ${emendas}", esperava "${areaEsperada} / ${emendasEsperadas}"`);
+    if (compra !== compraEsperada || emendas !== emendasEsperadas) {
+      falhas.push(`calculadora ${l} x ${c}: deu "${compra} / ${emendas}", esperava "${compraEsperada} / ${emendasEsperadas}"`);
     }
   }
+  // a área real não pode ser confundida com a grama a comprar: 7,5 x 7 = 52,50
+  await p.fill('#ent-largura', '7,5'); await p.fill('#ent-comprimento', '7'); await p.waitForTimeout(80);
+  if ((await p.locator('#res-area').innerText()).trim() !== '52,50 m²') falhas.push('área real de 7,5 x 7 deveria ser 52,50 m²');
+  // exemplos de cola dados pelo cliente (rendimento máximo): área -> combinação
+  const COLAS = [
+    ['2', '5',   '2 × Quimicolla 700 g'],
+    ['5', '10',  '2 × Quimicolla 2,8 kg'],
+    ['10', '10', '1 × Quimicolla 14 kg'],
+    ['10', '12', '1 × Quimicolla 14 kg + 1 × Quimicolla 2,8 kg'],
+  ];
+  for (const [l, c, esperado] of COLAS) {
+    await p.fill('#ent-largura', l); await p.fill('#ent-comprimento', c); await p.waitForTimeout(80);
+    const t = (await p.locator('#res-cola').innerText()).trim();
+    if (!t.includes(': ' + esperado + ' (')) falhas.push(`cola ${l} x ${c}: deu "${t}", esperava "${esperado}"`);
+  }
+  // rolos: 120 m² = 2 rolos completos de 50 m² + 1 rolo de 20 m²
+  await p.fill('#ent-largura', '10'); await p.fill('#ent-comprimento', '12'); await p.waitForTimeout(80);
+  const rl = (await p.locator('#res-rolos').innerText()).trim();
+  if (!rl.startsWith('3 rolos ou volumes: 2 rolos completos de 50 m²') || !rl.includes('1 rolo de 20 m²')) falhas.push('rolos de 120 m²: ' + rl);
+  await p.fill('#ent-largura', '4'); await p.fill('#ent-comprimento', '6'); await p.waitForTimeout(80);
+  const rl2 = (await p.locator('#res-rolos').innerText()).trim();
+  if (!rl2.includes('1 rolo de 24 m² (12,00 m × 2 m)')) falhas.push('rolo cortado de 24 m²: ' + rl2);
   // e os botões precisam apontar para o WhatsApp configurado
   await p.evaluate(() => { window.__u = []; window.open = u => { window.__u.push(u); }; });
   await p.click('[data-zap="calculadora"]');
@@ -130,5 +157,5 @@ async function existe(url) {
   console.log(`✓ ${PAGINAS.length} páginas verificadas em tema claro e escuro: sem erro de JavaScript,`);
   console.log('  sem link quebrado, sem rolagem horizontal, sem recurso de terceiros,');
   console.log('  JSON-LD e metadados presentes, WCAG 2.1 AA sem violações,');
-  console.log(`  e a calculadora acerta os ${CASOS.length} casos-limite.`);
+  console.log(`  e a calculadora acerta os ${CASOS.length} casos-limite, os rolos e a cola.`);
 })();

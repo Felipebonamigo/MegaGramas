@@ -527,3 +527,156 @@ footer footer .fim{border-top:1px solid rgba(255,255,255,.12); margin-top:34px; 
 .par-ad figcaption strong{font-family:'Archivo',sans-serif; font-weight:700; font-size:1rem; letter-spacing:-.015em}
 .par-ad figcaption span{font-size:.9rem; color:var(--ink-2)}
 .foto-real.foto-hero{aspect-ratio:16/9; box-shadow:var(--sombra-alta)}
+
+/* =====================================================================
+   Refresh visual (nov/2026): seguindo a referência enviada pelo cliente.
+   Cartões e botões arredondados, seções que se sobrepõem em curva em vez
+   de blocos soltos, verde-floresta em degradê. Tudo em CSS, sem imagem.
+   ===================================================================== */
+:root{
+  --r:20px;
+  --curva:clamp(26px, 4.2vw, 54px);
+  --grad-floresta:linear-gradient(155deg, var(--verde-fundo) 0%, var(--verde-tinta) 100%);
+  --grad-zap:linear-gradient(120deg, #198644 0%, #0d6a30 100%);
+}
+.eyebrow::before{content:""; display:inline-block; width:26px; height:2px; background:currentColor;
+  vertical-align:middle; margin:-2px 11px 0 0; border-radius:2px}
+.calc .eyebrow::before, .final .eyebrow::before{background:var(--verde-vivo)}
+
+/* seções empilhadas em curva: cada uma sobe um pouco sobre a anterior */
+main > section, main > .beneficios{position:relative; background:var(--paper)}
+main > section{padding-bottom:calc(clamp(56px, 8vw, 104px) + var(--curva))}
+main > :not(:first-child){
+  border-radius:var(--curva) var(--curva) 0 0;
+  margin-top:calc(-1 * var(--curva));
+}
+main > section:not(:first-child){padding-top:calc(clamp(56px, 8vw, 104px) + 6px)}
+.beneficios{padding-bottom:calc(34px + var(--curva))}
+.pagina-hero{border-bottom:0}
+footer{border-radius:var(--curva) var(--curva) 0 0; margin-top:calc(-1 * var(--curva)); position:relative;
+  padding-top:calc(44px + var(--curva) * .5); background:var(--grad-floresta)}
+main > .beneficios{background:var(--grad-floresta)}
+.calc{background:var(--grad-floresta)}
+.final{background:var(--grad-floresta)}
+.hero{background:linear-gradient(180deg, color-mix(in srgb, var(--verde-vivo) 9%, var(--paper)) 0%, var(--paper) 100%)}
+.hero .wrap{position:relative}
+.hero::after{content:""; position:absolute; right:-120px; top:-90px; width:420px; height:420px; border-radius:50%; pointer-events:none;
+  background:radial-gradient(circle, color-mix(in srgb, var(--verde-vivo) 22%, transparent), transparent 70%)}
+
+/* botões em pílula */
+.btn{border-radius:999px; padding:14px 26px}
+.btn-zap{background:var(--grad-zap)}
+.btn-linha{border-color:color-mix(in srgb, var(--verde) 45%, var(--linha-forte))}
+.topo .btn{padding:10px 18px}
+.selo{background:var(--surface)}
+
+/* cartões */
+.foto-real{border-radius:var(--r)}
+.foto-real.foto-hero{border-radius:36px 36px 36px 120px}
+.modelo, .formato, .rel, .prazos, .ficha, .dif-item, .numero, .altura{border-radius:var(--r)}
+.modelo{box-shadow:var(--sombra); transition:transform .14s ease, box-shadow .16s ease}
+.modelo:hover{transform:translateY(-3px); box-shadow:var(--sombra-alta)}
+.modelo .foto-real, .modelo .amostra{border-radius:0}
+.razoes, .passos{border-radius:var(--r)}
+.aviso, .aviso-modelos{border-radius:0 14px 14px 0}
+.par-ad .foto-real, .projeto .foto-real{border-radius:var(--r)}
+
+/* ---- vitrine de modelos ---- */
+.chamada-preco{
+  display:flex; flex-wrap:wrap; align-items:baseline; justify-content:center; gap:6px 12px;
+  background:var(--grad-floresta); color:var(--on-verde); border-radius:999px;
+  padding:16px 30px; margin:0 0 30px; font-size:1.02rem; box-shadow:var(--sombra);
+}
+.chamada-preco span{font-weight:700; letter-spacing:-.01em}
+.chamada-preco strong{font-family:'Archivo',sans-serif; font-weight:800; font-size:clamp(1.6rem,4.6vw,2.3rem);
+  letter-spacing:-.035em; color:#B9F27A; line-height:1}
+.modelos{grid-template-columns:repeat(auto-fit,minmax(270px,1fr))}
+.modelo .corpo{gap:10px}
+.modelo .corpo .btn{margin-top:auto; align-self:flex-start}
+.linha-tag{font-family:'IBM Plex Mono',monospace; font-size:.66rem; letter-spacing:.14em; text-transform:uppercase; color:var(--verde); font-weight:500}
+.indic{font-size:.9rem; color:var(--ink-2)}
+.chips{list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; gap:6px}
+.chips li{font-size:.78rem; padding:4px 11px; border-radius:999px; background:var(--surface-2);
+  border:1px solid var(--linha); color:var(--ink-2)}
+.chips-grandes li{font-size:.9rem; padding:7px 15px}
+.amostra{
+  position:relative; display:flex; flex-direction:column; align-items:flex-start; justify-content:flex-end;
+  gap:8px; padding:18px 20px; color:#fff; border-radius:var(--r); overflow:hidden; aspect-ratio:16/10;
+}
+.amostra.n1{background:
+  repeating-linear-gradient(96deg, rgba(255,255,255,.07) 0 2px, transparent 2px 7px),
+  linear-gradient(160deg, var(--c1), color-mix(in srgb, var(--c1) 55%, #000))}
+.amostra.n3{background:linear-gradient(90deg, var(--c1) 0 33.4%, var(--c2) 33.4% 66.7%, var(--c3) 66.7%)}
+.amostra .alt{font-family:'Archivo',sans-serif; font-weight:800; font-size:clamp(2.7rem,6vw,3.6rem);
+  letter-spacing:-.04em; line-height:1; text-shadow:0 2px 14px rgba(0,0,0,.5)}
+.amostra .alt small{font-size:.5em; letter-spacing:0; margin-left:2px}
+.amostra .lbl{font-size:.76rem; font-weight:600; padding:4px 11px; border-radius:999px;
+  background:rgba(4,34,14,.82); color:#fff}
+.duas-colunas .amostra{aspect-ratio:16/11}
+.indic-grande{display:inline-block; margin-top:16px; font-weight:600; font-size:.92rem; padding:7px 16px;
+  border-radius:999px; background:var(--surface-2); border:1px solid var(--linha); color:var(--ink)}
+.sub-titulo{font-family:'IBM Plex Mono',monospace; font-size:.68rem; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--ink-3); font-weight:500; margin:30px 0 12px}
+.fecho{margin-top:30px; padding:18px 22px; border-left:3px solid var(--verde-vivo); background:var(--surface-2);
+  border-radius:0 var(--r) var(--r) 0; font-family:'Archivo',sans-serif; font-weight:700; font-size:1.08rem;
+  letter-spacing:-.015em; line-height:1.35}
+.prosa p{max-width:62ch}
+
+/* ---- confiança ---- */
+.numeros{grid-template-columns:repeat(auto-fit,minmax(190px,260px)); justify-content:start}
+.numero{background:var(--surface); border:1px solid var(--linha); box-shadow:var(--sombra)}
+.institucional{display:grid; grid-template-columns:repeat(auto-fit,minmax(215px,1fr)); gap:14px}
+.inst{background:var(--surface); border:1px solid var(--linha); border-radius:var(--r); padding:22px 22px 24px;
+  box-shadow:var(--sombra); position:relative; overflow:hidden}
+.inst::before{content:""; position:absolute; left:0; top:0; width:100%; height:4px;
+  background:linear-gradient(90deg, var(--verde-vivo), var(--verde))}
+.inst h3{font-size:1.02rem; margin-top:6px}
+.inst p{margin-top:8px; font-size:.9rem; color:var(--ink-2)}
+.depo{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:14px; margin-top:0}
+.depo-card{border:1px solid var(--linha); border-style:solid; border-radius:var(--r); box-shadow:var(--sombra);
+  margin:0; min-height:0}
+.depo-card blockquote{margin:0; font-size:1rem; color:var(--ink)}
+.depo-card figcaption{display:flex; flex-direction:column; gap:2px; margin-top:auto; font-size:.86rem; color:var(--ink-2)}
+.depo-card figcaption strong{color:var(--ink)}
+
+/* ---- colas ---- */
+.marca-quimi{color:var(--verde)}
+.colas{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:14px}
+.cola{background:var(--surface); border:1px solid var(--linha); border-radius:var(--r); padding:24px 24px 26px;
+  box-shadow:var(--sombra); display:flex; flex-direction:column; gap:14px; position:relative; overflow:hidden}
+.cola::after{content:""; position:absolute; right:-34px; bottom:-34px; width:120px; height:120px; border-radius:50%;
+  background:color-mix(in srgb, var(--verde-vivo) 16%, transparent)}
+.cola h3{font-size:1.2rem}
+.cola .rend span{display:block; font-size:.74rem; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-3); font-family:'IBM Plex Mono',monospace}
+.cola .rend strong{font-family:'Archivo',sans-serif; font-weight:800; font-size:1.7rem; letter-spacing:-.03em; color:var(--destaque)}
+
+/* ---- calculadora ---- */
+.calc-box{border-radius:28px; overflow:hidden; background:rgba(0,0,0,.26)}
+.campo input{border-radius:14px}
+.resultado, .dgm-caixa, .res-bloco{border-radius:18px}
+.res-area-real{background:rgba(255,255,255,.08); border-radius:16px; padding:14px 18px; margin:6px 0 18px}
+.res-area-real .k{font-family:'IBM Plex Mono',monospace; font-size:.66rem; letter-spacing:.13em; text-transform:uppercase; color:var(--on-verde-2)}
+.res-area-real .v{font-family:'Archivo',sans-serif; font-weight:800; font-size:1.7rem; letter-spacing:-.03em; color:#fff; margin-top:3px; font-variant-numeric:tabular-nums}
+.res-alt{font-size:.84rem; color:var(--on-verde-2)}
+.res-bloco{background:rgba(0,0,0,.3); padding:16px 18px; display:flex; flex-direction:column; gap:6px}
+.res-bloco h3{font-size:.96rem; color:#fff; display:flex; flex-wrap:wrap; align-items:center; gap:8px}
+.res-bloco h3 span{font-family:'IBM Plex Mono',monospace; font-size:.6rem; letter-spacing:.12em; text-transform:uppercase;
+  font-weight:500; padding:3px 9px; border-radius:999px; background:rgba(255,255,255,.14); color:var(--on-verde-2)}
+.res-bloco p{font-size:.92rem; color:var(--on-verde); line-height:1.5}
+.res-bloco .res-cola-margem{font-size:.84rem; color:var(--on-verde-2)}
+.calc-aviso{font-size:.8rem; line-height:1.55; color:var(--on-verde-2); border-left:2px solid var(--verde-vivo); padding-left:12px}
+.res-destaque .v small{font-size:.5em}
+
+@media (max-width:640px){
+  .foto-real.foto-hero{border-radius:26px 26px 26px 64px}
+  .chamada-preco{border-radius:24px; padding:16px 20px; text-align:center}
+}
+
+/* texto só para leitores de tela */
+.sr-only{position:absolute!important; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden;
+  clip:rect(0,0,0,0); white-space:nowrap; border:0}
+/* seis razões: 3 colunas, sem célula vazia */
+.razoes{grid-template-columns:repeat(3,1fr)}
+@media (max-width:900px){ .razoes{grid-template-columns:repeat(2,1fr)} }
+@media (max-width:560px){ .razoes{grid-template-columns:1fr} }
+.institucional{grid-template-columns:repeat(auto-fit,minmax(190px,1fr))}

@@ -12,13 +12,23 @@
 # Se o Caddyfile principal não tiver um "import conf.d/*", cole o conteúdo
 # deste arquivo no fim dele.
 #
-# Conferido localmente com o Caddy 2.8.4: as 9 páginas servem, /calculadora/
+# Conferido localmente com o Caddy 2.8.4 (antes do catálogo de 7 linhas): as páginas servem, /calculadora/
 # resolve sem regra de reescrita, a 404 devolve a nossa página, o gzip leva o
 # CSS de 28 KB para 6,9 KB e os cabeçalhos de cache saem como esperado.
 
 megagramas.com.br {
 	root * /var/www/megagramas
 	encode zstd gzip
+
+	# Endereços das linhas antigas (12 mm, 20 mm e Real 30 mm), trocadas pelo
+	# novo catálogo em nov/2026: levam à vitrine de modelos, não à 404.
+	redir /grama-12mm /#modelos permanent
+	redir /grama-12mm/* /#modelos permanent
+	redir /grama-20mm /#modelos permanent
+	redir /grama-20mm/* /#modelos permanent
+	redir /grama-real-30mm /#modelos permanent
+	redir /grama-real-30mm/* /#modelos permanent
+
 	file_server
 
 	# Cache por tipo de arquivo. Os matchers são mutuamente exclusivos de
