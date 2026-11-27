@@ -15,7 +15,7 @@ RAIZ = os.path.dirname(AQUI)
 sys.path.insert(0, AQUI)
 from dados import (SITE, MARCA, SLOGAN, ANOS, NAV, GRUPOS_FAQ, PERGUNTAS, MODELOS,
                    APLICACOES_HOME, APLICACOES_TEXTO, PRAZOS, PRECO_MINIMO, RAZAO_SOCIAL, NOME_FANTASIA, ANTES_DEPOIS,
-                   CNPJ, EMAIL, WHATSAPP_EXIBIDO)
+                   CNPJ, EMAIL, WHATSAPP_EXIBIDO, COLAS, DEPOIMENTOS, NUMERO_CLIENTES, INSTITUCIONAL)
 
 HOME_CORPO = open(os.path.join(AQUI, 'partes', 'home.html'), encoding='utf-8').read()
 BLOCO_CALC = re.search(r'<!--CALC:INICIO-->(.*?)<!--CALC:FIM-->', HOME_CORPO, re.S).group(1)
@@ -215,7 +215,7 @@ def pagina(caminho, titulo, desc, corpo, atual, jsonlds=(), base=None, arquivo=N
 
 LD_NEGOCIO = {
   "@context": "https://schema.org", "@type": "LocalBusiness", "name": MARCA,
-  "description": "Grama sintética sob medida para residências, empresas, playgrounds e áreas de lazer. Venda por metro linear, orientação especializada e instalação conforme a região.",
+  "description": "Grama sintética sob medida para residências, empresas, playgrounds e áreas de lazer. Venda por m², orientação especializada e instalação conforme a região.",
   "url": SITE + "/", "slogan": SLOGAN, "image": SITE + "/og.png",
   "areaServed": {"@type": "Country", "name": "Brasil"}, "foundingDate": "2014",
   "knowsAbout": ["Grama sintética", "Grama sintética decorativa",
@@ -226,26 +226,75 @@ LD_NEGOCIO = {
 URLS = []
 
 
+def amostra(m, classe='foto-16x9'):
+    """Quando a linha ainda não tem foto de fibra, o card mostra a cor da linha
+    e a altura. Não é uma foto fingindo ser foto: é um painel de cor, e some
+    quando o arquivo da foto for nomeado em dados.py."""
+    cores = m['cores']
+    if len(cores) == 1:
+        fundo = f'--c1:{cores[0]};--c2:{cores[0]};--c3:{cores[0]}'
+    else:
+        fundo = ';'.join(f'--c{i+1}:{c}' for i, c in enumerate(cores))
+    nome_cor = m.get('cores_nomes', '')
+    alt = m['altura'].replace('mm', '')
+    return (f'<div class="amostra {classe} n{len(cores)}" style="{fundo}">'
+            f'<span class="alt">{alt}<small>mm</small></span>'
+            f'<span class="lbl">altura das fibras</span></div>')
+
+
+def capa_modelo(m, classe='foto-16x9'):
+    if m['foto']:
+        return foto_real('{{BASE}}', m['foto'],
+                         f'Close da fibra de grama sintética de {m["altura"]} de altura', classe)
+    return amostra(m, classe)
+
+
 def cards_modelos():
     """Os cards da home, gerados a partir de dados.py — assim o catálogo vive
     num lugar só e a home não pode divergir das páginas de modelo."""
     saida = []
     for m in MODELOS:
-        specs = ''.join(f'<li><span class="k">{k}</span><span class="v">{v}</span></li>'
-                        for k, v in m['specs'])
+        chips = ''.join(f'<li>{d}</li>' for d in m['diferenciais'][:3])
         saida.append(
             '<article class="modelo">'
-            + foto_real('{{BASE}}', m['foto'],
-                        'Close da fibra da grama sintética ' + m['nome'], 'foto-16x9')
-            + f'<div class="corpo"><h3>{m["nome"]}</h3><p>{m["intro"]}</p>'
-              f'<ul class="specs">{specs}</ul>'
+            + capa_modelo(m)
+            + f'<div class="corpo"><p class="linha-tag">{m["linha"]}</p>'
+              f'<h3>{m["nome"]}</h3>'
+              f'<p class="indic">{m["indicacao"]}</p>'
+              f'<ul class="chips">{chips}</ul>'
               f'<a class="btn btn-linha" href="{{{{BASE}}}}{m["slug"]}/index.html">'
-              f'Ver detalhes do modelo</a></div></article>')
-    nota = (f'<p class="aviso-modelos">Os três partem de <strong>R$ {PRECO_MINIMO} o m²</strong>. '
-            f'A de 12 mm tem garantia de 3 meses; a de 20 mm e a Real de 30 mm, 12 meses. '
-            f'Na dúvida entre duas alturas, peça uma amostra: a diferença aparece muito '
-            f'mais ao vivo do que em foto.</p>')
+              f'Ver detalhes<span class="sr-only"> da {m["nome"]}</span></a></div></article>')
+    nota = ('<p class="aviso-modelos">Na dúvida entre duas linhas ou alturas, peça orientação pelo '
+            'WhatsApp: a diferença aparece muito mais ao vivo do que em foto. '
+            'O valor de cada modelo é informado no atendimento.</p>')
     return '<div class="modelos">' + ''.join(saida) + '</div>' + nota
+
+
+def prova_html():
+    """Credibilidade sem inventar nada: o número de clientes é real, os
+    depoimentos só aparecem quando existirem em dados.DEPOIMENTOS, e até lá a
+    seção mostra a forma como a Mega Gramas atende."""
+    numeros = (f'<div class="numeros">'
+               f'<div class="numero"><div class="v">{ANOS}</div><div class="k">anos de mercado</div></div>'
+               f'<div class="numero"><div class="v">{NUMERO_CLIENTES}</div><div class="k">clientes satisfeitos</div></div>'
+               f'</div>')
+    if DEPOIMENTOS:
+        cards = ''.join(
+            f'<figure class="depo-card"><blockquote>{d["texto"]}</blockquote>'
+            f'<figcaption><strong>{d["nome"]}</strong>'
+            f'<span>{d["cidade"]} · {d["projeto"]}</span></figcaption></figure>'
+            for d in DEPOIMENTOS)
+        return numeros + f'<div class="depo">{cards}</div>'
+    cards = ''.join(f'<div class="inst"><h3>{t}</h3><p>{d}</p></div>' for t, d in INSTITUCIONAL)
+    return numeros + f'<div class="institucional">{cards}</div>'
+
+
+def colas_html():
+    cards = ''.join(
+        f'<div class="cola"><h3>{c["nome"]}</h3>'
+        f'<p class="rend"><span>Rendimento estimado</span><strong>{c["rendimento"]}</strong></p></div>'
+        for c in COLAS)
+    return f'<div class="colas">{cards}</div>'
 
 
 def prazos_html():
@@ -271,6 +320,9 @@ def gerar_home():
     corpo = corpo.replace('{{APLICACOES}}',
       f'<div class="grid-cards">{cards_ap}</div><p class="ad-legenda">{APLICACOES_TEXTO}</p>')
     corpo = corpo.replace('{{MODELOS}}', cards_modelos())
+    corpo = corpo.replace('{{PRECO}}', PRECO_MINIMO)
+    corpo = corpo.replace('{{PROVA}}', prova_html())
+    corpo = corpo.replace('{{COLAS}}', colas_html())
     corpo = corpo.replace('{{ANTES_DEPOIS}}',
       galeria_antes_depois('{{BASE}}', limite=3)
       + '<p class="ad-legenda"><a class="btn btn-linha" href="{{BASE}}projetos/index.html">'
@@ -294,7 +346,7 @@ def gerar_calculadora():
   <div class="wrap">
     {migalhas('{{BASE}}', [("Calculadora de metragem", None)])}
     <h1>Calculadora de metragem de grama sintética</h1>
-    <p class="lead">Informe as medidas do espaço e veja quantos metros lineares comprar, quantas emendas o projeto vai ter e quanto sobra de corte. O cálculo é feito em faixas de 2&nbsp;m — que é a largura do rolo.</p>
+    <p class="lead">Informe a largura e o comprimento e veja a área do espaço, a quantidade de grama a comprar, quantos rolos você recebe e quanta cola de contato é necessária. O cálculo considera o rolo de 2&nbsp;m de largura.</p>
   </div>
 </section>
 
@@ -303,7 +355,7 @@ def gerar_calculadora():
     <div class="sec-head">
       <p class="eyebrow">Calcule agora</p>
       <h2>Quanto de grama eu preciso?</h2>
-      <p class="lead">A grama é vendida por m², mas vem em <strong style="color:#fff">rolo de 2,00 m de largura fixa</strong>. Por isso a conta não é só largura × comprimento: a área precisa ser coberta em faixas, e a última quase sempre sobra — e é esse pedaço que costuma faltar no orçamento.</p>
+      <p class="lead">A grama é vendida por m² inteiro, mas vem em <strong>rolo de 2,00 m de largura</strong>. Por isso a conta não para em largura × comprimento: o espaço precisa ser coberto por faixas inteiras, e a última quase sempre sobra — é esse pedaço que costuma faltar no orçamento.</p>
     </div>
     {BLOCO_CALC}
   </div>
@@ -316,11 +368,14 @@ def gerar_calculadora():
       <h2>Por que área ÷ 2 dá o número errado.</h2>
     </div>
     <div class="prosa">
-      <p>A grama é vendida por metro quadrado, mas não vem em placas: vem em rolo de <strong>2,00 m de largura fixa</strong>, cortado no comprimento que você pedir. Cada metro linear do rolo equivale a 2 m² de material.</p>
-      <p>Por isso a área do espaço não define a compra. Um jardim de 7,5 m × 7 m tem 52,50 m², e dividir por 2 daria 26,25 m lineares. Só que esses 26,25 m não cobrem o espaço: para atravessar 7,5 m de largura são necessárias 4 faixas inteiras de 2 m, cada uma com 7 m de comprimento. São 28 m lineares — e a quarta faixa sobra 0,5 m para fora, que é o desperdício normal de qualquer corte.</p>
-      <p>Multiplicar largura por comprimento dá a área do espaço, que é o ponto de partida certo. O que a conta precisa somar depois é o aproveitamento: como as faixas do rolo cobrem essa área, e quanto sobra no corte. Sem isso, o material chega a menos e você descobre no dia da instalação.</p>
+      <p>A grama é vendida por metro quadrado inteiro, com venda mínima de 1&nbsp;m², mas não vem em placas: vem em rolo de <strong>2,00 m de largura e 25 m de comprimento</strong> (50&nbsp;m² por rolo completo), cortado na metragem que você pedir. Cada metro de comprimento do rolo equivale a 2&nbsp;m² de material.</p>
+      <p>Por isso a área do espaço não define a compra. Um jardim de 7,5 m × 7 m tem 52,50&nbsp;m², mas para atravessar 7,5 m de largura são necessárias 4 faixas inteiras de 2 m, cada uma com 7 m de comprimento. São 56&nbsp;m² de grama — e a quarta faixa sobra 0,5 m para fora, que é o desperdício normal de qualquer corte. Comprar só os 52,50&nbsp;m² deixaria o espaço descoberto.</p>
+      <h3>Três números diferentes</h3>
+      <p>A calculadora separa o que costuma ser confundido: a <strong>área real</strong> do espaço, a <strong>grama estimada para a instalação</strong> (a área coberta por faixas inteiras) e a <strong>quantidade recomendada para compra</strong>, arredondada para cima em m² inteiros, porque não vendemos frações de metro quadrado.</p>
       <h3>O sentido das faixas muda o resultado</h3>
-      <p>O mesmo espaço pode ser coberto em duas orientações, e elas quase nunca custam igual. A calculadora monta as duas, compara e recomenda uma — levando em conta que emenda não é de graça: ela custa mão de obra e aparece no acabamento. É por isso que um corredor de 1,5 m × 30 m sai como uma peça única de 30 m, e não como 15 faixas emendadas de 22,5 m.</p>
+      <p>O mesmo espaço pode ser coberto em duas orientações, e elas quase nunca custam igual. A calculadora monta as duas, compara e recomenda a de melhor aproveitamento — levando em conta que emenda não é de graça: ela custa mão de obra e aparece no acabamento. Todas as faixas são assentadas no mesmo sentido das fibras.</p>
+      <h3>Rolos e cola</h3>
+      <p>Até 50&nbsp;m² você recebe um rolo cortado na metragem comprada; acima disso, rolos completos de 50&nbsp;m² mais um rolo com o restante. A cola de contato Quimicolla é estimada a partir do rendimento informado de cada embalagem, com uma alternativa de margem de segurança.</p>
       <h3>Quando o cálculo não basta</h3>
       <p>A calculadora assume um retângulo. Espaço em L, canteiro no meio, degrau, coluna, piscina ou qualquer recorte muda a conta — às vezes para menos, às vezes para bem mais. Nesses casos, envie as medidas e uma foto que a equipe calcula o aproveitamento real.</p>
       <div class="aviso" style="margin-top:22px"><strong>Uma observação sobre o sentido do fio.</strong> Todas as faixas precisam ser assentadas na mesma direção. Faixa invertida muda a forma como a luz bate na fibra e o trecho parece de outra cor, mesmo sendo o mesmo produto.</div>
@@ -339,8 +394,8 @@ def gerar_calculadora():
 </section>'''
     ld = ld_migalhas([("Início", SITE + "/"), ("Calculadora", SITE + "/calculadora/")])
     URLS.append((pagina('calculadora', "Calculadora de Metragem de Grama Sintética",
-      "Calcule quantos metros lineares de grama sintética o seu espaço precisa. O cálculo é feito em faixas de 2 m, "
-      "mostra as emendas e a sobra de corte — e não pela divisão simples da área, que dá material a menos.",
+      "Calcule a área, a quantidade de grama sintética a comprar, os rolos e a cola de contato do seu espaço. O cálculo é feito em faixas "
+      "de 2 m — a largura do rolo — e não pela multiplicação simples da área, que dá material a menos.",
       corpo, 'calculadora/index.html', [ld]), '0.9'))
 
 
@@ -348,31 +403,35 @@ def gerar_modelo(m):
     outros = [o for o in MODELOS if o['slug'] != m['slug']]
     specs = ''.join(f'<li><span class="k">{k}</span><span class="v">{v}</span></li>' for k, v in m['specs'])
     aplic = ''.join(f'<li>{a}</li>' for a in m['aplicacoes'])
+    dif = ''.join(f'<li>{d}</li>' for d in m['diferenciais'])
+    resto = ''.join(f'<p>{t}</p>' for t in m['texto'][1:])
     rel = ''.join(
-      f'<a class="rel" href="{{{{BASE}}}}{o["slug"]}/index.html"><span class="k">Outro modelo</span>'
-      f'<h3>{o["nome"]}</h3><p>{o["intro"].split(".")[0]}.</p>'
+      f'<a class="rel" href="{{{{BASE}}}}{o["slug"]}/index.html"><span class="k">{o["linha"]}</span>'
+      f'<h3>{o["nome"]}</h3><p>{o["indicacao"]}</p>'
       f'<span class="seta">Ver detalhes &rarr;</span></a>' for o in outros)
     comparacao = ''.join(
-      f'<li><span class="k">{o["nome"]}</span><span class="v">{o["specs"][1][1]}</span></li>'
-      for o in MODELOS)
+      f'<li><span class="k">{o["nome"]}</span><span class="v">{o["altura"]}</span></li>' for o in MODELOS)
     perguntas = [q for q in PERGUNTAS if q['g'] in ('escolha', 'instalacao')]
+    desc = (m['texto'][0] + ' Consulte o valor e peça orientação pelo WhatsApp.')
+    foto_html = capa_modelo(m)
+    legenda = (f'<p class="legenda-foto">Fibra de {m["altura"]} vista de perto.</p>' if m['foto'] else '')
     corpo = f'''<section class="pagina-hero">
   <div class="wrap">
     {migalhas('{{BASE}}', [("Modelos", "index.html#modelos"), (m['nome'], None)])}
     <div class="duas-colunas">
       <div>
-        <p class="eyebrow">Modelo {m['nome']} &middot; garantia de {m['garantia']}</p>
-        <h1 style="margin-top:14px">{m['h1']}</h1>
-        <p class="lead">{m['intro']}</p>
-        <p class="preco">A partir de <strong>R$ {PRECO_MINIMO}</strong> o m²</p>
+        <p class="eyebrow">{m['linha']} &middot; {m['altura']}</p>
+        <h1 style="margin-top:14px">{m['nome']}</h1>
+        <p class="lead">{m['texto'][0]}</p>
+        <p class="indic-grande">{m['indicacao']}</p>
         <div class="cta-linha">
-          <a class="btn btn-zap" href="#" data-zap="orientacao">{ZAP_SVG}Pedir orçamento deste modelo</a>
+          <a class="btn btn-zap" href="#" data-zap="modelo" data-modelo="{m['nome']}">{ZAP_SVG}Pedir orçamento desta linha</a>
           <a class="btn btn-linha" href="{{{{BASE}}}}calculadora/index.html">Calcular metragem</a>
         </div>
       </div>
       <div>
-        {foto_real('{{BASE}}', m['foto'], f'Close da fibra da grama sintética {m["nome"]}', 'foto-16x9')}
-        <p class="legenda-foto">Fibra da {m['nome']} vista de perto.</p>
+        {foto_html}
+        {legenda}
       </div>
     </div>
   </div>
@@ -382,14 +441,18 @@ def gerar_modelo(m):
   <div class="wrap">
     <div class="duas-colunas">
       <div>
-        <div class="sec-head"><p class="eyebrow">Onde se aplica</p><h2>Para que tipo de espaço esse modelo foi feito.</h2></div>
+        <div class="sec-head"><p class="eyebrow">Sobre a linha</p><h2>Para que tipo de espaço ela foi feita.</h2></div>
+        <div class="prosa">{resto}</div>
+        <h3 class="sub-titulo">Aplicações</h3>
         <ul class="aplic">{aplic}</ul>
-        <div class="aviso" style="margin-top:26px">{m['nota']}</div>
+        <h3 class="sub-titulo">Diferenciais</h3>
+        <ul class="chips chips-grandes">{dif}</ul>
+        <p class="fecho">{m['fecho']}</p>
       </div>
       <div class="ficha">
-        <h3>Ficha técnica</h3>
+        <h3>Principais características</h3>
         <ul class="specs">{specs}</ul>
-        <h3>Os três modelos</h3>
+        <h3>Alturas das linhas</h3>
         <ul class="specs">{comparacao}</ul>
       </div>
     </div>
@@ -399,7 +462,7 @@ def gerar_modelo(m):
 <section class="calc">
   <div class="wrap">
     <div class="sec-head"><p class="eyebrow">Quanto comprar</p><h2>Calcule a metragem do seu espaço.</h2>
-      <p class="lead">A grama é vendida por m², mas vem em rolo de largura fixa — então a quantidade a comprar depende de como as faixas cobrem a área. A calculadora mostra as faixas, as emendas e a sobra de corte.</p></div>
+      <p class="lead">A grama é vendida por m², mas vem em rolo de largura fixa — então a quantidade a comprar depende de como as faixas cobrem a área. A calculadora estima a grama, os rolos e a cola.</p></div>
     {BLOCO_CALC}
   </div>
 </section>
@@ -414,12 +477,13 @@ def gerar_modelo(m):
 
 <section>
   <div class="wrap">
-    <div class="sec-head"><p class="eyebrow">Outros modelos</p><h2>Talvez não seja esse o seu.</h2></div>
+    <div class="sec-head"><p class="eyebrow">Outras linhas</p><h2>Compare com as demais.</h2></div>
     <div class="relacionados">{rel}</div>
   </div>
 </section>'''
     ld = ld_migalhas([("Início", SITE + "/"), (m['nome'], f"{SITE}/{m['slug']}/")])
-    URLS.append((pagina(m['slug'], m['titulo'], m['desc'], corpo, m['slug'] + '/index.html', [ld]), '0.8'))
+    URLS.append((pagina(m['slug'], f"{m['nome']} — Grama Sintética", desc, corpo,
+                        m['slug'] + '/index.html', [ld]), '0.8'))
 
 
 def gerar_projetos():
@@ -590,8 +654,8 @@ def gerar_privacidade():
 
 def gerar_404():
     linhas = ''.join(
-      f'<a class="rel" href="/{m["slug"]}/index.html"><span class="k">Linha {m["altura"]}</span>'
-      f'<h3>{m["nome"]}</h3><p>{m["aplicacoes"][0]}, {m["aplicacoes"][1].lower()}</p>'
+      f'<a class="rel" href="/{m["slug"]}/index.html"><span class="k">{m["linha"]}</span>'
+      f'<h3>{m["nome"]}</h3><p>{m["indicacao"]}</p>'
       f'<span class="seta">Ver detalhes &rarr;</span></a>' for m in MODELOS)
     corpo = f'''<section class="pagina-hero">
   <div class="wrap-s">
@@ -610,7 +674,7 @@ def gerar_404():
     <div class="sec-head"><p class="eyebrow">Linhas</p><h2>Talvez você procurasse uma destas.</h2></div>
     <div class="relacionados">{linhas}</div>
     <div class="relacionados" style="margin-top:14px">
-      <a class="rel" href="/calculadora/index.html"><span class="k">Ferramenta</span><h3>Calculadora de metragem</h3><p>Quantos metros lineares o seu espaço precisa</p><span class="seta">Calcular &rarr;</span></a>
+      <a class="rel" href="/calculadora/index.html"><span class="k">Ferramenta</span><h3>Calculadora de metragem</h3><p>Quanta grama, quantos rolos e quanta cola o seu espaço pede</p><span class="seta">Calcular &rarr;</span></a>
       <a class="rel" href="/perguntas-frequentes/index.html"><span class="k">Dúvidas</span><h3>Perguntas frequentes</h3><p>Altura, instalação, limpeza, garantia e entrega</p><span class="seta">Ver &rarr;</span></a>
       <a class="rel" href="/projetos/index.html"><span class="k">Portfólio</span><h3>Projetos realizados</h3><p>Espaços entregues e depoimentos</p><span class="seta">Ver &rarr;</span></a>
     </div>

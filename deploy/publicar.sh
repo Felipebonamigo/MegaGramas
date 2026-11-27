@@ -48,9 +48,13 @@ rsync -a --delete \
   --include='robots.txt' --include='sitemap.xml' \
   --include='assets/***' \
   --include='calculadora/***' \
-  --include='grama-12mm/***' \
-  --include='grama-20mm/***' \
-  --include='grama-real-30mm/***' \
+  --include='mega-economica-10mm/***' \
+  --include='mega-decor-12mm/***' \
+  --include='mega-plus-12mm/***' \
+  --include='mega-plus-mais-20mm/***' \
+  --include='mega-natural-garden-20mm/***' \
+  --include='mega-natural-garden-mais-32mm/***' \
+  --include='mega-color-12mm/***' \
   --include='projetos/***' \
   --include='perguntas-frequentes/***' \
   --include='politica-de-privacidade/***' \

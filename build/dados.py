@@ -11,7 +11,7 @@ NOME_FANTASIA = "CAMA ELÁSTICA RS"
 CNPJ = "07.078.441/0001-55"
 EMAIL = "megagramas@gmail.com"
 WHATSAPP_EXIBIDO = "(51) 99969-4547"
-PRECO_MINIMO = "24,20"
+PRECO_MINIMO = "19,90"
 
 NAV = [
     ("Modelos", "index.html#modelos"),
@@ -31,9 +31,9 @@ GRUPOS_FAQ = [
 # top=True aparece também na home, nas perguntas que mais travam a compra.
 PERGUNTAS = [
  dict(g="escolha", top=True, p="Qual a melhor altura de grama sintética?",
-      r="A melhor altura depende do uso e do visual desejado. A grama de 12 mm oferece um acabamento mais baixo e compacto. A de 20 mm é uma opção intermediária. Já o modelo Real de 30 mm, com dois tons de verde e fios cor de palha, é ideal para quem busca a aparência de um gramado natural. A Mega Gramas ajuda você a escolher o modelo mais adequado para o seu espaço."),
+      r="A melhor altura depende do uso e do visual desejado. As linhas de 10 e 12 mm têm fibras mais baixas e acabamento compacto. As de 20 mm oferecem um visual mais preenchido. As linhas Natural Garden, de 20 e 32 mm, combinam dois tons de verde e fibras marrons para imitar um gramado natural. A Mega Gramas ajuda você a escolher a linha mais adequada para o seu espaço."),
  dict(g="escolha", top=False, p="Qual a diferença entre gramas de diferentes alturas?",
-      r="A diferença está no comprimento dos fios, que influencia o visual e a sensação ao toque. A 12 mm tem acabamento mais baixo e compacto; a 20 mm oferece fios mais altos; e a Real de 30 mm combina dois tons de verde e fios cor de palha para imitar um gramado natural. Além da altura, o tipo de fio e a densidade também fazem diferença na escolha do modelo ideal para seu espaço."),
+      r="A diferença está no comprimento dos fios, que influencia o visual e a sensação ao toque. Fibras mais baixas (10 e 12 mm) dão acabamento compacto e uniforme; as de 20 mm têm aspecto mais preenchido; e a Natural Garden+ de 32 mm é a mais volumosa e a que mais se aproxima de um gramado natural. Além da altura, a cor e a linha também fazem diferença na escolha do modelo ideal para seu espaço."),
  dict(g="instalacao", top=True, p="Pode instalar sobre cimento?",
       r="Sim! A grama sintética pode ser instalada sobre cimento ou concreto, desde que a superfície esteja firme, limpa, seca e sem irregularidades importantes. Em áreas externas, é essencial garantir o escoamento da água para evitar poças sob a grama."),
  dict(g="instalacao", top=False, p="Pode instalar diretamente sobre terra?",
@@ -51,61 +51,141 @@ PERGUNTAS = [
  dict(g="uso", top=False, p="Como fazer a limpeza?",
       r="Retire folhas e resíduos com uma vassoura de cerdas macias. Quando necessário, lave com água e sabão neutro, enxaguando bem. Evite escovas de aço, solventes e produtos abrasivos, que podem danificar os fios e a base da grama."),
  dict(g="compra", top=True, p="É vendida por m²?",
-      r="Sim! A grama sintética é vendida por metro quadrado (m²). Para calcular a área, multiplique a largura pelo comprimento do espaço. A quantidade necessária pode incluir uma margem para recortes e emendas, conforme o formato do local."),
+      r="Sim! A grama sintética é vendida por metro quadrado inteiro, com venda mínima de 1 m². Os rolos têm 2 metros de largura e 25 metros de comprimento (50 m²), e cortamos na metragem que você precisa. Como a largura é fixa, a quantidade a comprar pode ser maior que a área do espaço: o material é cortado em faixas de 2 metros, e isso gera sobras e emendas. A calculadora do site faz essa estimativa para você."),
  dict(g="compra", top=False, p="Vocês fazem cortes sob medida?",
-      r="Envie as medidas do seu espaço para consultarmos as opções de corte disponíveis. O corte depende da largura do rolo e do modelo escolhido, podendo exigir recortes e emendas na instalação."),
+      r="Sim. O rolo tem 2 metros de largura e a venda é por m² inteiro, então cortamos o comprimento na metragem necessária. Dependendo do formato do espaço, o projeto pode exigir recortes e emendas. Envie as medidas para confirmarmos as opções de corte do modelo escolhido."),
  dict(g="compra", top=False, p="Vocês fazem instalação?",
       r="Sim! A Mega Gramas realiza a instalação, principalmente em Porto Alegre e na Região Metropolitana. Também atendemos outras cidades, com adicional de deslocamento. Entre em contato e informe sua localização e as medidas do espaço para consultar a disponibilidade e solicitar um orçamento."),
  dict(g="compra", top=False, p="Vocês entregam em quais regiões?",
       r="Entregamos grama sintética para todo o Brasil! O frete e o prazo de entrega são calculados conforme o CEP e o tamanho do pedido. Já o serviço de instalação é realizado nos estados do Rio Grande do Sul e Santa Catarina, mediante consulta de disponibilidade e valor de deslocamento."),
  dict(g="compra", top=True, p="Existe garantia?",
-      r="Sim! O modelo de 12 mm possui garantia de 3 meses, e os demais modelos têm garantia de 12 meses contra defeitos de fabricação. A garantia não cobre danos causados por mau uso, instalação inadequada ou limpeza com produtos que danifiquem a grama."),
+      r="Sim! A garantia varia de 3 a 12 meses, conforme o modelo escolhido, e cobre defeitos de fabricação. Ela não cobre danos causados por mau uso, instalação inadequada ou limpeza com produtos que danifiquem a grama. Consulte com a nossa equipe o prazo do modelo que você escolheu."),
  dict(g="compra", top=True, p="Como calculo quantos metros preciso?",
-      r="Multiplique a largura pelo comprimento do espaço. Por exemplo: uma área de 3 metros de largura por 4 metros de comprimento tem 12 m². Se o local tiver um formato irregular, divida-o em partes e some as áreas. Envie as medidas para a Mega Gramas: ajudamos a calcular a quantidade necessária, considerando a largura do rolo, os recortes e as emendas."),
+      r="Multiplique a largura pelo comprimento do espaço. Por exemplo: 3 metros de largura por 4 metros de comprimento dão 12 m². Só que o rolo tem 2 metros de largura fixa, então a quantidade a comprar considera as faixas inteiras, os recortes e as emendas — um espaço de 7,5 m × 7 m tem 52,5 m², mas exige 56 m² de grama. Use a calculadora do site ou envie as medidas para a Mega Gramas."),
 ]
 
-# O catálogo real: três alturas, não três "linhas" por aplicação.
+# Catálogo comercial vigente (nov/2026), conforme o documento enviado pelo
+# cliente: nomes, alturas e ordem são os oficiais. Não entram garantia,
+# preço individual nem especificação técnica não confirmada (UV, drenagem,
+# durabilidade). O preço inicial da linha, R$ 19,90, aparece numa chamada só.
 #
-# Os arquivos de fibra em assets/fotos/ foram trocados em out/2026: o que
-# estava publicado como 12 mm era, na pasta do cliente, FIBRAS - FIO GRAMA
-# 20mm, e vice-versa. Conferido por comparação pixel a pixel contra a pasta
-# (diferença média ~1,9 de 255 nos pares certos, ~47 nos trocados). A Real
-# 30 mm sempre esteve correta. Hoje o nome do arquivo bate com o conteúdo.
+# foto=None => o card mostra a amostra de cor da linha, sem foto. Hoje só há
+# fotos de fibra para três alturas (12, 20 e 30 mm); as demais linhas esperam
+# fotos do cliente.
 MODELOS = [
  dict(
-  slug="grama-12mm", nome="12 mm", altura="12 mm", garantia="3 meses", foto="fibra-12mm",
-  titulo="Grama Sintética 12 mm",
-  desc=f"Grama sintética de 12 mm, com acabamento baixo e compacto. Indicada para áreas de circulação, comércio e espaços que pedem um visual discreto. A partir de R$ {PRECO_MINIMO} o m².",
-  h1="Grama sintética 12 mm",
-  intro="Acabamento baixo e compacto. É a altura que resolve circulação: corredor, área comum, estande, entorno de quadra — lugar onde passa gente o dia inteiro e a fibra precisa levantar de novo.",
-  specs=[("Altura do fio", "12 mm"), ("Acabamento", "Baixo e compacto"),
-         ("Garantia", "3 meses contra defeitos de fabricação"), ("Uso", "Interno e externo")],
-  aplicacoes=["Corredores e áreas de circulação", "Áreas comuns de condomínio",
-              "Comércio, estandes e eventos", "Entorno de quadras esportivas",
-              "Academias e áreas de treino", "Espaços que pedem visual discreto"],
-  nota="É o único modelo com garantia de 3 meses; os demais têm 12 meses. A escolha costuma ser essa quando o critério é circulação e custo, e não maciez."),
+  slug="mega-economica-10mm", nome="Mega Econômica 10mm", altura="10mm",
+  linha="Linha Econômica", indicacao="Ambientes internos e áreas externas cobertas",
+  foto=None, cores=["#3F9A2E"],
+  texto=["A Mega Econômica 10mm é uma linha de grama sintética desenvolvida para quem busca uma solução prática, econômica e acessível para renovar ambientes.",
+         "Com fibras verdes de 10mm de altura e perfil baixo e compacto, é uma excelente opção para projetos decorativos."],
+  specs=[("Altura das fibras", "10mm"), ("Cor", "Verde"), ("Categoria", "Linha Econômica"),
+         ("Indicação", "Ambientes internos e áreas externas cobertas")],
+  aplicacoes=["Lojas", "Vitrines", "Eventos", "Espaços decorativos"],
+  diferenciais=["Economia", "Praticidade", "Perfil compacto"],
+  fecho="Mega Econômica 10mm — Renove seus ambientes com economia."),
  dict(
-  slug="grama-20mm", nome="20 mm", altura="20 mm", garantia="12 meses", foto="fibra-20mm",
-  titulo="Grama Sintética 20 mm",
-  desc=f"Grama sintética de 20 mm, o meio-termo entre acabamento e maciez. Indicada para jardins, varandas, playgrounds e áreas de lazer. A partir de R$ {PRECO_MINIMO} o m².",
-  h1="Grama sintética 20 mm",
-  intro="O meio-termo, e o mais pedido. Fios mais altos que a de 12 mm, sem o volume da Real de 30 mm. Funciona bem onde o espaço é para usar e para olhar ao mesmo tempo.",
-  specs=[("Altura do fio", "20 mm"), ("Acabamento", "Intermediário"),
-         ("Garantia", "12 meses contra defeitos de fabricação"), ("Uso", "Interno e externo")],
-  aplicacoes=["Jardins residenciais", "Sacadas e varandas", "Playgrounds e escolas",
-              "Áreas de lazer e piscina", "Espaço pet", "Áreas de condomínio"],
-  nota="Quando a dúvida é entre 12 mm e Real de 30 mm, costuma ser esta. Em caso de dúvida, peça uma amostra antes de fechar."),
+  slug="mega-decor-12mm", nome="Mega Decor 12mm", altura="12mm",
+  linha="Linha Decorativa", indicacao="Ambientes internos e áreas externas cobertas",
+  foto=None, cores=["#43A02E"],
+  texto=["A Mega Decor 12mm é uma linha de grama sintética decorativa, ideal para quem deseja transformar ambientes de forma simples, prática e econômica.",
+         "Com fibras de 12mm de altura e coloração verde, proporciona um visual agradável e um toque de natureza aos espaços, valorizando a decoração de ambientes residenciais e comerciais.",
+         "Versátil e funcional, é indicada para ambientes internos, sacadas e varandas cobertas, vitrines, eventos, cenários e espaços decorativos."],
+  specs=[("Altura das fibras", "12mm"), ("Cor", "Verde"), ("Categoria", "Linha Decorativa"),
+         ("Indicação", "Ambientes internos e áreas externas cobertas")],
+  aplicacoes=["Residências", "Lojas", "Vitrines", "Eventos", "Cenários", "Sacadas e varandas cobertas"],
+  diferenciais=["Versatilidade", "Praticidade", "Excelente custo-benefício"],
+  fecho="Mega Decor 12mm — Praticidade e beleza para sua decoração."),
  dict(
-  slug="grama-real-30mm", nome="Real 30 mm", altura="30 mm", garantia="12 meses", foto="fibra-real30",
-  titulo="Grama Sintética Real 30 mm",
-  desc=f"Grama sintética Real de 30 mm, com dois tons de verde e fios cor de palha para imitar um gramado natural. Indicada para jardins e áreas de estar. A partir de R$ {PRECO_MINIMO} o m².",
-  h1="Grama sintética Real 30 mm",
-  intro="Dois tons de verde e fios cor de palha entre as fibras. É o modelo que imita gramado natural — a palha faz o trabalho que o verde sozinho não faz, porque gramado de verdade nunca é de uma cor só.",
-  specs=[("Altura do fio", "30 mm"), ("Acabamento", "Dois tons de verde e fios cor de palha"),
-         ("Garantia", "12 meses contra defeitos de fabricação"), ("Uso", "Interno e externo")],
-  aplicacoes=["Jardins residenciais", "Áreas de estar e lazer", "Entorno de piscina",
-              "Áreas gourmet", "Fachadas e paisagismo", "Espaços de contemplação"],
-  nota="É a escolha quando o objetivo é a aparência de gramado natural. Vale ver pessoalmente: a diferença entre ela e a de 20 mm aparece muito mais ao vivo que em foto."),
+  slug="mega-plus-12mm", nome="Mega Plus 12mm", altura="12mm",
+  linha="Linha Versátil", indicacao="Ambientes internos e externos",
+  foto="fibra-12mm", cores=["#4CAA33"],
+  texto=["A Mega Plus 12mm é uma linha de grama sintética que combina beleza, praticidade e versatilidade para diferentes ambientes.",
+         "Desenvolvida para quem prefere gramas com fibras mais baixas, oferece um visual uniforme e um acabamento elegante, sendo uma excelente escolha para valorizar espaços residenciais e comerciais.",
+         "Ideal para jardins, quintais, varandas, áreas de lazer e bordas de piscinas, proporciona um toque de verde aos ambientes, unindo estética e funcionalidade."],
+  specs=[("Altura das fibras", "12mm"), ("Cor", "Verde"), ("Categoria", "Linha Versátil"),
+         ("Indicação", "Ambientes internos e externos")],
+  aplicacoes=["Jardins", "Quintais", "Varandas", "Áreas de lazer", "Bordas de piscinas"],
+  diferenciais=["Perfil baixo", "Visual uniforme", "Versatilidade", "Acabamento diferenciado"],
+  fecho="Mega Plus 12mm — Mais versatilidade para transformar seus espaços."),
+ dict(
+  slug="mega-plus-mais-20mm", nome="Mega Plus+ 20mm", altura="20mm",
+  linha="Linha Versátil", indicacao="Ambientes internos e externos",
+  foto="fibra-20mm", cores=["#4CAA33"],
+  texto=["A Mega Plus+ 20mm é uma linha de grama sintética que combina beleza, praticidade e versatilidade, oferecendo fibras mais altas para quem busca um visual mais volumoso e um acabamento diferenciado.",
+         "Com fios de 20mm de altura, mantém a proposta versátil da Mega Plus 12mm, proporcionando um aspecto mais preenchido e agradável aos ambientes.",
+         "Ideal para jardins, quintais, varandas, áreas de lazer e bordas de piscinas, é uma excelente escolha para valorizar espaços residenciais e comerciais."],
+  specs=[("Altura das fibras", "20mm"), ("Cor", "Verde"), ("Categoria", "Linha Versátil"),
+         ("Indicação", "Ambientes internos e externos")],
+  aplicacoes=["Jardins", "Quintais", "Varandas", "Áreas de lazer", "Bordas de piscinas"],
+  diferenciais=["Fibras mais altas", "Maior volume visual", "Versatilidade", "Acabamento diferenciado"],
+  fecho="Mega Plus+ 20mm — Mais volume e beleza para seus ambientes."),
+ dict(
+  slug="mega-natural-garden-20mm", nome="Mega Natural Garden 20mm", altura="20mm",
+  linha="Linha Natural", indicacao="Ambientes internos e externos",
+  foto=None, cores=["#3C8F2B", "#6DBF3E", "#A98B5B"],
+  texto=["A Mega Natural Garden 20mm é uma linha de grama sintética que combina beleza, sofisticação e naturalidade, proporcionando um visual realista para diferentes ambientes.",
+         "Com fibras de 20mm de altura, apresenta uma combinação de dois tons de verde e fibras marrons que simulam a grama natural seca, criando um efeito mais autêntico e um acabamento diferenciado.",
+         "Ideal para jardins, quintais, varandas, áreas de lazer e bordas de piscinas, é uma excelente escolha para quem deseja transformar espaços com a beleza da grama natural e a praticidade da grama sintética."],
+  specs=[("Altura das fibras", "20mm"), ("Cor", "Dois tons de verde + marrom"), ("Categoria", "Linha Natural"),
+         ("Indicação", "Ambientes internos e externos")],
+  aplicacoes=["Jardins", "Quintais", "Varandas", "Áreas de lazer", "Bordas de piscinas"],
+  diferenciais=["Aparência realista", "Combinação de três tonalidades", "Volume visual", "Acabamento natural"],
+  fecho="Mega Natural Garden 20mm — A beleza da natureza em cada detalhe."),
+ dict(
+  slug="mega-natural-garden-mais-32mm", nome="Mega Natural Garden+ 32mm", altura="32mm",
+  linha="Linha Natural", indicacao="Ambientes internos e externos",
+  foto="fibra-real30", cores=["#3C8F2B", "#6DBF3E", "#A98B5B"],
+  texto=["A Mega Natural Garden+ 32mm é uma linha de grama sintética que combina beleza, sofisticação e naturalidade, proporcionando um visual ainda mais volumoso e realista para diferentes ambientes.",
+         "Com fibras de 32mm de altura, oferece um aspecto mais cheio e exuberante, valorizando os espaços com um acabamento elegante e uma aparência próxima à grama natural.",
+         "Ideal para jardins, quintais, varandas, áreas de lazer e projetos paisagísticos, é uma excelente escolha para quem busca um visual mais encorpado, unindo a beleza da natureza à praticidade da grama sintética."],
+  specs=[("Altura das fibras", "32mm"), ("Categoria", "Linha Natural"),
+         ("Indicação", "Ambientes internos e externos")],
+  aplicacoes=["Jardins", "Quintais", "Varandas", "Áreas de lazer", "Projetos paisagísticos"],
+  diferenciais=["Fibras mais altas", "Maior volume visual", "Aparência realista", "Acabamento natural"],
+  fecho="Mega Natural Garden+ 32mm — Mais volume, mais naturalidade e beleza para seus espaços."),
+ dict(
+  slug="mega-color-12mm", nome="Mega Color 12mm", altura="12mm",
+  linha="Linha Colorida", indicacao="Ambientes decorativos e projetos personalizados",
+  foto=None, cores=["#1F5FBF", "#1A1A1A", "#C62828"], cores_nomes="Azul, preto e vermelho",
+  texto=["A Mega Color 12mm é uma linha de grama sintética desenvolvida para quem busca criatividade, estilo e personalidade na decoração de diferentes ambientes.",
+         "Com fibras de 12mm de altura, está disponível nas cores azul, preto e vermelho, oferecendo diversas possibilidades para transformar espaços com um visual moderno, marcante e diferenciado.",
+         "Ideal para ambientes comerciais, vitrines, eventos, cenários, espaços recreativos e projetos decorativos, é uma excelente escolha para quem deseja sair do tradicional e criar ambientes únicos e personalizados."],
+  specs=[("Altura das fibras", "12mm"), ("Cores disponíveis", "Azul, preto e vermelho"), ("Categoria", "Linha Colorida"),
+         ("Indicação", "Ambientes decorativos e projetos personalizados")],
+  aplicacoes=["Lojas", "Vitrines", "Eventos", "Cenários", "Espaços recreativos", "Ambientes comerciais"],
+  diferenciais=["Variedade de cores", "Versatilidade decorativa", "Visual moderno", "Acabamento diferenciado"],
+  fecho="Mega Color 12mm — Mais cores, criatividade e personalidade para seus espaços."),
+]
+
+# Rolo: 2 m de largura e 25 m de comprimento (50 m²) em todos os modelos.
+# A venda é por m² inteiro, mínimo 1 m² (informado pelo cliente em nov/2026).
+ROLO_LARGURA = 2
+ROLO_COMPRIMENTO = 25
+
+# Linha de colas de contato Quimicolla, revendida pela Mega Gramas, com
+# autorização do cliente para usar nome e marca. Rendimentos são estimativas
+# informadas pelo cliente. Sem preço, de propósito: o valor sai pelo WhatsApp.
+COLAS = [
+  dict(nome="Quimicolla 700 g", rendimento="3 a 5 m²"),
+  dict(nome="Quimicolla 2,8 kg", rendimento="20 a 30 m²"),
+  dict(nome="Quimicolla 14 kg", rendimento="60 a 100 m²"),
+]
+
+# Depoimentos reais entram aqui quando existirem; a seção os mostra
+# automaticamente e deixa de mostrar o bloco institucional. Cada item:
+#   dict(texto="…", nome="Nome S.", cidade="Cidade/UF", projeto="Residencial")
+# Só com autorização de quem falou. Nota de avaliação: só se for medida.
+DEPOIMENTOS = []
+
+NUMERO_CLIENTES = "+500"   # "mais de 500 clientes satisfeitos", confirmado pelo cliente
+
+INSTITUCIONAL = [
+  ("Atendimento personalizado", "Cada projeto começa pelas medidas e pelo uso do seu espaço."),
+  ("Orientação na escolha", "Ajuda para decidir a altura e a linha de grama mais adequadas."),
+  ("Cálculo da quantidade", "Auxílio para estimar quanto comprar, sem faltar nem sobrar demais."),
+  ("Qualidade dos produtos", "Linhas selecionadas para cada tipo de ambiente."),
+  ("Compromisso com o cliente", "Acompanhamos o projeto até a satisfação de quem compra."),
 ]
 
 # Cards de "onde utilizar": só entram os que têm foto, nomeada em assets/fotos/.

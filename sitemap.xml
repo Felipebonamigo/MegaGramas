@@ -11,17 +11,37 @@
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://megagramas.com.br/grama-12mm/</loc>
+    <loc>https://megagramas.com.br/mega-economica-10mm/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://megagramas.com.br/grama-20mm/</loc>
+    <loc>https://megagramas.com.br/mega-decor-12mm/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://megagramas.com.br/grama-real-30mm/</loc>
+    <loc>https://megagramas.com.br/mega-plus-12mm/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://megagramas.com.br/mega-plus-mais-20mm/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://megagramas.com.br/mega-natural-garden-20mm/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://megagramas.com.br/mega-natural-garden-mais-32mm/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://megagramas.com.br/mega-color-12mm/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>

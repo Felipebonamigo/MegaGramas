@@ -17,6 +17,9 @@ ErrorDocument 404 /404.html
   RewriteEngine On
   RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
   RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301]
+
+  # linhas antigas (12 mm, 20 mm, Real 30 mm) -> vitrine de modelos
+  RewriteRule ^(grama-12mm|grama-20mm|grama-real-30mm)(/.*)?$ /#modelos [NE,L,R=301]
 </IfModule>
 
 # ---- Compressão -----------------------------------------------------------
